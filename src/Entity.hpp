@@ -24,8 +24,9 @@ public:
 	b2PolygonShape fixture;
 	b2FixtureDef fixture_def;
 
-	//position vector
-	sf::Vector2f position;
+	
+private:
+	sf::Vector2f velocity;
 };
 
 #endif

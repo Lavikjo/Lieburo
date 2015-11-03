@@ -1,5 +1,5 @@
 void SceneNode::attachChild(Ptr child) {
-	
+
 	child->mParent = this;
 	mChildren.push_back(std::move(child));
 }
@@ -16,3 +16,15 @@ SceneNode::Ptr SceneNode::detachChild(const SceneNode& node) {
 	mChildren.erase(found);
 	return result;
 }
+
+void SceneNode::draw(sf::RenderTarget& target, sf::RenderStates states) const {
+	
+	states.transform *= getTransform();
+
+	drawCurrent(target, states);
+
+	for(auto child : mChildren) {
+		child->draw(target, states);
+	}
+}
+

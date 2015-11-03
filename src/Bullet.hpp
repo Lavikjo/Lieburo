@@ -3,7 +3,7 @@
 
 #include "Projectile.hpp"
 
-class Bullet() : public Projectile {
+class Bullet : public Projectile {
 	public:
 		Bullet();
 		~Bullet();

@@ -5,12 +5,16 @@
 
 class Projectile : public Entity {
 public:
+	
+	enum Type {
+		Bullet,
+		Nuke,
+	};
 
-	virtual void update() = 0;
-	virtual void render() = 0;
-	virtual void logic() = 0;	
+	explicit Projectile(Type type);
 
-protected:
+private:
+	Type mType;
 	bool alive;
 
 
