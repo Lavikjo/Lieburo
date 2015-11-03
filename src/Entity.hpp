@@ -11,9 +11,6 @@ Entity is an abstract base class for all moveable objects players, projectiles, 
 class Entity {
 
 public:
-	
-	Entity() = 0;
-	~Entity() = 0;
 
 	//sprite
 	sf::Sprite sprite;

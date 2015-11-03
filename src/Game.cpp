@@ -35,11 +35,9 @@ void Game::setup() {
 void Game::run() {
 	
 	sf::Clock clock;
-	
+
 	double currentTime = clock.getElapsedTime().asSeconds();
 	double accumulator = 0.0f;
-
-	double elapsedTime = 0.0f;
 
 	//fixed fps game loop, http://gafferongames.com/game-physics/fix-your-timestep/
 
@@ -59,10 +57,9 @@ void Game::run() {
 		//Process system events
 		processEvents();
 
-		//logic update loop
+		//logic update loop, everything that affects physics need to be here
 		while(accumulator >= TIMESTEP) {
 			
-			elapsedTime += TIMESTEP;
 			accumulator -= TIMESTEP;
 
 			//update game entities
