@@ -3,12 +3,13 @@
 
 #include <SFML/Graphics.hpp>
 #include <Box2D/Box2D.h>
+#include "SceneNode.hpp"
 
 /*
-Entity is an abstract base class for all moveable objects players, projectiles, powerups, etc.
+Entity is a base class for all moveable objects players, projectiles, powerups, etc.
 */
 
-class Entity {
+class Entity : public SceneNode {
 
 public:
 
@@ -27,6 +28,5 @@ public:
 	
 private:
 	sf::Vector2f velocity;
-};
 
 #endif
