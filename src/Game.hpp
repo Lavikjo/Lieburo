@@ -2,11 +2,11 @@
 #define GAME_HH
 
 //library includes
-#include "SFML/Window.hpp"
+#include <SFML/Window.hpp>
+#include <Box2D/Box2D.h>
 
 
 //include required objects
-#include "Weapon.hpp"
 #include "Player.hpp"
 
 class Game {
