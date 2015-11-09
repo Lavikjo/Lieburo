@@ -42,7 +42,7 @@ void Game::run() {
 
 	//fixed fps game loop, http://gafferongames.com/game-physics/fix-your-timestep/
 
-	while(true) {
+	while(rWindow.isOpen()) {
 		/*
 		double newTime = clock.getElapsedTime().asSeconds();
 		double frameTime = newTime - currentTime;
@@ -77,9 +77,13 @@ void Game::run() {
 }
 
 void Game::update(sf::Time deltaTime) {
-
+	//foreach entity call update
 }
 
 void Game::render() {
+	//foreach entity call render
+}
 
+void synchronize(){
+	//foreach entity call synchronize
 }
