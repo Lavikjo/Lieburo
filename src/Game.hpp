@@ -15,10 +15,10 @@ class Game {
 public:
 	Game();
 	~Game(){}
-	void setup();
 	void run();
 	void update(sf::Time deltaTime);
 	void render();
+	void synchronize();
 private:
 	bool running;
 	sf::RenderWindow rWindow;
