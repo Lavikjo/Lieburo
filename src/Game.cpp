@@ -9,7 +9,7 @@ const int positionIterations = 3;
 
 
 
-void Game::setup() {
+Game::Game() {
 	//create the Box2D world
 	b2Vec2 gravity(0.0f, -9.8f);
 	b2World* mWorld = new b2World(gravity, true);
@@ -21,13 +21,13 @@ void Game::setup() {
 	groundBox.SetAsBox(50.0f, 10.0f);
 	groundBody->CreateFixture(&groundBox, 0.0f);
 
-	sf::RenderWindow rWindow;
 	//instantiate the main window
 	rWindow.create(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, BITS_PER_PIXEL), "Lieburo");
+	
+	running = true;
 
-	while(running) {
-		run();
-	}
+	run();
+
 
 	rWindow.close();
 }
@@ -42,7 +42,7 @@ void Game::run() {
 
 	//fixed fps game loop, http://gafferongames.com/game-physics/fix-your-timestep/
 
-	while(rWindow.isOpen()) {
+	while(running) {
 		/*
 		double newTime = clock.getElapsedTime().asSeconds();
 		double frameTime = newTime - currentTime;
@@ -78,6 +78,14 @@ void Game::run() {
 
 void Game::update(sf::Time deltaTime) {
 	//foreach entity call update
+
+	sf::Event event;
+
+    while (rWindow.pollEvent(event)) {
+        // "close requested" event: we close the window
+        if (event.type == sf::Event::Closed)
+            running = false;
+    }
 }
 
 void Game::render() {

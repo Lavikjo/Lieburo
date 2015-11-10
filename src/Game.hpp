@@ -13,9 +13,7 @@
 
 class Game {
 public:
-	Game(){
-		running = true;
-	}
+	Game();
 	~Game(){}
 	void setup();
 	void run();
@@ -23,6 +21,7 @@ public:
 	void render();
 private:
 	bool running;
+	sf::RenderWindow rWindow;
 	
 };
 
