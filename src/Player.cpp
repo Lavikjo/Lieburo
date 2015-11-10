@@ -1,6 +1,8 @@
 #include "Player.hpp"
 
-Player::Player& Player::initializePlayer(b2World* mWorld){
+
+
+ Player::Player(b2World* mWorld){
 	
 	/*
 	^^ Onko palautusarvona &, * vai joku muu
@@ -26,11 +28,8 @@ Player::Player& Player::initializePlayer(b2World* mWorld){
 	// Create a sprite
 	sprite.setTexture(texture);
 	sprite.setPosition(100, 25);
-
-	return this;
-
 }
 
-Player::update(){
+void Player::update(){
 
 }
