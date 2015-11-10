@@ -7,5 +7,8 @@ public:
 
 	Player initializePlayer(b2World* mWorld);
 	void update();
-	void render();
+	virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;
+private:
+	sf::Sprite mSprite;
+
 };

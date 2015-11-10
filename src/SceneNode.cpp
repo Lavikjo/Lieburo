@@ -28,3 +28,11 @@ void SceneNode::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 	}
 }
 
+void SceneNode::update(sf::Time deltaTime) {
+	updateCurrent(deltaTime);
+
+	for(auto child : mChildren) {
+		child->update(deltaTime);
+	}
+
+}

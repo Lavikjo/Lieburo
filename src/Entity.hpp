@@ -27,6 +27,8 @@ public:
 
 	
 private:
+	virtual void updateCurrent(sf::Time deltaTime)
+
 	sf::Vector2f velocity;
 
 #endif

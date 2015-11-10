@@ -33,3 +33,7 @@
 void Player::update(){
 
 }
+
+void Player::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const {
+	target.draw(mSprite, states);
+}
