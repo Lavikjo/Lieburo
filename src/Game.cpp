@@ -92,6 +92,6 @@ void Game::render() {
 	//foreach entity call render
 }
 
-void synchronize(){
+void Game::synchronize(){
 	//foreach entity call synchronize
 }

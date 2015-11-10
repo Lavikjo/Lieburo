@@ -4,6 +4,5 @@ public:
 	~Player();
 
 	update();
-	synchronize();
 	render();
 }
