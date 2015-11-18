@@ -1,4 +1,5 @@
 #include "Game.hpp"
+#include <iostream> //included for testing purposes
 
 const int SCREEN_WIDTH = 1024;
 const int SCREEN_HEIGHT = 768;
@@ -34,14 +35,17 @@ Game::Game() {
 
 //main game loop
 void Game::run() {
-	
+	//initialize menu screen
+	menu_screen = true;
+	Menu menu(SCREEN_WIDTH, SCREEN_HEIGHT);
+
+
 	sf::Clock clock;
 
 	//double currentTime = clock.getElapsedTime().asSeconds();
 	sf::Time timeSinceLastUpdate = sf::Time::Zero;
 
 	//fixed fps game loop, http://gafferongames.com/game-physics/fix-your-timestep/
-
 	while(running) {
 		/*
 		double newTime = clock.getElapsedTime().asSeconds();
@@ -68,23 +72,64 @@ void Game::run() {
 			//processEvents();
 
 			//update game entities
-			update(timeSinceLastUpdate);
+			update(timeSinceLastUpdate, menu);
 		}
+
 		// synchronize();
 		// render entities
 		render();
+
+		rWindow.clear();
+		if (menu_screen) {
+			menu.draw(rWindow);
+		}
+
+		rWindow.display();
+
+		// check wheter user wants to enter menu screen
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return)) {
+	    	menu_screen = true;
+		}
 	}
 }
 
-void Game::update(sf::Time deltaTime) {
+void Game::update(sf::Time deltaTime, Menu &menu) {
 	//foreach entity call update
 
 	sf::Event event;
 
     while (rWindow.pollEvent(event)) {
-        // "close requested" event: we close the window
-        if (event.type == sf::Event::Closed)
-            running = false;
+    	//navigate in menu screen
+	  	if (menu_screen) {
+    		switch (event.type) {
+	    		case sf::Event::KeyPressed:
+	    			switch (event.key.code) {
+	    				case sf::Keyboard::Up:
+	    					menu.MoveUp();
+	    					break;
+
+	    				case sf::Keyboard::Down:
+	    					menu.MoveDown();
+	    					break;
+
+	    				default:
+	    					break;
+	    			}
+
+	    			default:
+	    				break;
+    		}
+    	}
+
+    	switch (event.type) {
+	        // "close requested" event: we close the window
+	        case sf::Event::Closed:
+	            running = false;
+	            break;
+
+	        default:
+	        	break;
+	    }
     }
 }
 
@@ -92,6 +137,6 @@ void Game::render() {
 	//foreach entity call render
 }
 
-void Game::synchronize(){
+void Game::synchronize() {
 	//foreach entity call synchronize
 }

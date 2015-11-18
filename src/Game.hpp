@@ -10,17 +10,19 @@
 
 //include required objects
 //#include "Player.hpp"
+#include "Menu.hpp"
 
 class Game {
 public:
 	Game();
 	~Game(){}
 	void run();
-	void update(sf::Time deltaTime);
+	void update(sf::Time deltaTime, Menu &menu);
 	void render();
 	void synchronize();
 private:
 	bool running;
+	bool menu_screen;
 	sf::RenderWindow rWindow;
 	
 };
