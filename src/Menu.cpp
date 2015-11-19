@@ -22,6 +22,7 @@ Menu::Menu(float width, float height) {
 	menu[2].setPosition(sf::Vector2f(width / 2, height / (MAX_NUMBER_OF_ITEMS + 1) * 3));
 
 	selectedItemIndex = 0;
+	showScreen = true;
 
 }
 
@@ -49,4 +50,8 @@ void Menu::MoveDown() {
 		selectedItemIndex++;
 		menu[selectedItemIndex].setColor(sf::Color::Red);
 	}
+}
+
+int Menu::GetPressedItem() {
+	return selectedItemIndex;
 }

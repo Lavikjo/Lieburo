@@ -36,7 +36,6 @@ Game::Game() {
 //main game loop
 void Game::run() {
 	//initialize menu screen
-	menu_screen = true;
 	Menu menu(SCREEN_WIDTH, SCREEN_HEIGHT);
 
 
@@ -80,15 +79,14 @@ void Game::run() {
 		render();
 
 		rWindow.clear();
-		if (menu_screen) {
+		if (menu.showScreen) {
 			menu.draw(rWindow);
 		}
-
 		rWindow.display();
 
-		// check wheter user wants to enter menu screen
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return)) {
-	    	menu_screen = true;
+		// check wheter user wants to enter menu screen (using button P)
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
+	    	menu.showScreen = true;
 		}
 	}
 }
@@ -100,7 +98,7 @@ void Game::update(sf::Time deltaTime, Menu &menu) {
 
     while (rWindow.pollEvent(event)) {
     	//navigate in menu screen
-	  	if (menu_screen) {
+	  	if (menu.showScreen) {
     		switch (event.type) {
 	    		case sf::Event::KeyPressed:
 	    			switch (event.key.code) {
@@ -112,6 +110,22 @@ void Game::update(sf::Time deltaTime, Menu &menu) {
 	    					menu.MoveDown();
 	    					break;
 
+	    				case sf::Keyboard::Return:
+	    					switch (menu.GetPressedItem()) {
+	    						case 0:
+	    							std::cout << "User pressed Play button." << std::endl;
+	    							menu.showScreen = false;
+	    							break;
+
+	    						case 1:
+	    							std::cout << "User pressed Options button." << std::endl;
+	    							break;
+
+	    						case 2:
+	    							running = false;
+	    							break;
+	    					}
+
 	    				default:
 	    					break;
 	    			}
@@ -120,7 +134,6 @@ void Game::update(sf::Time deltaTime, Menu &menu) {
 	    				break;
     		}
     	}
-
     	switch (event.type) {
 	        // "close requested" event: we close the window
 	        case sf::Event::Closed:
