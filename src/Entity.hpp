@@ -3,32 +3,55 @@
 
 #include <SFML/Graphics.hpp>
 #include <Box2D/Box2D.h>
-#include "SceneNode.hpp"
 
 /*
 Entity is a base class for all moveable objects players, projectiles, powerups, etc.
 */
 
-class Entity : public SceneNode {
+#include "SceneNode.hpp"
+class Game;
+
+class Entity : public SceneNode{
 
 public:
 
-	//sprite
-	sf::Sprite sprite;
-	sf::Texture texture
+	Entity(){}
+	~Entity(){}
 
-	//rigid body
-	b2Body* body;
-	b2BodyDef body_def;
+	void draw(sf::RenderTarget& target);
+	b2Body* getBody() const;
+	sf::Sprite getSprite();
 
-	//fixture
-	b2PolygonShape fixture;
-	b2FixtureDef fixture_def;
+	bool isAlive();
+	void setAlive(bool status);
 
-	
-private:
-	virtual void updateCurrent(sf::Time deltaTime)
+	virtual void update(sf::Time deltaTime) = 0;
+	virtual void startContact() = 0;
 
-	sf::Vector2f velocity;
+
+protected:
+	//Sprite
+	sf::Sprite mSprite;
+	sf::Texture mTexture;
+	sf::Vector2f spritePosition;
+	float spriteAngle = 0;
+
+	//Body
+	b2Body* mBody;
+	b2BodyDef mBodyDef;
+
+	//Fixture
+	b2PolygonShape mFixture;
+	b2FixtureDef mFixtureDef;
+
+	//The Box2D world
+	b2World* mEntityWorld;
+
+	//The game
+	Game* mGame;
+
+	//Additional information
+	bool alive = false;
+};
 
 #endif

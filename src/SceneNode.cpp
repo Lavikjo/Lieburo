@@ -1,10 +1,14 @@
-void SceneNode::attachChild(Ptr child) {
+#include "SceneNode.hpp"
+#include "Constants.h"
+#include <iostream>
+typedef std::shared_ptr<SceneNode> Ptr;
 
+void SceneNode::attachChild(Ptr child) {
 	child->mParent = this;
 	mChildren.push_back(std::move(child));
 }
 
-SceneNode::Ptr SceneNode::detachChild(const SceneNode& node) {
+Ptr SceneNode::detachChild(const SceneNode& node) {
 
 	auto found = std::find_if(mChildren.begin(), mChildren.end(),
 		[&] (Ptr& p) -> bool { return p.get() == &node; });
@@ -17,22 +21,25 @@ SceneNode::Ptr SceneNode::detachChild(const SceneNode& node) {
 	return result;
 }
 
-void SceneNode::draw(sf::RenderTarget& target, sf::RenderStates states) const {
+void SceneNode::drawAll(sf::RenderTarget& target) {
 	
-	states.transform *= getTransform();
-
-	drawCurrent(target, states);
-
-	for(auto child : mChildren) {
-		child->draw(target, states);
+	for(auto& child : mChildren) {
+		if(child->isAlive()) {
+			child->draw(target);
+		}
 	}
 }
 
-void SceneNode::update(sf::Time deltaTime) {
-	updateCurrent(deltaTime);
-
-	for(auto child : mChildren) {
+void SceneNode::updateAll(sf::Time deltaTime) {
+	
+	for(auto& child : mChildren) {
 		child->update(deltaTime);
 	}
-
+	
 }
+
+std::vector<Ptr>& SceneNode::getChildren() {
+	return mChildren;
+}
+
+SceneNode::~SceneNode(){}

@@ -1,0 +1,5 @@
+/home/samuli/own1/src/Box2D_v2.1.2/Box2D/Build/Box2D/CMakeFiles/Box2D.dir
+/home/samuli/own1/src/Box2D_v2.1.2/Box2D/Build/HelloWorld/CMakeFiles/HelloWorld.dir
+/home/samuli/own1/src/Box2D_v2.1.2/Box2D/Build/Testbed/CMakeFiles/Testbed.dir
+/home/samuli/own1/src/Box2D_v2.1.2/Box2D/Build/freeglut/CMakeFiles/freeglut_static.dir
+/home/samuli/own1/src/Box2D_v2.1.2/Box2D/Build/glui/CMakeFiles/glui.dir

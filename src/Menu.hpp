@@ -7,7 +7,7 @@
 
 class Menu {
 public:
-	Menu(float width, float height);
+	Menu(int width, int height);
 	~Menu();
 
 	void draw(sf::RenderWindow &window);

@@ -1,8 +1,9 @@
 CC=g++
 CPPFLAGS=-c -g -std=c++0x -Wall -Wextra -pedantic
-SOURCES=main.cpp Game.hpp Game.cpp Menu.hpp Menu.cpp
+SOURCES=main.cpp MyContactListener.cpp MyContactListener.hpp Menu.hpp Menu.cpp Game.hpp Game.cpp SceneNode.hpp SceneNode.cpp Entity.hpp Entity.cpp\
+	Player.hpp Player.cpp Weapon.hpp Weapon.cpp BananaGun.hpp BananaGun.cpp Projectile.hpp Banana.hpp Banana.cpp
 LDFLAGS=-lsfml-graphics -lsfml-window -lsfml-system -lBox2D
-OBJECTS=main.o Game.o Menu.o
+OBJECTS=main.o Game.o MyContactListener.o Menu.o SceneNode.o Entity.o Player.o Weapon.o BananaGun.o Banana.o
 EXECUTABLE=main
 
 all: $(SOURCES) $(EXECUTABLE)

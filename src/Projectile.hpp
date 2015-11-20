@@ -5,18 +5,11 @@
 
 class Projectile : public Entity {
 public:
-	
-	enum Type {
-		Bullet,
-		Nuke,
-	};
+	Projectile() = default;
+	~Projectile(){}
 
-	explicit Projectile(Type type);
-
-private:
-	Type mType;
-	bool alive;
-
+	//virtual void update(sf::Time deltaTime) = 0;
+	//virtual void startContact() = 0;
 
 };
 

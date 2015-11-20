@@ -1,39 +1,71 @@
 #include "Player.hpp"
+#include "BananaGun.hpp"
+#include <iostream>
 
+ Player::Player(Game* game){
 
-
- Player::Player(b2World* mWorld){
-	
-	/*
-	^^ Onko palautusarvona &, * vai joku muu
-	Huomhuom, nyt body ja fixture alustetaan minne sattuu. 
-	*/
-
+ 	mEntityWorld = game->getWorld();
+ 	mGame = game;
 	//Create the dynamic body
-	body_def.type = b2_dynamicBody;
-	body_def.position.Set(30, 1);
-	body_def.angle = 0;
-	body = mWorld->CreateBody(&body_def);
+
+	mBodyDef.type = b2_dynamicBody;
+	mBodyDef.fixedRotation = true; // prevent rotation
+	mBodyDef.position.Set(20, 10);
+	mBodyDef.angle = 0;
+	mBodyDef.fixedRotation = true; // prevent rotation
+	mBody = mEntityWorld->CreateBody(&mBodyDef);
+	mBody->SetUserData(this);
 
 	//Add a fixture to the body
 	b2PolygonShape boxShape;
-	boxShape.SetAsBox(1,1);
-	fixture_def.shape = &boxShape;
-	fixture_def.density = 1;
-	body->CreateFixture(&fixture_def);
+	boxShape.SetAsBox(10,30);
+	mFixtureDef.shape = &boxShape;
+	mFixtureDef.density = 20;
+	mBody->CreateFixture(&mFixtureDef);
 
 	// Declare and load a texture
-	texture.loadFromFile("Astronaut-1.png");
+	mTexture.loadFromFile("Astronaut-1.png");
 	
 	// Create a sprite
-	sprite.setTexture(texture);
-	sprite.setPosition(100, 25);
+	mSprite.setTexture(mTexture);
+	mSprite.setPosition(100, 25);
+	sf::FloatRect bounds = mSprite.getLocalBounds();
+	mSprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
+
+	//Initialize weapons: without players ther can't be weapons.
+	mWeapons.push_back(std::make_shared<BananaGun>(mGame));
+
+	alive = true;
+	
 }
 
-void Player::update(){
+Player::~Player(){
+	mEntityWorld->DestroyBody(mBody);
+}
+
+void Player::fire() {
+	//std::shared_ptr<BananaGun> w = std::static_pointer_cast<BananaGun>(mWeapons[currentWeapon]);
+	mWeapons[currentWeapon]->shoot(shootAngle, mBody->GetPosition(),mGame);
+}
+
+void Player::movePlayer(float x, float y) {
+	//Apply movement
+	b2Vec2 vel = mBody->GetLinearVelocity();
+    
+    float velChange = x - vel.x;
+    float impulseX = mBody->GetMass() * velChange; //disregard time factor
+    
+    velChange = y - vel.y;
+    float impulseY = mBody->GetMass() * velChange; //disregard time factor
+    mBody->ApplyLinearImpulse( b2Vec2(impulseX, impulseY), mBody->GetWorldCenter() );
+}
+
+
+void Player::update(sf::Time deltaTime){
+	(void) deltaTime;
+}
+
+void Player::startContact(){
 
 }
 
-void Player::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const {
-	target.draw(mSprite, states);
-}
