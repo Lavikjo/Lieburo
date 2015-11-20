@@ -15,6 +15,7 @@
 #include "Entity.hpp"
 #include "Player.hpp"
 #include "Menu.hpp"
+#include "Options.hpp"
 #include "Constants.h"
 
 class Player;

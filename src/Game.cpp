@@ -1,5 +1,4 @@
 #include "Game.hpp"
-//#include "Constants.h"
 #include <iostream>
 
 namespace Textures {
@@ -99,15 +98,15 @@ void Game::update(sf::Time deltaTime, Menu &menu) {
 	    		case sf::Event::KeyPressed:
 	    			switch (event.key.code) {
 	    				case sf::Keyboard::Up:
-	    					menu.MoveUp();
+	    					menu.moveUp();
 	    					break;
 
 	    				case sf::Keyboard::Down:
-	    					menu.MoveDown();
+	    					menu.moveDown();
 	    					break;
 
 	    				case sf::Keyboard::Return:
-	    					switch (menu.GetPressedItem()) {
+	    					switch (menu.getPressedItem()) {
 	    						case 0:
 	    							std::cout << "User pressed Play button." << std::endl;
 	    							menu.showScreen = false;
