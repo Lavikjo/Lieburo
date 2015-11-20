@@ -28,9 +28,11 @@ public:
 	Game();
 	~Game(){}
 	void run();
-	void update(sf::Time deltaTime, Menu &menu);
+	void update(sf::Time deltaTime, Menu &menu, Options &options);
 	void render();
 	void createTerrain();
+	bool navigate(sf::Event &event, Menu &menu);
+	bool navigate(sf::Event &event, Options &options);
 	b2World* getWorld();
 	std::shared_ptr<SceneNode> getSceneNode();
 
