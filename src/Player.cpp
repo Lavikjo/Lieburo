@@ -91,8 +91,6 @@ void Player::fire() {
 	mWeapons[currentWeapon]->shoot(direction*shootAngle, b2Vec2(x,y), mBody->GetLinearVelocity(), mGame);
 }
 
-
-
 void Player::update(sf::Time deltaTime){
 	//draw the aim dot
 	float x = (mBody->GetPosition().x+direction*sin(shootAngle)*GUN_BARREL_LENGTH)*PIXELS_PER_METER; 

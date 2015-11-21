@@ -80,7 +80,6 @@ void Game::run() {
 		}
 		else {
 			render();
-			std::cout << "Render works." << std::endl;
 		}
 		rWindow.display();
 
