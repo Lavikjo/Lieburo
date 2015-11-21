@@ -1,9 +1,8 @@
 #include "Menu.hpp"
-#include <iostream> //included for testing purposes
 
 Menu::Menu(int width, int height) {
 	if (!font.loadFromFile("orbitron-black.ttf")) {
-		// handle error
+		//TODO handle error
 	}
 
 	menu[0].setFont(font);
@@ -23,7 +22,6 @@ Menu::Menu(int width, int height) {
 
 	selectedItemIndex = 0;
 	showScreen = true;
-
 }
 
 Menu::~Menu() {
@@ -36,7 +34,7 @@ void Menu::draw(sf::RenderWindow &window) {
 	}
 }
 
-void Menu::MoveUp() {
+void Menu::moveUp() {
 	if (selectedItemIndex - 1 >= 0) {
 		menu[selectedItemIndex].setColor(sf::Color::White);
 		selectedItemIndex--;
@@ -44,7 +42,7 @@ void Menu::MoveUp() {
 	}
 }
 
-void Menu::MoveDown() {
+void Menu::moveDown() {
 	if (selectedItemIndex + 1 < MAX_NUMBER_OF_ITEMS) {
 		menu[selectedItemIndex].setColor(sf::Color::White);
 		selectedItemIndex++;
@@ -52,6 +50,6 @@ void Menu::MoveDown() {
 	}
 }
 
-int Menu::GetPressedItem() {
+int Menu::getPressedItem() {
 	return selectedItemIndex;
 }
