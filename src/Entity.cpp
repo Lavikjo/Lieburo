@@ -1,4 +1,5 @@
 #include "Entity.hpp"
+#include "Player.hpp"
 #include "Constants.h"
 
 void Entity::draw(sf::RenderTarget& target){
@@ -14,6 +15,10 @@ void Entity::draw(sf::RenderTarget& target){
 		mSprite.setPosition(spritePosition);
 		mSprite.setRotation(spriteAngle);
 		target.draw(mSprite);
+
+		if(typeid(*this) == typeid(Player)) {
+			target.draw(aimDotSprite);
+		}
 	}
 }
 

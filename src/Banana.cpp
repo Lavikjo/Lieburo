@@ -13,7 +13,7 @@ Banana::Banana(Game* game) : Projectile(){
 
 	//Add a fixture to the body
 	b2PolygonShape boxShape;
-	boxShape.SetAsBox(1,0.5f);
+	boxShape.SetAsBox(1.0f,0.3f);
 	mFixtureDef.shape = &boxShape;
 	mFixtureDef.density = 5;
 	mBody->CreateFixture(&mFixtureDef);

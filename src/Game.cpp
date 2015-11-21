@@ -143,20 +143,26 @@ void Game::update(sf::Time deltaTime, Menu &menu) {
 
     if(!menu.showScreen) {
 	    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-		    player1->movePlayer(-5,0);
+		    player1->movePlayerX(-5);
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-		    player1->movePlayer(5,0);
+		    player1->movePlayerX(5);
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-		    player1->movePlayer(0,-5);
+		    player1->movePlayerY(-5);
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-		    player1->movePlayer(0,5);
+		    player1->movePlayerY(5);
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
 		    player1->fire();
 		    std::cout << "Player1 fired" << std::endl;
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+		    player1->aim(3);
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::X)) {
+		    player1->aim(-3);
 		}
 
 		sceneNode->updateAll(deltaTime);

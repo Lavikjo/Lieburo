@@ -39,10 +39,8 @@ public:
 	virtual void draw(sf::RenderTarget& target){}
 
 private:
-	float RAD2DEG = 57.29577f;
 	std::vector<Ptr> mChildren;
 	SceneNode* mParent;
-	//b2Body* body;
 };
 
 

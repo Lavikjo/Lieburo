@@ -18,7 +18,7 @@
 
 	//Add a fixture to the body
 	b2PolygonShape boxShape;
-	boxShape.SetAsBox(10,30);
+	boxShape.SetAsBox(1,2);
 	mFixtureDef.shape = &boxShape;
 	mFixtureDef.density = 20;
 	mBody->CreateFixture(&mFixtureDef);
@@ -35,6 +35,12 @@
 	//Initialize weapons: without players ther can't be weapons.
 	mWeapons.push_back(std::make_shared<BananaGun>(mGame));
 
+	//create the aim dot
+	aimDotTexture.loadFromFile("punapiste.png");
+	aimDotSprite.setTexture(aimDotTexture);
+	bounds = aimDotSprite.getLocalBounds();
+	aimDotSprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
+
 	alive = true;
 	
 }
@@ -43,25 +49,55 @@ Player::~Player(){
 	mEntityWorld->DestroyBody(mBody);
 }
 
-void Player::fire() {
-	//std::shared_ptr<BananaGun> w = std::static_pointer_cast<BananaGun>(mWeapons[currentWeapon]);
-	mWeapons[currentWeapon]->shoot(shootAngle, mBody->GetPosition(),mGame);
+void Player::aim(float angleChange) {
+	shootAngle += angleChange*DEG_TO_RAD;
+	if(shootAngle > MAX_SHOOT_ANGLE) {
+		shootAngle = MAX_SHOOT_ANGLE;
+	} else if(shootAngle < MIN_SHOOT_ANGLE) {
+		shootAngle = MIN_SHOOT_ANGLE;
+	}
 }
 
-void Player::movePlayer(float x, float y) {
+void Player::movePlayerX(float x) {
 	//Apply movement
 	b2Vec2 vel = mBody->GetLinearVelocity();
-    
+
+	//Checking for the moving direction
+	if((previousXVelocity*x) < 0) {//if the signs differ eg. direction changes. Note: this applies only to user movements
+		direction *= -1;
+		mSprite.scale({ -1, 1 });
+	}
+	
+    previousXVelocity = x;
+
     float velChange = x - vel.x;
     float impulseX = mBody->GetMass() * velChange; //disregard time factor
     
-    velChange = y - vel.y;
+    mBody->ApplyLinearImpulse( b2Vec2(impulseX, 0), mBody->GetWorldCenter() );
+}
+
+void Player::movePlayerY(float y) {
+	//Apply movement
+	b2Vec2 vel = mBody->GetLinearVelocity();
+
+    float velChange = y - vel.y;
     float impulseY = mBody->GetMass() * velChange; //disregard time factor
-    mBody->ApplyLinearImpulse( b2Vec2(impulseX, impulseY), mBody->GetWorldCenter() );
+    mBody->ApplyLinearImpulse( b2Vec2(0, impulseY), mBody->GetWorldCenter() );
+}
+
+void Player::fire() {
+	float x = mBody->GetPosition().x+direction*sin(shootAngle)*GUN_BARREL_LENGTH; 
+	float y = mBody->GetPosition().y+cos(shootAngle)*GUN_BARREL_LENGTH; 
+	mWeapons[currentWeapon]->shoot(direction*shootAngle, b2Vec2(x,y), mBody->GetLinearVelocity(), mGame);
 }
 
 
+
 void Player::update(sf::Time deltaTime){
+	//draw the aim dot
+	float x = (mBody->GetPosition().x+direction*sin(shootAngle)*GUN_BARREL_LENGTH)*PIXELS_PER_METER; 
+	float y = (mBody->GetPosition().y+cos(shootAngle)*GUN_BARREL_LENGTH)*PIXELS_PER_METER;
+	aimDotSprite.setPosition(x,y);
 	(void) deltaTime;
 }
 
@@ -69,3 +105,6 @@ void Player::startContact(){
 
 }
 
+sf::Vector2f Player::getAimDotPosition() {
+	return aimDotSprite.getPosition();
+}

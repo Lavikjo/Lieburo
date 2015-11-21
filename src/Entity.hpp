@@ -36,6 +36,10 @@ protected:
 	sf::Vector2f spritePosition;
 	float spriteAngle = 0;
 
+	//possible aim dot (players only)
+	sf::Texture aimDotTexture;
+	sf::Sprite aimDotSprite;
+
 	//Body
 	b2Body* mBody;
 	b2BodyDef mBodyDef;
