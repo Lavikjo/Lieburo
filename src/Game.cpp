@@ -162,7 +162,11 @@ void Game::createTerrain(){
 	b2Body *groundBody = mGameWorld->CreateBody(&groundBodyDef);
 	b2PolygonShape groundBox;
 	groundBox.SetAsBox(20.0f, 0.5f);
-	groundBody->CreateFixture(&groundBox, 0.0f);
+	b2FixtureDef mFixt;
+	mFixt.shape = &groundBox;
+	mFixt.density = 2;
+	mFixt.friction = 1.0f;
+	groundBody->CreateFixture(&mFixt);
 }
 
 b2World* Game::getWorld(){

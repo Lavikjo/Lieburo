@@ -21,6 +21,7 @@
 	polygonShape.SetAsBox(1,2);
 	mFixtureDef.shape = &polygonShape;
 	mFixtureDef.density = 2;
+	mFixtureDef.friction = 1.0f;
 	mBody->CreateFixture(&mFixtureDef);
 
 	// Declare and load a texture
