@@ -15,8 +15,6 @@ Game::Game() {
 	b2Vec2 gravity(0.0f, 9.8f);
 	mGameWorld = new b2World(gravity, true);
 	mGameWorld->SetContactListener(&myContactListenerInstance);
-	
-	createTerrain();
 
 	//instantiate the main window
 	rWindow.create(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, BITS_PER_PIXEL), "Lieburo");
@@ -26,6 +24,8 @@ Game::Game() {
 	sceneNode = std::make_shared<SceneNode>();
 	player1 = std::make_shared<Player>(this);
 	sceneNode->attachChild(std::static_pointer_cast<SceneNode>(player1));
+
+	gamefield = std::make_shared<Gamefield>(mGameWorld);
 
 	run();
 
@@ -134,7 +134,6 @@ void Game::update(sf::Time deltaTime, Menu &menu, Options &options) {
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
 		    player1->fire();
-		    std::cout << "Player1 fired" << std::endl;
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
 		    player1->aim(3);
@@ -152,21 +151,7 @@ void Game::update(sf::Time deltaTime, Menu &menu, Options &options) {
 void Game::render() {
 	//foreach entity call render
 	sceneNode->drawAll(rWindow);
-}
-
-void Game::createTerrain(){
-	//create the ground body
-	b2BodyDef groundBodyDef;
-	groundBodyDef.type = b2_staticBody;
-	groundBodyDef.position.Set(20, 20);
-	b2Body *groundBody = mGameWorld->CreateBody(&groundBodyDef);
-	b2PolygonShape groundBox;
-	groundBox.SetAsBox(20.0f, 0.5f);
-	b2FixtureDef mFixt;
-	mFixt.shape = &groundBox;
-	mFixt.density = 2;
-	mFixt.friction = 1.0f;
-	groundBody->CreateFixture(&mFixt);
+	gamefield->draw(rWindow);
 }
 
 b2World* Game::getWorld(){
