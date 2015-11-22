@@ -17,10 +17,10 @@
 	mBody->SetUserData(this);
 
 	//Add a fixture to the body
-	b2PolygonShape boxShape;
-	boxShape.SetAsBox(1,2);
-	mFixtureDef.shape = &boxShape;
-	mFixtureDef.density = 20;
+	b2PolygonShape polygonShape;
+	polygonShape.SetAsBox(1,2);
+	mFixtureDef.shape = &polygonShape;
+	mFixtureDef.density = 2;
 	mBody->CreateFixture(&mFixtureDef);
 
 	// Declare and load a texture
@@ -40,6 +40,12 @@
 	aimDotSprite.setTexture(aimDotTexture);
 	bounds = aimDotSprite.getLocalBounds();
 	aimDotSprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
+
+	//Add foot sensor fixture: Used for determining on ground condition.
+	polygonShape.SetAsBox(0.3, 0.3, b2Vec2(0,-1), 0);
+	mFixtureDef.isSensor = true;
+	b2Fixture* footSensorFixture = mBody->CreateFixture(&mFixtureDef);
+	footSensorFixture->SetUserData((void*) 3); //user data contains an identification number for the foot sensor, can be any number.
 
 	alive = true;
 	
@@ -62,13 +68,16 @@ void Player::movePlayerX(float x) {
 	//Apply movement
 	b2Vec2 vel = mBody->GetLinearVelocity();
 
+	//Separate handlers for on ground and in air
+
 	//Checking for the moving direction
-	if((previousXVelocity*x) < 0) {//if the signs differ eg. direction changes. Note: this applies only to user movements
+	if(previousXVelocity*x < 0) {//if the signs differ eg. direction changes. Note: this applies only to user movements
 		direction *= -1;
 		mSprite.scale({ -1, 1 });
 	}
-	
-    previousXVelocity = x;
+
+	previousXVelocity = x;
+    
 
     float velChange = x - vel.x;
     float impulseX = mBody->GetMass() * velChange; //disregard time factor
@@ -97,6 +106,7 @@ void Player::update(sf::Time deltaTime){
 	float y = (mBody->GetPosition().y+cos(shootAngle)*GUN_BARREL_LENGTH)*PIXELS_PER_METER;
 	aimDotSprite.setPosition(x,y);
 	(void) deltaTime;
+
 }
 
 void Player::startContact(){
@@ -105,4 +115,12 @@ void Player::startContact(){
 
 sf::Vector2f Player::getAimDotPosition() {
 	return aimDotSprite.getPosition();
+}
+
+void Player::addGorundContact() {
+	numGroundContacts++;
+}
+
+void Player::removeGroundContact() {
+	numGroundContacts--;
 }

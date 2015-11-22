@@ -8,8 +8,8 @@ public:
 	Projectile() = default;
 	~Projectile(){}
 
-	//virtual void update(sf::Time deltaTime) = 0;
-	//virtual void startContact() = 0;
+	virtual void update(sf::Time deltaTime) = 0;
+	virtual void startContact() = 0;
 
 };
 

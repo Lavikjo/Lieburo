@@ -15,7 +15,9 @@ Banana::Banana(Game* game) : Projectile(){
 	b2PolygonShape boxShape;
 	boxShape.SetAsBox(1.0f,0.3f);
 	mFixtureDef.shape = &boxShape;
-	mFixtureDef.density = 5;
+	mFixtureDef.isSensor = true;
+	mFixtureDef.density = 1;
+
 	mBody->CreateFixture(&mFixtureDef);
 
 	// Declare and load a texture
@@ -34,7 +36,16 @@ Banana::Banana(Game* game) : Projectile(){
 }
 
 void Banana::update(sf::Time deltaTime) {
-	(void) deltaTime;
+	if(alive) {
+		lifeTime += deltaTime.asSeconds();
+		if(lifeTime > MAX_LIFETIME) {
+			alive = false;
+			this->getBody()->GetFixtureList()[0].SetSensor(true);
+		}
+	}
+	else {
+		lifeTime = 0;
+	}
 }
 
 void Banana::startContact(){

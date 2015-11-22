@@ -56,6 +56,7 @@ protected:
 
 	//Additional information
 	bool alive = false;
+	float lifeTime = 0; 
 };
 
 #endif

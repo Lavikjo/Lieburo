@@ -12,11 +12,11 @@ namespace Textures {
 Game::Game() {
 
 	//create the Box2D world
-	b2Vec2 gravity(0.0f, 0.0f);
+	b2Vec2 gravity(0.0f, 9.8f);
 	mGameWorld = new b2World(gravity, true);
 	mGameWorld->SetContactListener(&myContactListenerInstance);
 	
-	//createTerrain();
+	createTerrain();
 
 	//instantiate the main window
 	rWindow.create(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, BITS_PER_PIXEL), "Lieburo");
@@ -158,10 +158,10 @@ void Game::createTerrain(){
 	//create the ground body
 	b2BodyDef groundBodyDef;
 	groundBodyDef.type = b2_staticBody;
-	groundBodyDef.position.Set(10.0f, 10.0f);
+	groundBodyDef.position.Set(20, 20);
 	b2Body *groundBody = mGameWorld->CreateBody(&groundBodyDef);
 	b2PolygonShape groundBox;
-	groundBox.SetAsBox(10.0f, 1.0f);
+	groundBox.SetAsBox(20.0f, 0.5f);
 	groundBody->CreateFixture(&groundBox, 0.0f);
 }
 

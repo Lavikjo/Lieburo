@@ -32,6 +32,7 @@ void BananaGun::shoot(float angle, b2Vec2 position, b2Vec2 preSpeed, Game* game)
 	for(auto entity: entities){
 		if(!entity->isAlive() && typeid(*entity) == typeid(Banana)) {
 			entity->setAlive(true);
+			entity->getBody()->GetFixtureList()[0].SetSensor(false); //bananas have only 1 fixture
 			entity->getBody()->SetAngularVelocity(25);//Adding a nice spin
 			launchProjectile(angle, position, preSpeed, entity);
 			fireClock.restart();//restarting the fire rate observing clock

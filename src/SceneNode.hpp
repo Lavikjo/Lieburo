@@ -28,7 +28,6 @@ public:
 	Ptr detachChild(const SceneNode& node);
 	std::vector<Ptr>& getChildren();
 	virtual b2Body* getBody()const{return NULL;}
-	//virtual void setBody(b2Body* b){body = b;}
 	virtual bool isAlive(){return false;}
 	virtual void setAlive(bool status){}
 

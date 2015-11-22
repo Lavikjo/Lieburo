@@ -17,6 +17,8 @@ public:
 	void movePlayerY(float y);
 	void fire();
 	void aim(float angleChange);
+	void addGorundContact();
+	void removeGroundContact();
 
 	sf::Vector2f getAimDotPosition();
 
@@ -32,6 +34,7 @@ private:
 	const float MIN_SHOOT_ANGLE = 60*DEG_TO_RAD;
 	const float MAX_SHOOT_ANGLE = 180*DEG_TO_RAD;
 	float previousXVelocity = 1;//at the beginning the moving direction is +x -> velocity > 0
+	int numGroundContacts = 0;//used to check whether on ground ie. if the foot sensor is touching static bodies.  
 };
 
 #endif
