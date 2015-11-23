@@ -19,6 +19,7 @@ Game::Game() {
 	//instantiate the main window
 	rWindow.create(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, BITS_PER_PIXEL), "Lieburo");
 
+
 	running = true;
 
 	sceneNode = std::make_shared<SceneNode>();
@@ -49,10 +50,15 @@ void Game::run() {
 
 	//create views for players
 	viewMenu.reset(sf::FloatRect(0, 0, 1024, 768));
-	view1.setViewport(sf::FloatRect(0, 0, 0.5f, 1.0f));
-	view1.setSize(SCREEN_WIDTH / 2, SCREEN_HEIGHT);
-	view2.setViewport(sf::FloatRect(0.5f, 0, 0.5f, 1.0f));
-	view2.setSize(SCREEN_WIDTH / 2, SCREEN_HEIGHT);
+	view1.setViewport(sf::FloatRect(0, 0, 0.5f, 0.925f));
+	view1.setSize(SCREEN_WIDTH / 2, SCREEN_HEIGHT*0.925f);
+	view2.setViewport(sf::FloatRect(0.5f, 0, 0.5f, 0.925f));
+	view2.setSize(SCREEN_WIDTH / 2, SCREEN_HEIGHT*0.925f);
+
+	//third smaller viewport for displaying healthbar and other vital info about the game
+	statusView.setViewport(sf::FloatRect(0, 0, 1.0f, 0.075f));
+	statusView.setSize(SCREEN_WIDTH, SCREEN_HEIGHT*0.075f);
+	statusView.setCenter(10000, 10000);
 
 	while(running) {
 		/*
@@ -78,7 +84,7 @@ void Game::run() {
 
 			//update game entities
 
-			update(timeSinceLastUpdate);
+			update(TIMESTEP);
 		}
 		// render entities
 		
@@ -184,6 +190,17 @@ void Game::render() {
 	//foreach entity call render
 	sceneNode->drawAll(rWindow);
 	gamefield->draw(rWindow);
+
+	//TODO: Move this to better place
+	healthBar1.setSize(sf::Vector2f(15*player1->getHp()/100,15));
+	healthBar1.setOutlineColor(sf::Color::Red);
+	healthBar1.setOutlineThickness(5);
+	healthBar1.setPosition(10000,10000);
+
+	healthBar2.setSize(sf::Vector2f(15*player2->getHp()/100,15));
+	healthBar2.setOutlineColor(sf::Color::Red);
+	healthBar2.setOutlineThickness(5);
+	healthBar2.setPosition(100000,10000);
 }
 
 b2World* Game::getWorld(){

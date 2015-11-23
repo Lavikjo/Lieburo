@@ -11,7 +11,7 @@ Entity is a base class for all moveable objects players, projectiles, powerups, 
 #include "SceneNode.hpp"
 class Game;
 
-class Entity : public SceneNode{
+class Entity : public SceneNode {
 
 public:
 
@@ -41,6 +41,7 @@ protected:
 	//possible aim dot (players only)
 	sf::Texture aimDotTexture;
 	sf::Sprite aimDotSprite;
+
 
 	//Body
 	b2Body* mBody;

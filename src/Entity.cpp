@@ -18,6 +18,8 @@ void Entity::draw(sf::RenderTarget& target){
 
 		if(typeid(*this) == typeid(Player)) {
 			target.draw(aimDotSprite);
+			//healthBar.setPosition(mBody->GetPosition().x*PIXELS_PER_METER, mBody->GetPosition().y*PIXELS_PER_METER - 40);
+			//target.draw(healthBar);
 		}
 	}
 }

@@ -23,10 +23,11 @@ public:
 
 	sf::Vector2f getAimDotPosition();
 
-	virtual void update(sf::Time deltaTime);
-	virtual void startContact(int id);
+	void update(sf::Time deltaTime);
+	void startContact(int id);
 
-	virtual int getType();
+	int getType();
+	int getHp();
 
 	sf::Vector2f returnPosition();
 

@@ -19,10 +19,10 @@
 
 	//Add a fixture to the body
 	b2PolygonShape polygonShape;
-	polygonShape.SetAsBox(0.2,0.7);
+	polygonShape.SetAsBox(0.1,0.2);
 	mFixtureDef.shape = &polygonShape;
-	mFixtureDef.density = 2;
-	mFixtureDef.friction = 1.0f;
+	mFixtureDef.density = 1;
+	mFixtureDef.friction = 0.1f;
 	mFixtureDef.filter.categoryBits = PLAYER; //I am a PLAYER
     mFixtureDef.filter.maskBits = ~PLAYER; // I collide with everyhing else but another player. 
 	mBody->CreateFixture(&mFixtureDef);
@@ -50,6 +50,15 @@
 	mFixtureDef.isSensor = true;
 	b2Fixture* footSensorFixture = mBody->CreateFixture(&mFixtureDef);
 	footSensorFixture->SetUserData((void*) 3); //user data contains an identification number for the foot sensor, can be any number.
+
+
+	//För helvete, varför är det absolut skit koda
+	/*
+	healthBar.setSize(sf::Vector2f(hp/100,1));
+	healthBar.setOutlineColor(sf::Color::Red);
+	healthBar.setOutlineThickness(5);
+	healthBar.setPosition(10,20);
+	*/
 
 	alive = true;
 	
@@ -109,7 +118,8 @@ void Player::update(sf::Time deltaTime) {
 	float x = (mBody->GetPosition().x+direction*sin(shootAngle)*GUN_BARREL_LENGTH)*PIXELS_PER_METER; 
 	float y = (mBody->GetPosition().y+cos(shootAngle)*GUN_BARREL_LENGTH)*PIXELS_PER_METER;
 	aimDotSprite.setPosition(x,y);
-	(void) deltaTime;
+	(void) deltaTime; // vad fan??!?
+	
 }
 
 void Player::startContact(int id) {
@@ -135,6 +145,10 @@ sf::Vector2f Player::returnPosition() {
 	return mSprite.getPosition();
 }
 
-int Player::getType(){
+int Player::getType() {
 	return PLAYER;
+}
+
+int Player::getHp() {
+	return hp;
 }

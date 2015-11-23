@@ -50,7 +50,8 @@ private:
 	std::shared_ptr<SceneNode> sceneNode;
 	b2World* mGameWorld;
 	std::shared_ptr<Gamefield> gamefield;
-	sf::View viewMenu, view1, view2;
+	sf::View viewMenu, view1, view2, statusView;
+	sf::RectangleShape healthBar1, healthBar2;
 };
 
 #endif
