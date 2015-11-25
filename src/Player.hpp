@@ -25,6 +25,8 @@ public:
 	virtual void update(sf::Time deltaTime);
 	virtual void startContact();
 
+	sf::Vector2f returnPosition();
+
 private:
 	float shootAngle = 150*DEG_TO_RAD;
 	int direction = 1;//x-moving direction: either +1 or -1 

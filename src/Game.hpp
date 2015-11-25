@@ -30,15 +30,17 @@ public:
 	Game();
 	~Game(){}
 	void run();
-	void update(sf::Time deltaTime, Menu &menu, Options &options);
+	void update(sf::Time deltaTime);
 	void render();
-	bool navigate(sf::Event &event, Menu &menu);
-	bool navigate(sf::Event &event, Options &options);
+	void navigateMenu(sf::Event &event);
+	void navigateOptions(sf::Event &event);
 	b2World* getWorld();
 	std::shared_ptr<SceneNode> getSceneNode();
 
 private:
 	std::shared_ptr<Player> player1;
+	std::shared_ptr<Menu> menu;
+	std::shared_ptr<Options> options;
 	bool running;
 	bool menu_screen;
 	sf::RenderWindow rWindow;
@@ -46,6 +48,7 @@ private:
 	std::shared_ptr<SceneNode> sceneNode;
 	b2World* mGameWorld;
 	std::shared_ptr<Gamefield> gamefield;
+	sf::View viewMenu, view1, view2;
 };
 
 #endif

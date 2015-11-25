@@ -33,7 +33,7 @@
 	sf::FloatRect bounds = mSprite.getLocalBounds();
 	mSprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
 
-	//Initialize weapons: without players ther can't be weapons.
+	//Initialize weapons: without players there can't be weapons.
 	mWeapons.push_back(std::make_shared<BananaGun>(mGame));
 
 	//create the aim dot
@@ -101,16 +101,15 @@ void Player::fire() {
 	mWeapons[currentWeapon]->shoot(direction*shootAngle, b2Vec2(x,y), mBody->GetLinearVelocity(), mGame);
 }
 
-void Player::update(sf::Time deltaTime){
+void Player::update(sf::Time deltaTime) {
 	//draw the aim dot
 	float x = (mBody->GetPosition().x+direction*sin(shootAngle)*GUN_BARREL_LENGTH)*PIXELS_PER_METER; 
 	float y = (mBody->GetPosition().y+cos(shootAngle)*GUN_BARREL_LENGTH)*PIXELS_PER_METER;
 	aimDotSprite.setPosition(x,y);
 	(void) deltaTime;
-
 }
 
-void Player::startContact(){
+void Player::startContact() {
 
 }
 
@@ -124,4 +123,8 @@ void Player::addGorundContact() {
 
 void Player::removeGroundContact() {
 	numGroundContacts--;
+}
+
+sf::Vector2f Player::returnPosition() {
+	return mSprite.getPosition();
 }

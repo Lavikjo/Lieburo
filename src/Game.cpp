@@ -27,6 +27,10 @@ Game::Game() {
 
 	gamefield = std::make_shared<Gamefield>(mGameWorld);
 
+	//construct menu and options screens
+	menu = std::make_shared<Menu>(SCREEN_WIDTH, SCREEN_HEIGHT);
+	options = std::make_shared<Options>(SCREEN_WIDTH, SCREEN_HEIGHT);
+
 	run();
 
 	rWindow.close();
@@ -34,16 +38,23 @@ Game::Game() {
 
 //main game loop
 void Game::run() {
-	//initialize menu screen
-	Menu menu(SCREEN_WIDTH, SCREEN_HEIGHT);
-	Options options(SCREEN_WIDTH, SCREEN_HEIGHT);
-	
 	sf::Clock clock;
 
 	//double currentTime = clock.getElapsedTime().asSeconds();
 	sf::Time timeSinceLastUpdate = sf::Time::Zero;
 
 	//fixed fps game loop, http://gafferongames.com/game-physics/fix-your-timestep/
+
+	//create views for players
+	viewMenu.setViewport(sf::FloatRect(0, 0, 1.0f, 1.0f));
+	viewMenu.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+	view1.setViewport(sf::FloatRect(0, 0, 0.5f, 1.0f));
+	view1.setSize(SCREEN_WIDTH / 2, SCREEN_HEIGHT);
+	view2.setViewport(sf::FloatRect(0.5f, 0, 0.5f, 1.0f));
+	view2.setSize(SCREEN_WIDTH / 2, SCREEN_HEIGHT);
+
+	//sf::Vector2f position1(SCREEN_WIDTH / 2, SCREEN_HEIGHT);
+	//sf::Vector2f position2(position1);
 
 	while(running) {
 		/*
@@ -68,44 +79,46 @@ void Game::run() {
 			//processEvents();
 
 			//update game entities
-			update(timeSinceLastUpdate, menu, options);
+			update(timeSinceLastUpdate);
 		}
 		// render entities
 		rWindow.clear();
-		if (menu.showScreen) {
-			menu.draw(rWindow);
+		if (menu->showScreen) {
+			rWindow.setView(viewMenu);
+			menu->draw(rWindow);
 		}
-		else if (options.showScreen) {
-			options.draw(rWindow);
+		else if (options->showScreen) {
+			options->draw(rWindow);
 		}
 		else {
+			view1.setCenter(player1->returnPosition());
+			rWindow.setView(view1);
+			render();
+			rWindow.setView(view2);
+			view2.setCenter(player1->returnPosition());
 			render();
 		}
 		rWindow.display();
 
 		// check wheter user wants to enter menu screen (using button P)
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
-	    	menu.showScreen = true;
+	    	menu->showScreen = true;
 		}
 	}
 }
 
-void Game::update(sf::Time deltaTime, Menu &menu, Options &options) {
+void Game::update(sf::Time deltaTime) {
 	//foreach entity call update
 
 	sf::Event event;
 
     while (rWindow.pollEvent(event)) {
     	//navigate in menu screen
-	  	if (menu.showScreen) {
-	  		if (navigate(event, menu)) {
-	  			options.showScreen = true;
-	  		}
+	  	if (menu->showScreen) {
+	  		navigateMenu(event);
     	}
-    	else if (options.showScreen) {
-    		if (navigate(event, options)) {
-    			menu.showScreen = true;
-    		}
+    	else if (options->showScreen) {
+    		navigateOptions(event);
     	}
 
     	switch (event.type) {
@@ -113,13 +126,12 @@ void Game::update(sf::Time deltaTime, Menu &menu, Options &options) {
 	        case sf::Event::Closed:
 	            running = false;
 	            break;
-
 	        default:
 	        	break;
 	    }
     }
 
-    if(!menu.showScreen) {
+    if(!menu->showScreen) {
 	    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
 		    player1->movePlayerX(-5);
 		}
@@ -162,78 +174,67 @@ std::shared_ptr<SceneNode> Game::getSceneNode(){
 	return sceneNode;
 }
 
-bool Game::navigate(sf::Event &event, Menu &menu) {
+void Game::navigateMenu(sf::Event &event) {
 	switch (event.type) {
 		case sf::Event::KeyPressed:
 			switch (event.key.code) {
 				case sf::Keyboard::Up:
-					menu.moveUp();
+					menu->moveUp();
 					break;
-
 				case sf::Keyboard::Down:
-					menu.moveDown();
-					return false;
-
+					menu->moveDown();
+					break;
 				case sf::Keyboard::Return:
-					switch (menu.getPressedItem()) {
+					switch (menu->getPressedItem()) {
 						case 0:
 							std::cout << "User pressed Play button." << std::endl;
-							menu.showScreen = false;
-							return false;
-
+							menu->showScreen = false;
+							break;
 						case 1:
 							std::cout << "User pressed Options button." << std::endl;
-							menu.showScreen = false;
-							return true;
-							return false;
-
+							menu->showScreen = false;
+							options->showScreen = true;
+							break;
 						case 2:
 							running = false;
-							return false;
+							break;
 					}
-
 				default:
 					break;
 			}
-
 			default:
-				return false;
+				break;
 	}
 }
 
-bool Game::navigate(sf::Event &event, Options &options) {
+void Game::navigateOptions(sf::Event &event) {
 	switch (event.type) {
 		case sf::Event::KeyPressed:
 			switch (event.key.code) {
 				case sf::Keyboard::Up:
-					options.moveUp();
-					return false;
-
+					options->moveUp();
+					break;
 				case sf::Keyboard::Down:
-					options.moveDown();
-					return false;
-
+					options->moveDown();
+					break;
 				case sf::Keyboard::Return:
-					switch (options.getPressedItem()) {
+					switch (options->getPressedItem()) {
 						case 0:
 							std::cout << "User pressed first button." << std::endl;
-							options.showScreen = false;
-							return true;
-
+							options->showScreen = false;
+							menu->showScreen = true;
+							break;
 						case 1:
 							std::cout << "User pressed second button." << std::endl;
-							return false;
-
+							break;;
 						case 2:
 							std::cout << "User pressed second button." << std::endl;
-							return false;
+							break;
 					}
-
 				default:
 					break;
 			}
-
 			default:
-				return false;
+				break;
 	}
 }
