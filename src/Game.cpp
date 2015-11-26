@@ -28,8 +28,8 @@ Game::Game() {
 	gamefield = std::make_shared<Gamefield>(mGameWorld);
 
 	//construct menu and options screens
-	menu = std::make_shared<Menu>(SCREEN_WIDTH, SCREEN_HEIGHT);
-	options = std::make_shared<Options>(SCREEN_WIDTH, SCREEN_HEIGHT);
+	menu = std::make_shared<Menu>();
+	options = std::make_shared<Options>();
 
 	run();
 
@@ -46,15 +46,11 @@ void Game::run() {
 	//fixed fps game loop, http://gafferongames.com/game-physics/fix-your-timestep/
 
 	//create views for players
-	viewMenu.setViewport(sf::FloatRect(0, 0, 1.0f, 1.0f));
-	viewMenu.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+	viewMenu.reset(sf::FloatRect(0, 0, 1024, 768));
 	view1.setViewport(sf::FloatRect(0, 0, 0.5f, 1.0f));
 	view1.setSize(SCREEN_WIDTH / 2, SCREEN_HEIGHT);
 	view2.setViewport(sf::FloatRect(0.5f, 0, 0.5f, 1.0f));
 	view2.setSize(SCREEN_WIDTH / 2, SCREEN_HEIGHT);
-
-	//sf::Vector2f position1(SCREEN_WIDTH / 2, SCREEN_HEIGHT);
-	//sf::Vector2f position2(position1);
 
 	while(running) {
 		/*

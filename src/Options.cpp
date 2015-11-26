@@ -1,6 +1,6 @@
 #include "Options.hpp"
 
-Options::Options(int width, int height) {
+Options::Options() {
 	if (!font.loadFromFile("orbitron-black.ttf")) {
 		//TODO handle error
 	}
@@ -8,17 +8,17 @@ Options::Options(int width, int height) {
 	options[0].setFont(font);
 	options[0].setColor(sf::Color::Red);
 	options[0].setString("Return to Main Menu");
-	options[0].setPosition(sf::Vector2f(width / 3, height / (MAX_NUMBER_OF_ITEMS + 1) * 1));
+	options[0].setPosition(sf::Vector2f(SCREEN_WIDTH / 3, SCREEN_HEIGHT / (MAX_NUMBER_OF_ITEMS + 1) * 1));
 
 	options[1].setFont(font);
 	options[1].setColor(sf::Color::White);
 	options[1].setString("Player 1 buttons");
-	options[1].setPosition(sf::Vector2f(width / 3, height / (MAX_NUMBER_OF_ITEMS + 1) * 2));
+	options[1].setPosition(sf::Vector2f(SCREEN_WIDTH / 3, SCREEN_HEIGHT / (MAX_NUMBER_OF_ITEMS + 1) * 2));
 
 	options[2].setFont(font);
 	options[2].setColor(sf::Color::White);
 	options[2].setString("Player 2 buttons");
-	options[2].setPosition(sf::Vector2f(width / 3, height / (MAX_NUMBER_OF_ITEMS + 1) * 3));
+	options[2].setPosition(sf::Vector2f(SCREEN_WIDTH / 3, SCREEN_HEIGHT / (MAX_NUMBER_OF_ITEMS + 1) * 3));
 
 	selectedItemIndex = 0;
 	showScreen = false;

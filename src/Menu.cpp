@@ -1,6 +1,6 @@
 #include "Menu.hpp"
 
-Menu::Menu(int width, int height) {
+Menu::Menu() {
 	if (!font.loadFromFile("orbitron-black.ttf")) {
 		//TODO handle error
 	}
@@ -8,17 +8,16 @@ Menu::Menu(int width, int height) {
 	menu[0].setFont(font);
 	menu[0].setColor(sf::Color::Red);
 	menu[0].setString("Play");
-	menu[0].setPosition(sf::Vector2f(width / 2, height / (MAX_NUMBER_OF_ITEMS + 1) * 1));
 
 	menu[1].setFont(font);
 	menu[1].setColor(sf::Color::White);
 	menu[1].setString("Options");
-	menu[1].setPosition(sf::Vector2f(width / 2, height / (MAX_NUMBER_OF_ITEMS + 1) * 2));
 
 	menu[2].setFont(font);
 	menu[2].setColor(sf::Color::White);
 	menu[2].setString("Exit");
-	menu[2].setPosition(sf::Vector2f(width / 2, height / (MAX_NUMBER_OF_ITEMS + 1) * 3));
+
+	setPositions();
 
 	selectedItemIndex = 0;
 	showScreen = true;
@@ -52,4 +51,12 @@ void Menu::moveDown() {
 
 int Menu::getPressedItem() {
 	return selectedItemIndex;
+}
+
+void Menu::setPositions() {
+	for (unsigned int i = 0; i < MAX_NUMBER_OF_ITEMS; i++) {
+		sf::FloatRect textRect = menu[i].getLocalBounds();
+		menu[i].setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
+		menu[i].setPosition(sf::Vector2f(SCREEN_WIDTH / 2.0f, (SCREEN_HEIGHT / (MAX_NUMBER_OF_ITEMS + 1) * (i + 1))));
+	}
 }

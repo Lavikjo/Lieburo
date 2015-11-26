@@ -2,12 +2,13 @@
 #define MENU_HH
 
 #include "SFML/Graphics.hpp"
+#include "Constants.h"
 
 #define MAX_NUMBER_OF_ITEMS 3
 
 class Menu {
 public:
-	Menu(int width, int height);
+	Menu();
 	~Menu();
 
 	void draw(sf::RenderWindow &window);
@@ -15,6 +16,7 @@ public:
 	void moveDown();
 	int getPressedItem();
 	bool showScreen;
+	void setPositions();
 
 private:
 	int selectedItemIndex;
