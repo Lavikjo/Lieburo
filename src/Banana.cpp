@@ -13,7 +13,7 @@ Banana::Banana(Game* game) : Projectile(){
 
 	//Add a fixture to the body
 	b2PolygonShape boxShape;
-	boxShape.SetAsBox(1.0f,0.3f);
+	boxShape.SetAsBox(0.5f,0.2f);
 	mFixtureDef.shape = &boxShape;
 	mFixtureDef.isSensor = true;
 	mFixtureDef.density = 1;
@@ -29,25 +29,50 @@ Banana::Banana(Game* game) : Projectile(){
 	sf::FloatRect bounds = mSprite.getLocalBounds();
 	mSprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
 
-	//Initalize contact masks TODO...
+	//The explosion texture and clock
+	mExplosionTexture.loadFromFile("banana_explosion.png");
+	explosionTime = BANANA_EXPLOSION_TIME;
 
 	//Projectiles aren't alive by default
 	alive = false;
 }
 
 void Banana::update(sf::Time deltaTime) {
-	if(alive) {
+	if(alive & !exploses) {
 		lifeTime += deltaTime.asSeconds();
 		if(lifeTime > MAX_LIFETIME) {
 			alive = false;
 			this->getBody()->GetFixtureList()[0].SetSensor(true);
 		}
-	}
-	else {
+	}else {
 		lifeTime = 0;
+	}
+
+	if(exploses ){
+		if(explosionClock < explosionTime){
+			mBody->SetLinearVelocity(b2Vec2(0,0));//We want the explosion to be stationary(?)
+			mBody->SetAngularVelocity(0);
+			explosionClock++;
+		}
+		else{
+			exploses = false;
+			mSprite.setTexture(mTexture, true);
+			lifeTime = MAX_LIFETIME +1; //it will die next.
+		}
+	}
+	
+}
+
+void Banana::startContact(int id){
+	if(id == PLAYER) {
+		if(alive) {
+			mSprite.setTexture(mExplosionTexture, true); //true resets the sprite boundaries
+			exploses = true;
+			explosionClock = 0;
+		}
 	}
 }
 
-void Banana::startContact(){
-
+int Banana::getType() {
+	return BANANA;
 }

@@ -1,5 +1,6 @@
 #include "Player.hpp"
 #include "BananaGun.hpp"
+#include "Banana.hpp"
 #include <iostream>
 
  Player::Player(Game* game){
@@ -18,10 +19,12 @@
 
 	//Add a fixture to the body
 	b2PolygonShape polygonShape;
-	polygonShape.SetAsBox(1,2);
+	polygonShape.SetAsBox(0.2,0.7);
 	mFixtureDef.shape = &polygonShape;
 	mFixtureDef.density = 2;
 	mFixtureDef.friction = 1.0f;
+	mFixtureDef.filter.categoryBits = PLAYER; //I am a PLAYER
+    mFixtureDef.filter.maskBits = ~PLAYER; // I collide with everyhing else but another player. 
 	mBody->CreateFixture(&mFixtureDef);
 
 	// Declare and load a texture
@@ -109,8 +112,11 @@ void Player::update(sf::Time deltaTime) {
 	(void) deltaTime;
 }
 
-void Player::startContact() {
-
+void Player::startContact(int id) {
+	if(id == BANANA) {
+		hp-= 10;
+		std::cout << "banana hit" << std::endl;
+	}
 }
 
 sf::Vector2f Player::getAimDotPosition() {
@@ -127,4 +133,8 @@ void Player::removeGroundContact() {
 
 sf::Vector2f Player::returnPosition() {
 	return mSprite.getPosition();
+}
+
+int Player::getType(){
+	return PLAYER;
 }

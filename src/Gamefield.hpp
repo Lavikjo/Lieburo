@@ -10,6 +10,7 @@ public:
 	~Gamefield();	
 
 	void draw(sf::RenderTarget& target);
+	int getType();
 
 private:
 	//Sprite

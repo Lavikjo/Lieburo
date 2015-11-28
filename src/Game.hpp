@@ -10,10 +10,10 @@
 
 
 //include required objects
+#include "Player.hpp"
 #include "MyContactListener.hpp"
 #include "SceneNode.hpp"
 #include "Entity.hpp"
-#include "Player.hpp"
 #include "Menu.hpp"
 #include "Options.hpp"
 #include "Constants.h"
@@ -36,9 +36,11 @@ public:
 	void navigateOptions(sf::Event &event);
 	b2World* getWorld();
 	std::shared_ptr<SceneNode> getSceneNode();
+	//sf::RenderWindow getRenderWindow();
 
 private:
 	std::shared_ptr<Player> player1;
+	std::shared_ptr<Player> player2;
 	std::shared_ptr<Menu> menu;
 	std::shared_ptr<Options> options;
 	bool running;

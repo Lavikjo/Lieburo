@@ -8,6 +8,7 @@
 class Weapon;
 
 
+
 class Player : public Entity {
 public:
 	Player(Game* game);
@@ -23,17 +24,20 @@ public:
 	sf::Vector2f getAimDotPosition();
 
 	virtual void update(sf::Time deltaTime);
-	virtual void startContact();
+	virtual void startContact(int id);
+
+	virtual int getType();
 
 	sf::Vector2f returnPosition();
 
 private:
+	int hp = 100;
 	float shootAngle = 150*DEG_TO_RAD;
 	int direction = 1;//x-moving direction: either +1 or -1 
 	std::vector<std::shared_ptr<Weapon>> mWeapons;
 	int currentWeapon = 0;
-	const float GUN_BARREL_LENGTH = 3.0f;//meters
-	const float MIN_SHOOT_ANGLE = 60*DEG_TO_RAD;
+	const float GUN_BARREL_LENGTH = 2.5f;//meters
+	const float MIN_SHOOT_ANGLE = 30*DEG_TO_RAD;
 	const float MAX_SHOOT_ANGLE = 180*DEG_TO_RAD;
 	float previousXVelocity = 1;//at the beginning the moving direction is +x -> velocity > 0
 	int numGroundContacts = 0;//used to check whether on ground ie. if the foot sensor is touching static bodies.  

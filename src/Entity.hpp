@@ -26,7 +26,9 @@ public:
 	void setAlive(bool status);
 
 	virtual void update(sf::Time deltaTime) = 0;
-	virtual void startContact() = 0;
+	virtual void startContact(int id) = 0;
+
+	virtual int getType() = 0;
 
 
 protected:
@@ -57,6 +59,10 @@ protected:
 	//Additional information
 	bool alive = false;
 	float lifeTime = 0; 
+
+	int type = 0;
+
+
 };
 
 #endif

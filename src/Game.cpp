@@ -24,6 +24,8 @@ Game::Game() {
 	sceneNode = std::make_shared<SceneNode>();
 	player1 = std::make_shared<Player>(this);
 	sceneNode->attachChild(std::static_pointer_cast<SceneNode>(player1));
+	player2 = std::make_shared<Player>(this);
+	sceneNode->attachChild(std::static_pointer_cast<SceneNode>(player2));
 
 	gamefield = std::make_shared<Gamefield>(mGameWorld);
 
@@ -66,7 +68,7 @@ void Game::run() {
 
 		//currentTime = newTime;
 		timeSinceLastUpdate += dt;		
-
+		rWindow.clear();
 		//logic update loop, everything that affects physics need to be here
 		while(timeSinceLastUpdate > TIMESTEP) {
 			
@@ -75,10 +77,11 @@ void Game::run() {
 			//processEvents();
 
 			//update game entities
+
 			update(timeSinceLastUpdate);
 		}
 		// render entities
-		rWindow.clear();
+		
 		if (menu->showScreen) {
 			rWindow.setView(viewMenu);
 			menu->draw(rWindow);
@@ -91,7 +94,7 @@ void Game::run() {
 			rWindow.setView(view1);
 			render();
 			rWindow.setView(view2);
-			view2.setCenter(player1->returnPosition());
+			view2.setCenter(player2->returnPosition());
 			render();
 		}
 		rWindow.display();
@@ -148,6 +151,27 @@ void Game::update(sf::Time deltaTime) {
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::X)) {
 		    player1->aim(-3);
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::I)) {
+		    player2->movePlayerX(-5);
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
+		    player2->movePlayerX(5);
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::O)) {
+		    player2->movePlayerY(-5);
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::L)) {
+		    player2->movePlayerY(5);
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::T)) {
+		    player2->fire();
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Y)) {
+		    player2->aim(3);
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::H)) {
+		    player2->aim(-3);
 		}
 
 		sceneNode->updateAll(deltaTime);
@@ -234,3 +258,8 @@ void Game::navigateOptions(sf::Event &event) {
 				break;
 	}
 }
+/*
+sf::RenderWindow Game::getRenderWindow() {
+	return rWindow;
+}
+*/

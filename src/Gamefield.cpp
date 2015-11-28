@@ -79,6 +79,7 @@ Gamefield::Gamefield(b2World* world) {
 			mFixtureDef.shape = &polygonShape;
 			mFixtureDef.density = 1;
 			mFixtureDef.friction = 1.0f;
+			mFixtureDef.filter.categoryBits = BOUNDARY; //I am a BOUNDARY, I collide with everything.
 			mGroundBody->CreateFixture(&mFixtureDef);
 		}
 	gameFieldFile.close();
@@ -99,4 +100,8 @@ void Gamefield::loadTexture(std::string filename){
 	sf::Texture t;
 	t.loadFromFile(filename);
 	mGroundTextures[filename] = t; 
+}
+
+int Gamefield::getType() {
+	return BOUNDARY;
 }
