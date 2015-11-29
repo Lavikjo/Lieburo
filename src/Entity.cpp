@@ -6,7 +6,7 @@ void Entity::draw(sf::RenderTarget& target){
 	if(alive) {
 
 		if(typeid(*this) == typeid(Player)) { // draw the player extras so that the player sprite will be in front of them
-			this->drawPlayer(target);
+			this->drawPlayerExtras(target);
 			//healthBar.setPosition(mBody->GetPosition().x*PIXELS_PER_METER, mBody->GetPosition().y*PIXELS_PER_METER - 40);
 			//target.draw(healthBar);
 		}

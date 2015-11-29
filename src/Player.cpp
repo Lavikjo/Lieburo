@@ -184,7 +184,7 @@ int Player::getType() {
 	return PLAYER;
 }
 
-void Player::drawPlayer(sf::RenderTarget& target) {
+void Player::drawPlayerExtras(sf::RenderTarget& target) {
 	target.draw(aimDotSprite);
 	if(jetpackTimer >0 ){
 		target.draw(jetpackSprite);
