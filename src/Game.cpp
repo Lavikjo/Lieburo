@@ -68,20 +68,20 @@ void Game::run() {
 
 		//currentTime = newTime;
 		timeSinceLastUpdate += dt;		
-		rWindow.clear();
+		
 		//logic update loop, everything that affects physics need to be here
-		while(timeSinceLastUpdate > TIMESTEP) {
-			
-			timeSinceLastUpdate -= TIMESTEP;
+		while(clock.getElapsedTime() < TIMESTEP) {
+			for(int i = 0; i<10000; i++);
 			//Process system events
 			//processEvents();
 
 			//update game entities
 
-			update(timeSinceLastUpdate);
+				
 		}
+		update(clock.getElapsedTime());
 		// render entities
-		
+		rWindow.clear();
 		if (menu->showScreen) {
 			rWindow.setView(viewMenu);
 			menu->draw(rWindow);
@@ -112,6 +112,7 @@ void Game::update(sf::Time deltaTime) {
 	sf::Event event;
 
     while (rWindow.pollEvent(event)) {
+
     	//navigate in menu screen
 	  	if (menu->showScreen) {
 	  		navigateMenu(event);
@@ -128,20 +129,26 @@ void Game::update(sf::Time deltaTime) {
 	        default:
 	        	break;
 	    }
+
+	    //Keyboard inputs for jumping is handled in events - gives the slight delay after first press.
+	    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+	    	//std::cout << "jump1" <<std::endl;
+		    player1->jump();
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::I)) {
+		    player2->jump();
+		}
+
+	    
+
     }
 
     if(!menu->showScreen) {
 	    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-		    player1->movePlayerX(-5);
+		    player1->movePlayerX(-0.1f);
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-		    player1->movePlayerX(5);
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-		    player1->movePlayerY(-5);
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-		    player1->movePlayerY(5);
+		    player1->movePlayerX(0.1f);
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
 		    player1->fire();
@@ -152,17 +159,11 @@ void Game::update(sf::Time deltaTime) {
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::X)) {
 		    player1->aim(-3);
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::I)) {
-		    player2->movePlayerX(-5);
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
-		    player2->movePlayerX(5);
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::O)) {
-		    player2->movePlayerY(-5);
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::J)) {
+		    player2->movePlayerX(-0.1f);
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::L)) {
-		    player2->movePlayerY(5);
+		    player2->movePlayerX(0.1f);
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::T)) {
 		    player2->fire();

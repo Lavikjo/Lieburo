@@ -29,6 +29,7 @@ public:
 	virtual void startContact(int id) = 0;
 
 	virtual int getType() = 0;
+	virtual void drawPlayer(sf::RenderTarget& target){}
 
 
 protected:
@@ -37,10 +38,6 @@ protected:
 	sf::Texture mTexture;
 	sf::Vector2f spritePosition;
 	float spriteAngle = 0;
-
-	//possible aim dot (players only)
-	sf::Texture aimDotTexture;
-	sf::Sprite aimDotSprite;
 
 	//Body
 	b2Body* mBody;

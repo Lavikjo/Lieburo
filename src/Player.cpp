@@ -19,7 +19,7 @@
 
 	//Add a fixture to the body
 	b2PolygonShape polygonShape;
-	polygonShape.SetAsBox(0.2,0.7);
+	polygonShape.SetAsBox(0.1,0.35);
 	mFixtureDef.shape = &polygonShape;
 	mFixtureDef.density = 2;
 	mFixtureDef.friction = 1.0f;
@@ -45,11 +45,17 @@
 	bounds = aimDotSprite.getLocalBounds();
 	aimDotSprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
 
+	//create the jetpack flame
+	jetpackTexture.loadFromFile("jetpack_flame.png");
+	jetpackSprite.setTexture(jetpackTexture);
+	bounds = jetpackSprite.getLocalBounds();
+	jetpackSprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
+
 	//Add foot sensor fixture: Used for determining on ground condition.
-	polygonShape.SetAsBox(0.3, 0.3, b2Vec2(0,-1), 0);
+	polygonShape.SetAsBox(0.01f, 0.02f, b2Vec2(0,0.5f), 0);
 	mFixtureDef.isSensor = true;
 	b2Fixture* footSensorFixture = mBody->CreateFixture(&mFixtureDef);
-	footSensorFixture->SetUserData((void*) 3); //user data contains an identification number for the foot sensor, can be any number.
+	footSensorFixture->SetUserData((void*)PLAYER_FOOT_SENSOR_FIXTURE); //user data contains an identification number for the foot sensor, can be any number.
 
 	alive = true;
 	
@@ -69,33 +75,45 @@ void Player::aim(float angleChange) {
 }
 
 void Player::movePlayerX(float x) {
-	//Apply movement
-	b2Vec2 vel = mBody->GetLinearVelocity();
-
-	//Separate handlers for on ground and in air
-
 	//Checking for the moving direction
 	if(previousXVelocity*x < 0) {//if the signs differ eg. direction changes. Note: this applies only to user movements
 		direction *= -1;
 		mSprite.scale({ -1, 1 });
 	}
 
-	previousXVelocity = x;
-    
-
-    float velChange = x - vel.x;
-    float impulseX = mBody->GetMass() * velChange; //disregard time factor
-    
-    mBody->ApplyLinearImpulse( b2Vec2(impulseX, 0), mBody->GetWorldCenter() );
-}
-
-void Player::movePlayerY(float y) {
-	//Apply movement
+	//Apply some impulse to the body
 	b2Vec2 vel = mBody->GetLinearVelocity();
 
-    float velChange = y - vel.y;
-    float impulseY = mBody->GetMass() * velChange; //disregard time factor
-    mBody->ApplyLinearImpulse( b2Vec2(0, impulseY), mBody->GetWorldCenter() );
+	previousXVelocity = x;
+    float velChange =10*x - vel.x;
+    float impulseX = mBody->GetMass() * velChange; //disregard time factor
+    mBody->ApplyLinearImpulse( b2Vec2(impulseX, 0), mBody->GetWorldCenter() );
+
+    //Also change the position.
+    float currentX = mBody->GetPosition().x;
+    float currentY = mBody->GetPosition().y;
+    mBody->SetTransform(b2Vec2(currentX+x, currentY), 0);
+  
+}
+
+void Player::jump() {
+	if(numGroundContacts > 0) {
+		b2Vec2 vel = mBody->GetLinearVelocity();
+
+	    float velChange = PLAYER_JUMP_SPEED - vel.y;
+	    float impulseY = mBody->GetMass() * velChange; //disregard time factor
+	    mBody->ApplyLinearImpulse( b2Vec2(0, impulseY), mBody->GetWorldCenter() );
+	}
+	else if(jetpackFuel > 0 && jetpackReady) {
+		jetpackTimer = 30; //0.5s visible flame per press. Is the longest time between system key events.
+	    mBody->ApplyLinearImpulse( b2Vec2(0, JETPACK_THRUST), mBody->GetWorldCenter() );
+	    jetpackFuel -= JETPACK_FUEL_CONSUMPTION;
+	    //check if the fuel ran out
+	    if(jetpackFuel < 0){
+	    	jetpackReady = false;
+	    }
+	    std::cout << "Jetpack fuel remaining: " << jetpackFuel << std::endl;
+	}
 }
 
 void Player::fire() {
@@ -109,6 +127,20 @@ void Player::update(sf::Time deltaTime) {
 	float x = (mBody->GetPosition().x+direction*sin(shootAngle)*GUN_BARREL_LENGTH)*PIXELS_PER_METER; 
 	float y = (mBody->GetPosition().y+cos(shootAngle)*GUN_BARREL_LENGTH)*PIXELS_PER_METER;
 	aimDotSprite.setPosition(x,y);
+
+	//position the possible jetpack flame
+	x = (mBody->GetPosition().x-direction*0.1)*PIXELS_PER_METER; 
+	y = (mBody->GetPosition().y+1.2)*PIXELS_PER_METER;
+	jetpackSprite.setPosition(x,y);
+
+	jetpackFuel += JETPACK_FUEL_FILL;
+	if(jetpackFuel > JETPACK_MAX_FUEL){
+		jetpackFuel = JETPACK_MAX_FUEL;
+	}
+	if(jetpackFuel > MIN_JETPACK_RELOAD_FUEL) {
+		jetpackReady = true;
+	}
+	jetpackTimer--; //decrementing the jetpack timer.
 	(void) deltaTime;
 }
 
@@ -123,12 +155,8 @@ sf::Vector2f Player::getAimDotPosition() {
 	return aimDotSprite.getPosition();
 }
 
-void Player::addGorundContact() {
-	numGroundContacts++;
-}
-
-void Player::removeGroundContact() {
-	numGroundContacts--;
+void Player::updateGroundContacts(int val) {
+	numGroundContacts += val;
 }
 
 sf::Vector2f Player::returnPosition() {
@@ -137,4 +165,11 @@ sf::Vector2f Player::returnPosition() {
 
 int Player::getType(){
 	return PLAYER;
+}
+
+void Player::drawPlayer(sf::RenderTarget& target) {
+	target.draw(aimDotSprite);
+	if(jetpackTimer > 0){
+		target.draw(jetpackSprite);
+	}
 }

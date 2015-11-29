@@ -33,7 +33,7 @@ Gamefield::Gamefield(b2World* world) {
 	mGroundBodyDef.position.Set(0, 0);//up-left corner
 	mGroundBodyDef.fixedRotation = true; // prevent rotation
 	mGroundBody = world->CreateBody(&mGroundBodyDef);
-	mGroundBody->SetUserData((void*)0); //emun would be better
+	mGroundBody->SetUserData((void*)GROUND_FIXTURE); //emun would be better
 
 	
 	std::cout<<"Initializing gamefield" << std::endl;

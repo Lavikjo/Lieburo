@@ -15,3 +15,8 @@ enum entityCategory{
 	BOUNDARY = 1<<2,
 	BANANA = 1<<3,
 };
+
+enum fixtureTypes{
+	GROUND_FIXTURE = 0,
+	PLAYER_FOOT_SENSOR_FIXTURE = 1,
+};

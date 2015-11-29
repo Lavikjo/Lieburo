@@ -5,6 +5,10 @@
 void Entity::draw(sf::RenderTarget& target){
 	if(alive) {
 
+		if(typeid(*this) == typeid(Player)) { // draw the player extras so that the player sprite will be in front of them
+			this->drawPlayer(target);
+		}
+
 		//Synchronize sprite coordinates with body
 		b2Vec2 pos = mBody->GetPosition();
 		spriteAngle = mBody->GetAngle() * RAD_TO_DEG;
@@ -15,10 +19,6 @@ void Entity::draw(sf::RenderTarget& target){
 		mSprite.setPosition(spritePosition);
 		mSprite.setRotation(spriteAngle);
 		target.draw(mSprite);
-
-		if(typeid(*this) == typeid(Player)) {
-			target.draw(aimDotSprite);
-		}
 	}
 }
 
