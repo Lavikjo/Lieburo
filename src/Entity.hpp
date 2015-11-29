@@ -29,7 +29,7 @@ public:
 	virtual void startContact(int id) = 0;
 
 	virtual int getType() = 0;
-	virtual void drawPlayerExtras(sf::RenderTarget& target){}
+	virtual void drawPlayer(sf::RenderTarget& target){}
 
 
 protected:

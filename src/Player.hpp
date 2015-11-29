@@ -26,7 +26,7 @@ public:
 	void startContact(int id);
 
 	virtual int getType();
-	virtual void drawPlayerExtras(sf::RenderTarget& target);
+	virtual void drawPlayer(sf::RenderTarget& target);
 	int getHp();
 
 	sf::Vector2f returnPosition();

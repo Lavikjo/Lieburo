@@ -184,11 +184,22 @@ int Player::getType() {
 	return PLAYER;
 }
 
-void Player::drawPlayerExtras(sf::RenderTarget& target) {
+void Player::drawPlayer(sf::RenderTarget& target) {
 	target.draw(aimDotSprite);
 	if(jetpackTimer >0 ){
 		target.draw(jetpackSprite);
 	}
+
+	//Synchronize sprite coordinates with body
+	b2Vec2 pos = mBody->GetPosition();
+	spriteAngle = mBody->GetAngle() * RAD_TO_DEG;
+	spritePosition.x = pos.x * PIXELS_PER_METER;
+	spritePosition.y = pos.y * PIXELS_PER_METER;
+
+	//Draw Sprite
+	mSprite.setPosition(spritePosition);
+	mSprite.setRotation(spriteAngle);
+	target.draw(mSprite);
 }
 
 int Player::getHp() {
