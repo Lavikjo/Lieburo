@@ -19,10 +19,10 @@
 
 	//Add a fixture to the body
 	b2PolygonShape polygonShape;
-	polygonShape.SetAsBox(0.1,0.35);
+	polygonShape.SetAsBox(0.1,0.5);
 	mFixtureDef.shape = &polygonShape;
-	mFixtureDef.density = 2;
-	mFixtureDef.friction = 1.0f;
+	mFixtureDef.density = 1;
+	mFixtureDef.friction = 0.1f;
 	mFixtureDef.filter.categoryBits = PLAYER; //I am a PLAYER
     mFixtureDef.filter.maskBits = ~PLAYER; // I collide with everyhing else but another player. 
 	mBody->CreateFixture(&mFixtureDef);
@@ -56,6 +56,15 @@
 	mFixtureDef.isSensor = true;
 	b2Fixture* footSensorFixture = mBody->CreateFixture(&mFixtureDef);
 	footSensorFixture->SetUserData((void*)PLAYER_FOOT_SENSOR_FIXTURE); //user data contains an identification number for the foot sensor, can be any number.
+
+
+	//För helvete, varför är det absolut skit koda
+	/*
+	healthBar.setSize(sf::Vector2f(hp/100,1));
+	healthBar.setOutlineColor(sf::Color::Red);
+	healthBar.setOutlineThickness(5);
+	healthBar.setPosition(10,20);
+	*/
 
 	alive = true;
 	
@@ -97,15 +106,16 @@ void Player::movePlayerX(float x) {
 }
 
 void Player::jump() {
-	if(numGroundContacts > 0) {
+	if(numGroundContacts > 0){
+		jumpTimer = 20;
 		b2Vec2 vel = mBody->GetLinearVelocity();
-
 	    float velChange = PLAYER_JUMP_SPEED - vel.y;
 	    float impulseY = mBody->GetMass() * velChange; //disregard time factor
 	    mBody->ApplyLinearImpulse( b2Vec2(0, impulseY), mBody->GetWorldCenter() );
 	}
-	else if(jetpackFuel > 0 && jetpackReady) {
-		jetpackTimer = 30; //0.5s visible flame per press. Is the longest time between system key events.
+	else if(jetpackFuel > 0 && jetpackReady && jumpTimer < 0) {
+		//this code block creates a 0.33s delay between jump and jetpack fire.
+		jetpackTimer = 10;
 	    mBody->ApplyLinearImpulse( b2Vec2(0, JETPACK_THRUST), mBody->GetWorldCenter() );
 	    jetpackFuel -= JETPACK_FUEL_CONSUMPTION;
 	    //check if the fuel ran out
@@ -113,6 +123,12 @@ void Player::jump() {
 	    	jetpackReady = false;
 	    }
 	    std::cout << "Jetpack fuel remaining: " << jetpackFuel << std::endl;
+	    //limiting the jetpack speed
+	    b2Vec2 vel = mBody->GetLinearVelocity();
+	    if(vel.y < -1*MAX_JETPACK_SPEED){
+	    	mBody->SetLinearVelocity(b2Vec2(vel.x, -1*MAX_JETPACK_SPEED));
+	    }
+
 	}
 }
 
@@ -141,6 +157,7 @@ void Player::update(sf::Time deltaTime) {
 		jetpackReady = true;
 	}
 	jetpackTimer--; //decrementing the jetpack timer.
+	jumpTimer--;
 	(void) deltaTime;
 }
 
@@ -163,13 +180,17 @@ sf::Vector2f Player::returnPosition() {
 	return mSprite.getPosition();
 }
 
-int Player::getType(){
+int Player::getType() {
 	return PLAYER;
 }
 
 void Player::drawPlayer(sf::RenderTarget& target) {
 	target.draw(aimDotSprite);
-	if(jetpackTimer > 0){
+	if(jetpackTimer >0 ){
 		target.draw(jetpackSprite);
 	}
+}
+
+int Player::getHp() {
+	return hp;
 }

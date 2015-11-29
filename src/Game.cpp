@@ -19,6 +19,7 @@ Game::Game() {
 	//instantiate the main window
 	rWindow.create(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, BITS_PER_PIXEL), "Lieburo");
 
+
 	running = true;
 
 	sceneNode = std::make_shared<SceneNode>();
@@ -49,10 +50,15 @@ void Game::run() {
 
 	//create views for players
 	viewMenu.reset(sf::FloatRect(0, 0, 1024, 768));
-	view1.setViewport(sf::FloatRect(0, 0, 0.5f, 1.0f));
-	view1.setSize(SCREEN_WIDTH / 2, SCREEN_HEIGHT);
-	view2.setViewport(sf::FloatRect(0.5f, 0, 0.5f, 1.0f));
-	view2.setSize(SCREEN_WIDTH / 2, SCREEN_HEIGHT);
+	view1.setViewport(sf::FloatRect(0, 0, 0.5f, 0.925f));
+	view1.setSize(SCREEN_WIDTH / 2, SCREEN_HEIGHT*0.925f);
+	view2.setViewport(sf::FloatRect(0.5f, 0, 0.5f, 0.925f));
+	view2.setSize(SCREEN_WIDTH / 2, SCREEN_HEIGHT*0.925f);
+
+	//third smaller viewport for displaying healthbar and other vital info about the game
+	statusView.setViewport(sf::FloatRect(0, 0, 1.0f, 0.075f));
+	statusView.setSize(SCREEN_WIDTH, SCREEN_HEIGHT*0.075f);
+	statusView.setCenter(10000, 10000);
 
 	while(running) {
 		/*
@@ -76,8 +82,6 @@ void Game::run() {
 			//processEvents();
 
 			//update game entities
-
-				
 		}
 		update(clock.getElapsedTime());
 		// render entities
@@ -131,19 +135,13 @@ void Game::update(sf::Time deltaTime) {
 	    }
 
 	    //Keyboard inputs for jumping is handled in events - gives the slight delay after first press.
-	    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+	}
+
+    if(!menu->showScreen) {
+    	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
 	    	//std::cout << "jump1" <<std::endl;
 		    player1->jump();
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::I)) {
-		    player2->jump();
-		}
-
-	    
-
-    }
-
-    if(!menu->showScreen) {
 	    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
 		    player1->movePlayerX(-0.1f);
 		}
@@ -158,6 +156,9 @@ void Game::update(sf::Time deltaTime) {
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::X)) {
 		    player1->aim(-3);
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::I)) {
+		    player2->jump();
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::J)) {
 		    player2->movePlayerX(-0.1f);
@@ -185,6 +186,17 @@ void Game::render() {
 	//foreach entity call render
 	sceneNode->drawAll(rWindow);
 	gamefield->draw(rWindow);
+
+	//TODO: Move this to better place
+	healthBar1.setSize(sf::Vector2f(15*player1->getHp()/100,15));
+	healthBar1.setOutlineColor(sf::Color::Red);
+	healthBar1.setOutlineThickness(5);
+	healthBar1.setPosition(10000,10000);
+
+	healthBar2.setSize(sf::Vector2f(15*player2->getHp()/100,15));
+	healthBar2.setOutlineColor(sf::Color::Red);
+	healthBar2.setOutlineThickness(5);
+	healthBar2.setPosition(100000,10000);
 }
 
 b2World* Game::getWorld(){
