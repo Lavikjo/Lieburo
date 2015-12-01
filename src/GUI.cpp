@@ -41,14 +41,33 @@ void GUI::draw(sf::RenderTarget &target){
 }
 
 void GUI::update(Game* game) {
+	std::stringstream amount;
+
 	std::shared_ptr<Player> player1 = game->getPlayer(1);
 	std::shared_ptr<Player> player2 = game->getPlayer(2);
 	float currentHp1 = static_cast<float>(player1->getHp());
 	float currentHp2 = static_cast<float>(player2->getHp());
-	healthBar1.setScale(currentHp1/100, 1);
-	healthBar2.setScale(currentHp2/100, 1);
 
-	std::stringstream amount;
+	//sanity checks, so that negative values are not drawn
+	if(currentHp1 >= 0) {
+
+		amount << currentHp1;
+		hpText1.setString(amount.str());
+		amount.str("");
+		amount.clear();
+
+		healthBar1.setScale(currentHp1/100, 1);
+	}
+	if(currentHp2 >= 0) {
+		amount << currentHp2;
+		hpText2.setString(amount.str());
+		amount.str("");
+		amount.clear();
+
+		healthBar2.setScale(currentHp2/100, 1);
+	}
+
+	
 
 	amount << player1->getCurrentAmmo() << "/" << player1->getCurrentClipSize();
 	ammoText1.setString(amount.str());
@@ -73,17 +92,6 @@ void GUI::update(Game* game) {
 	amount << player2->getFuel();
 	jetText2.setString(amount.str());
 
-	amount.str("");
-	amount.clear();
-
-	amount << currentHp1;
-	hpText1.setString(amount.str());
-
-	amount.str("");
-	amount.clear();
-
-	amount << currentHp2;
-	hpText2.setString(amount.str());
 
 	//green bar on nearly full hp
 	if(currentHp1 > 80) {
