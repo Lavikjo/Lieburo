@@ -14,6 +14,7 @@ enum entityCategory{
 	PLAYER = 1<<1,
 	BOUNDARY = 1<<2,
 	BANANA = 1<<3,
+	MISSILE = 1<<4,
 };
 
 enum fixtureTypes{

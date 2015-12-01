@@ -29,11 +29,11 @@ Gamefield::Gamefield(b2World* world) {
 	*/
 
 	//Step 1
-	mGroundBodyDef.type = b2_staticBody;
-	mGroundBodyDef.position.Set(0, 0);//up-left corner
-	mGroundBodyDef.fixedRotation = true; // prevent rotation
-	mGroundBody = world->CreateBody(&mGroundBodyDef);
-	mGroundBody->SetUserData((void*)GROUND_FIXTURE); //emun would be better
+	mBodyDef.type = b2_staticBody;
+	mBodyDef.position.Set(0, 0);//up-left corner
+	mBodyDef.fixedRotation = true; // prevent rotation
+	mBody = world->CreateBody(&mBodyDef);
+	mBody->SetUserData(this); //emun would be better
 
 	
 	std::cout<<"Initializing gamefield" << std::endl;
@@ -80,7 +80,7 @@ Gamefield::Gamefield(b2World* world) {
 			mFixtureDef.density = 1;
 			mFixtureDef.friction = 1.0f;
 			mFixtureDef.filter.categoryBits = BOUNDARY; //I am a BOUNDARY, I collide with everything.
-			mGroundBody->CreateFixture(&mFixtureDef);
+			mBody->CreateFixture(&mFixtureDef);
 		}
 	gameFieldFile.close();
 	}

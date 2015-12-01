@@ -11,7 +11,7 @@ class Weapon;
 
 class Player : public Entity {
 public:
-	Player(Game* game);
+	Player(Game* game, int opponent);
 	~Player();
 
 	void movePlayerX(float x);
@@ -23,16 +23,18 @@ public:
 	sf::Vector2f getAimDotPosition();
 
 	void update(sf::Time deltaTime);
-	void startContact(int id);
+	void startContact(int id, Entity* contact);
 
 	virtual int getType();
 	virtual void drawPlayer(sf::RenderTarget& target);
 	int getHp();
+	virtual void updateHp(int val);
 
 	sf::Vector2f returnPosition();
+	void scrollWeapons();
 
 private:
-
+	int mOpponent;
 	//possible aim dot, jetpack etc. (players only)
 	sf::Texture aimDotTexture;
 	sf::Sprite aimDotSprite;
@@ -50,7 +52,7 @@ private:
 	int direction = 1;//x-moving direction: either +1 or -1 
 	int gunDirection = 1; //used for setting the direction of the gun
 	std::vector<std::shared_ptr<Weapon>> mWeapons;
-	int currentWeapon = 0;
+	unsigned int currentWeapon = 0;
 	const float GUN_BARREL_LENGTH = 1.5f;//meters
 	const float MIN_SHOOT_ANGLE = 30*DEG_TO_RAD;
 	const float MAX_SHOOT_ANGLE = 180*DEG_TO_RAD;

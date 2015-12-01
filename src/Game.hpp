@@ -37,6 +37,7 @@ public:
 	b2World* getWorld();
 	std::shared_ptr<SceneNode> getSceneNode();
 	//sf::RenderWindow getRenderWindow();
+	std::shared_ptr<Player> getPlayer(int id); //used by guided projectiles
 
 private:
 	std::shared_ptr<Player> player1;
