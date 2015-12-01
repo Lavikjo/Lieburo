@@ -14,7 +14,7 @@ Missile::Missile(Game* game, int target) : Projectile(){
 
 	//Add a fixture to the body
 	b2PolygonShape boxShape;
-	boxShape.SetAsBox(1.0f,0.2f);
+	boxShape.SetAsBox(0.1f,0.4f);
 	mFixtureDef.shape = &boxShape;
 	mFixtureDef.isSensor = true;
 	mFixtureDef.density = 1;
@@ -39,14 +39,15 @@ Missile::Missile(Game* game, int target) : Projectile(){
 }
 
 void Missile::update(sf::Time deltaTime) {
-	if(alive & !exploses) {
+	if(alive && !exploses) {
 		lifeTime += deltaTime.asSeconds();
 		if(lifeTime > MISSILE_LIFETIME) {
 			alive = false;
 			this->getBody()->GetFixtureList()[0].SetSensor(true);
+			return;
 		}
 		seek();
-	}else {
+	}else{
 		lifeTime = 0;
 	}
 
@@ -69,11 +70,9 @@ void Missile::startContact(int id, Entity* contact){
 	if(typeid(*contact) == typeid(Player)) {
 		if(alive) {
 			contact->updateHp(-20);
-			mSprite.setTexture(mExplosionTexture, true); //true resets the sprite boundaries
-			exploses = true;
-			explosionClock = 0;
 		}
 	}
+	explode();
 
 	(void) id;
 }
@@ -88,16 +87,46 @@ void Missile::seek(){
 
 	float x = tPos.x-mPos.x;
 	float y = tPos.y-mPos.y;
+	float dist = sqrt(x*x + y*y);
 
 	// Fine-tuning the control algorithm
-	if(x > 5){
-		x = 5;
+	if(x > 0){
+		x = .7f;
+	}else if(x < 0){
+		x = -.7f;
 	}
-	if(y > 5){
-		y = 5;
+	
+	if(y > 0){
+		y = .7f;
+	}else if( y < 0) {
+		y = -.7f;
 	}
-	x *= 0.2f;
-	y *= 0.2f;
+
+	//slow at first second(s)
+	if(lifeTime < 1.0f) {
+		x *= 0.1f;
+		y *= 0.1f;
+	}
+
+	//able to dodge
+	if(dist < 4.0f){//use the lifetime in order to prevent near-launch errors
+		x = 0;
+		y = 0;
+		
+	}
+	//successfull dodge will pay off.
+	if(dist < 2.5f && lifeTime > 1.0f){ //use the lifetime in order to prevent near-launch errors
+		nearMiss = true;
+	}
+	else if(nearMiss && dist > 3.0f ) { 
+		explode();
+	}
+
+	//check near hit
+	if(dist < 1.0f) {
+		startContact(0, std::dynamic_pointer_cast<Entity>(mGame->getPlayer(mTarget)).get());
+	}
+
 
 	//Applying the forces
 	mBody->ApplyLinearImpulse( b2Vec2(x, y), mBody->GetWorldCenter() );
@@ -107,7 +136,7 @@ void Missile::seek(){
 	mBody->SetTransform(mPos, atan2(-mVel.x, mVel.y));
 
 	//Limiting the speed
-	float ratio = MISSILE_MAX_VEL/sqrt(mVel.x*mVel.x + mVel.y+mVel.y);
+	float ratio = MISSILE_MAX_VEL/sqrt(mVel.x*mVel.x + mVel.y*mVel.y);
 	if(ratio < 1) {
 		mBody->SetLinearVelocity({mVel.x*ratio, mVel.y*ratio});
 	}
@@ -115,4 +144,11 @@ void Missile::seek(){
 }
 int Missile::getTarget() const{
 	return mTarget;
+}
+
+void Missile::explode(){ //terminates the cycle, it will die after explosion.
+	mSprite.setTexture(mExplosionTexture, true); //true resets the sprite boundaries
+	exploses = true;
+	explosionClock = 0;
+	nearMiss = false;
 }
