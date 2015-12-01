@@ -28,6 +28,17 @@ Game::Game() {
 	player2 = std::make_shared<Player>(this);
 	sceneNode->attachChild(std::static_pointer_cast<SceneNode>(player2));
 
+	healthBar1.setOutlineColor(sf::Color::Green);
+	healthBar1.setFillColor(sf::Color(0,220, 0, 255));
+	healthBar1.setOutlineThickness(15);
+	healthBar1.setSize(sf::Vector2f(100,15));
+	healthBar1.setPosition(99600,100000);
+
+	healthBar2.setOutlineColor(sf::Color::Green);
+	healthBar2.setFillColor(sf::Color(0,220, 0, 255));
+	healthBar2.setOutlineThickness(15);
+	healthBar2.setSize(sf::Vector2f(100,15));
+	healthBar2.setPosition(100300,100000);
 	gamefield = std::make_shared<Gamefield>(mGameWorld);
 
 	//construct menu and options screens
@@ -56,7 +67,8 @@ void Game::run() {
 	view2.setSize(SCREEN_WIDTH / 2, SCREEN_HEIGHT*0.925f);
 
 	//third smaller viewport for displaying healthbar and other vital info about the game
-	statusView.setViewport(sf::FloatRect(0, 0, 1.0f, 0.075f));
+	//all the statusbars are located far away from playing field
+	statusView.setViewport(sf::FloatRect(0, 0.925f, 1.0f, 0.075f));
 	statusView.setSize(SCREEN_WIDTH, SCREEN_HEIGHT*0.075f);
 	statusView.setCenter(100000, 100000);
 
@@ -102,10 +114,13 @@ void Game::run() {
 			view2.setCenter(player2->returnPosition());
 			render();
 			rWindow.setView(statusView);
-			healthBar1.setSize(sf::Vector2f(15*player1->getHp()/100,15));
-			healthBar2.setSize(sf::Vector2f(15*player2->getHp()/100,15));
-			healthBar1.setPosition(100000,100000);
-			healthBar2.setPosition(100000,100000);
+			
+			//healthbars are drawn far beyond the playable area
+			
+			healthBar1.setScale(static_cast<float>(player1->getHp())/100, 1);
+			std::cout  << "player1 hp: " << player1->getHp() << std::endl;
+			healthBar2.setScale(static_cast<float>(player2->getHp())/100, 1);
+			std::cout  << "player2 hp: " << player2->getHp() << std::endl;
 			render();
 		}
 		rWindow.display();
@@ -196,15 +211,11 @@ void Game::render() {
 
 	//TODO: Move this to better place
 	
-	healthBar1.setOutlineColor(sf::Color::Red);
-	healthBar1.setOutlineThickness(5);
 	
 	rWindow.draw(healthBar1);
 
 	
-	healthBar2.setOutlineColor(sf::Color::Red);
-	healthBar2.setOutlineThickness(5);
-	healthBar2.setPosition(100000,100000);
+	
 	rWindow.draw(healthBar2);
 }
 
