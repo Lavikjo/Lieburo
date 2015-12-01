@@ -27,7 +27,7 @@ Game::Game() {
 	sceneNode->attachChild(std::static_pointer_cast<SceneNode>(player1));
 	player2 = std::make_shared<Player>(this, 1);
 	sceneNode->attachChild(std::static_pointer_cast<SceneNode>(player2));
-
+/*
 	healthBar1.setOutlineColor(sf::Color::Green);
 	healthBar1.setFillColor(sf::Color(0,220, 0, 255));
 	healthBar1.setOutlineThickness(15);
@@ -39,7 +39,13 @@ Game::Game() {
 	healthBar2.setOutlineThickness(15);
 	healthBar2.setSize(sf::Vector2f(100,15));
 	healthBar2.setPosition(100300,100000);
+
+*/
+
 	gamefield = std::make_shared<Gamefield>(mGameWorld);
+
+	//construct gui
+	gui = std::make_shared<GUI>();
 
 	//construct menu and options screens
 	menu = std::make_shared<Menu>();
@@ -114,13 +120,7 @@ void Game::run() {
 			view2.setCenter(player2->returnPosition());
 			render();
 			rWindow.setView(statusView);
-			
-			//healthbars are drawn far beyond the playable area
-			
-			healthBar1.setScale(static_cast<float>(player1->getHp())/100, 1);
-			std::cout  << "player1 hp: " << player1->getHp() << std::endl;
-			healthBar2.setScale(static_cast<float>(player2->getHp())/100, 1);
-			std::cout  << "player2 hp: " << player2->getHp() << std::endl;
+			gui->update(this);
 			render();
 		}
 		rWindow.display();
@@ -217,7 +217,8 @@ void Game::render() {
 	//foreach entity call render
 	sceneNode->drawAll(rWindow);
 	gamefield->draw(rWindow);
-
+	gui->draw(rWindow);
+/*	
 	//TODO: Move this to better place
 	
 	
@@ -226,6 +227,7 @@ void Game::render() {
 	
 	
 	rWindow.draw(healthBar2);
+*/
 }
 
 b2World* Game::getWorld(){

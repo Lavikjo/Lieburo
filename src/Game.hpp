@@ -18,7 +18,9 @@
 #include "Options.hpp"
 #include "Constants.h"
 #include "Gamefield.hpp"
+#include "GUI.hpp"
 
+class GUI;
 class Gamefield;
 class Player;
 
@@ -51,7 +53,7 @@ private:
 	b2World* mGameWorld;
 	std::shared_ptr<Gamefield> gamefield;
 	sf::View viewMenu, view1, view2, statusView;
-	sf::RectangleShape healthBar1, healthBar2;
+	std::shared_ptr<GUI> gui;
 };
 
 #endif
