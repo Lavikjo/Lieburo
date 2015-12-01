@@ -60,6 +60,7 @@ void Game::run() {
 	statusView.setSize(SCREEN_WIDTH, SCREEN_HEIGHT*0.075f);
 	statusView.setCenter(10000, 10000);
 
+
 	while(running) {
 		/*
 		double newTime = clock.getElapsedTime().asSeconds();
@@ -99,6 +100,8 @@ void Game::run() {
 			render();
 			rWindow.setView(view2);
 			view2.setCenter(player2->returnPosition());
+			render();
+			rWindow.setView(statusView);
 			render();
 		}
 		rWindow.display();
@@ -191,12 +194,12 @@ void Game::render() {
 	healthBar1.setSize(sf::Vector2f(15*player1->getHp()/100,15));
 	healthBar1.setOutlineColor(sf::Color::Red);
 	healthBar1.setOutlineThickness(5);
-	healthBar1.setPosition(10000,10000);
+	healthBar1.setPosition(15,15);
 
 	healthBar2.setSize(sf::Vector2f(15*player2->getHp()/100,15));
 	healthBar2.setOutlineColor(sf::Color::Red);
 	healthBar2.setOutlineThickness(5);
-	healthBar2.setPosition(100000,10000);
+	healthBar2.setPosition(15,15);
 }
 
 b2World* Game::getWorld(){
