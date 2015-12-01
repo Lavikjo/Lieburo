@@ -32,7 +32,6 @@
 	
 	// Create a sprite
 	mSprite.setTexture(mTexture);
-	mSprite.setPosition(100, 25);
 	sf::FloatRect bounds = mSprite.getLocalBounds();
 	mSprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
 
@@ -51,11 +50,20 @@
 	bounds = jetpackSprite.getLocalBounds();
 	jetpackSprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
 
+	//create the bazooka
+	bazookaTexture.loadFromFile("bazooka.png");
+	bazookaSprite.setTexture(bazookaTexture);
+	bounds = bazookaSprite.getLocalBounds();
+	bazookaSprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
+	bazookaSprite.scale({-1,1});
+
 	//Add foot sensor fixture: Used for determining on ground condition.
 	polygonShape.SetAsBox(0.01f, 0.02f, b2Vec2(0,0.5f), 0);
 	mFixtureDef.isSensor = true;
 	b2Fixture* footSensorFixture = mBody->CreateFixture(&mFixtureDef);
 	footSensorFixture->SetUserData((void*)PLAYER_FOOT_SENSOR_FIXTURE); //user data contains an identification number for the foot sensor, can be any number.
+
+
 
 
 	//För helvete, varför är det absolut skit koda
@@ -139,16 +147,29 @@ void Player::fire() {
 }
 
 void Player::update(sf::Time deltaTime) {
-	//draw the aim dot
+	//position the aim dot
 	float x = (mBody->GetPosition().x+direction*sin(shootAngle)*GUN_BARREL_LENGTH)*PIXELS_PER_METER; 
 	float y = (mBody->GetPosition().y+cos(shootAngle)*GUN_BARREL_LENGTH)*PIXELS_PER_METER;
 	aimDotSprite.setPosition(x,y);
 
 	//position the possible jetpack flame
-	x = (mBody->GetPosition().x-direction*0.1)*PIXELS_PER_METER; 
+	x = (mBody->GetPosition().x-direction*0)*PIXELS_PER_METER; 
 	y = (mBody->GetPosition().y+1.2)*PIXELS_PER_METER;
 	jetpackSprite.setPosition(x,y);
 
+	//position the bazooka
+	x = (mBody->GetPosition().x+direction*sin(shootAngle)*0.2f*GUN_BARREL_LENGTH)*PIXELS_PER_METER; 
+	y = (mBody->GetPosition().y+cos(shootAngle)*0.2f*GUN_BARREL_LENGTH)*PIXELS_PER_METER;
+
+	bazookaSprite.setPosition(x,y);
+	bazookaSprite.setRotation(-direction*shootAngle*RAD_TO_DEG);
+	if(direction*gunDirection == -1){//checking for if the player has changed direction
+		gunDirection = direction;
+		bazookaSprite.scale({-1, 1});
+	}
+	
+
+	//update jetpack status
 	jetpackFuel += JETPACK_FUEL_FILL;
 	if(jetpackFuel > JETPACK_MAX_FUEL){
 		jetpackFuel = JETPACK_MAX_FUEL;
@@ -186,7 +207,7 @@ int Player::getType() {
 
 void Player::drawPlayer(sf::RenderTarget& target) {
 	target.draw(aimDotSprite);
-	if(jetpackTimer >0 ){
+	if(jetpackTimer > 0 ){
 		target.draw(jetpackSprite);
 	}
 
@@ -200,6 +221,9 @@ void Player::drawPlayer(sf::RenderTarget& target) {
 	mSprite.setPosition(spritePosition);
 	mSprite.setRotation(spriteAngle);
 	target.draw(mSprite);
+
+	//draw bazooka
+	target.draw(bazookaSprite);
 }
 
 int Player::getHp() {

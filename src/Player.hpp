@@ -38,6 +38,8 @@ private:
 	sf::Sprite aimDotSprite;
 	sf::Texture jetpackTexture;
 	sf::Sprite jetpackSprite;
+	sf::Texture bazookaTexture;
+	sf::Sprite bazookaSprite;
 
 	int hp = 100;
 	float jetpackFuel = 100;
@@ -46,6 +48,7 @@ private:
 	int jumpTimer = 0; // timer for igniting the jetpack after jump.
 	float shootAngle = 150*DEG_TO_RAD;
 	int direction = 1;//x-moving direction: either +1 or -1 
+	int gunDirection = 1; //used for setting the direction of the gun
 	std::vector<std::shared_ptr<Weapon>> mWeapons;
 	int currentWeapon = 0;
 	const float GUN_BARREL_LENGTH = 1.5f;//meters
