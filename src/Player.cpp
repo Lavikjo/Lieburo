@@ -181,7 +181,7 @@ void Player::startContact(int id, Entity* contact) {
 	(void) contact;	
 }
 
-sf::Vector2f Player::getAimDotPosition() {
+sf::Vector2f Player::getAimDotPosition() const {
 	return aimDotSprite.getPosition();
 }
 
@@ -193,7 +193,7 @@ sf::Vector2f Player::returnPosition() {
 	return mSprite.getPosition();
 }
 
-int Player::getType() {
+int Player::getType(){
 	return PLAYER;
 }
 
@@ -226,11 +226,11 @@ float Player::getFuel() const{
 	return jetpackFuel;
 }
 
-unsigned int Player::getCurrentAmmo() const{
+unsigned int Player::getCurrentAmmo() const {
 	return mWeapons[currentWeapon]->getAmmo();
 }
 
-unsigned int Player::getCurrentClipSize() const{
+unsigned int Player::getCurrentClipSize() const {
 	return mWeapons[currentWeapon]->getClipSize();
 }
 

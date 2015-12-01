@@ -26,11 +26,11 @@ void Entity::draw(sf::RenderTarget& target){
 	}
 }
 
-b2Body* Entity::getBody() const{ 
+b2Body* Entity::getBody() const { 
 	return mBody;
 }
 
-bool Entity::isAlive(){
+bool Entity::isAlive() {
 	return alive;
 }
 
@@ -38,7 +38,7 @@ void Entity::setAlive(bool status){
 	alive = status;
 }
 
-sf::Sprite Entity::getSprite(){
+sf::Sprite Entity::getSprite() const {
 	return mSprite;
 }
 

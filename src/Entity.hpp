@@ -20,7 +20,7 @@ public:
 
 	void draw(sf::RenderTarget& target);
 	b2Body* getBody() const;
-	sf::Sprite getSprite();
+	sf::Sprite getSprite() const;
 
 	bool isAlive();
 	void setAlive(bool status);

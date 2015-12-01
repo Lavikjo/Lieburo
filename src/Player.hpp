@@ -20,7 +20,7 @@ public:
 	void aim(float angleChange);
 	void updateGroundContacts(int val);
 
-	sf::Vector2f getAimDotPosition();
+	sf::Vector2f getAimDotPosition() const;
 
 	void update(sf::Time deltaTime);
 	void startContact(int id, Entity* contact);

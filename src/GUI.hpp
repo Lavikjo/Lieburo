@@ -22,6 +22,7 @@ private:
 	sf::Font statusFont;
 	sf::Text hpText1, ammoText1, jetText1, hpText2, ammoText2, jetText2;
 	sf::RectangleShape healthBar1, healthBar2;
+	
 	static const int HP1_TEXT_OFFSET = 99640;
 	static const int AMMO1_TEXT_OFFSET = 99750;
 	static const int JET1_TEXT_OFFSET = 99900;
