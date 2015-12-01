@@ -20,3 +20,11 @@ void Weapon::launchProjectile(float angle, b2Vec2 position, b2Vec2 preSpeed, std
     body->SetLinearVelocity(b2Vec2(velX, velY));
 
 }
+
+unsigned int Weapon::getAmmo() const {
+	return ammo;
+}
+
+unsigned int Weapon::getClipSize() const {
+	return clipSize;
+}

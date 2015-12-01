@@ -17,6 +17,8 @@ public:
 	virtual void shoot(float, b2Vec2, b2Vec2, Game*) = 0;
 	void launchProjectile(float angle, b2Vec2 position, b2Vec2 preSpeed, std::shared_ptr<SceneNode> entity);
 
+	unsigned int getAmmo() const;
+	unsigned int getClipSize() const;
 protected:
 	unsigned int clipSize;
 	unsigned int ammo;

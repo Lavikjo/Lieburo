@@ -68,16 +68,6 @@
 	footSensorFixture->SetUserData((void*)PLAYER_FOOT_SENSOR_FIXTURE); //user data contains an identification number for the foot sensor, can be any number.
 
 
-
-
-	//För helvete, varför är det absolut skit koda
-	/*
-	healthBar.setSize(sf::Vector2f(hp/100,1));
-	healthBar.setOutlineColor(sf::Color::Red);
-	healthBar.setOutlineThickness(5);
-	healthBar.setPosition(10,20);
-	*/
-
 	alive = true;
 	
 }
@@ -228,8 +218,20 @@ void Player::drawPlayer(sf::RenderTarget& target) {
 	target.draw(bazookaSprite);
 }
 
-int Player::getHp() {
+int Player::getHp() const{
 	return hp;
+}
+
+float Player::getFuel() const{
+	return jetpackFuel;
+}
+
+unsigned int Player::getCurrentAmmo() const{
+	return mWeapons[currentWeapon]->getAmmo();
+}
+
+unsigned int Player::getCurrentClipSize() const{
+	return mWeapons[currentWeapon]->getClipSize();
 }
 
 void Player::updateHp(int val) {

@@ -27,7 +27,11 @@ public:
 
 	virtual int getType();
 	virtual void drawPlayer(sf::RenderTarget& target);
-	int getHp();
+	int getHp() const;
+	float getFuel() const;
+
+	unsigned int getCurrentAmmo() const;
+	unsigned int getCurrentClipSize() const;
 	virtual void updateHp(int val);
 
 	sf::Vector2f returnPosition();
