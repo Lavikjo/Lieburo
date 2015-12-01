@@ -23,9 +23,9 @@ Game::Game() {
 	running = true;
 
 	sceneNode = std::make_shared<SceneNode>();
-	player1 = std::make_shared<Player>(this);
+	player1 = std::make_shared<Player>(this, 2);
 	sceneNode->attachChild(std::static_pointer_cast<SceneNode>(player1));
-	player2 = std::make_shared<Player>(this);
+	player2 = std::make_shared<Player>(this, 1);
 	sceneNode->attachChild(std::static_pointer_cast<SceneNode>(player2));
 
 	healthBar1.setOutlineColor(sf::Color::Green);
@@ -152,11 +152,20 @@ void Game::update(sf::Time deltaTime) {
 	        case sf::Event::Closed:
 	            running = false;
 	            break;
+            case sf::Event::KeyPressed:
+            	//Keyboard inputs with delay between presses
+			    if (sf::Keyboard::isKeyPressed(sf::Keyboard::V)) {
+			    	//std::cout << "jump1" <<std::endl;
+				    player2->scrollWeapons();
+				}
+			    if (sf::Keyboard::isKeyPressed(sf::Keyboard::B)) {
+				    player1->scrollWeapons();
+				}
+            	break;
 	        default:
 	        	break;
 	    }
 
-	    //Keyboard inputs for jumping is handled in events - gives the slight delay after first press.
 	}
 
     if(!menu->showScreen) {
@@ -296,3 +305,14 @@ sf::RenderWindow Game::getRenderWindow() {
 	return rWindow;
 }
 */
+
+std::shared_ptr<Player> Game::getPlayer(int id){
+	if(id == 1){
+		return player1;
+	}
+	else if(id == 2) {
+		return player2;
+	}
+
+	return nullptr;
+}

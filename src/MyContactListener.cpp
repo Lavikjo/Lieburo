@@ -20,21 +20,27 @@ void MyContactListener::BeginContact(b2Contact* contact) {
 
 	int idA = 0, idB = 0;
 
-	if(bodyUserDataA) { //the playground has the bodyUserData of 0.
+
+	if(true) { //the playground has the bodyUserData of 0.
 		idA = static_cast<Entity*>(bodyUserDataA)->getType();
 	}
-	if(bodyUserDataB) {
+	if(true) {
 		idB = static_cast<Entity*>(bodyUserDataB)->getType();
 	}
 
 	//std::cout<<"idA:"<<idA<<"idB:"<<idB<<std::endl;
-
 	if(idA == PLAYER || idA == BANANA) { 
-		static_cast<Entity*>(bodyUserDataA)->startContact(idB);
+		static_cast<Entity*>(bodyUserDataA)->startContact(idB, static_cast<Entity*>(bodyUserDataB));
 	}
 
 	if(idB == PLAYER || idB == BANANA) {
-		static_cast<Entity*>(bodyUserDataB)->startContact(idA);
+		static_cast<Entity*>(bodyUserDataB)->startContact(idA, static_cast<Entity*>(bodyUserDataA));
+	}
+	if(idA == MISSILE) { 
+		static_cast<Entity*>(bodyUserDataA)->startContact(idB, static_cast<Entity*>(bodyUserDataB));
+	}
+	if(idB == MISSILE) {
+		static_cast<Entity*>(bodyUserDataB)->startContact(idA, static_cast<Entity*>(bodyUserDataA));
 	}
 
 	//std::cout << (long)fixtureUserDataA<<", "<< (long)fixtureUserDataB << std::endl;

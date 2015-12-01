@@ -1,9 +1,10 @@
-#include "Banana.hpp"
+#include "Missile.hpp"
 
-Banana::Banana(Game* game) : Projectile(){
+Missile::Missile(Game* game, int target) : Projectile(){
 
 	mEntityWorld = game->getWorld(); 
 	mGame = game;
+	mTarget = target;
 	//Create the dynamic body
 	mBodyDef.type = b2_dynamicBody;
 	mBodyDef.position.Set(0, 0);
@@ -13,7 +14,7 @@ Banana::Banana(Game* game) : Projectile(){
 
 	//Add a fixture to the body
 	b2PolygonShape boxShape;
-	boxShape.SetAsBox(0.5f,0.2f);
+	boxShape.SetAsBox(1.0f,0.2f);
 	mFixtureDef.shape = &boxShape;
 	mFixtureDef.isSensor = true;
 	mFixtureDef.density = 1;
@@ -21,7 +22,7 @@ Banana::Banana(Game* game) : Projectile(){
 	mBody->CreateFixture(&mFixtureDef);
 
 	// Declare and load a texture
-	mTexture.loadFromFile("banana.png");
+	mTexture.loadFromFile("aim_120c.png");
 	
 	// Create a sprite
 	mSprite.setTexture(mTexture);
@@ -31,19 +32,20 @@ Banana::Banana(Game* game) : Projectile(){
 
 	//The explosion texture and clock
 	mExplosionTexture.loadFromFile("banana_explosion.png");
-	explosionTime = BANANA_EXPLOSION_TIME;
+	explosionTime = MISSILE_EXPLOSION_TIME;
 
 	//Projectiles aren't alive by default
 	alive = false;
 }
 
-void Banana::update(sf::Time deltaTime) {
+void Missile::update(sf::Time deltaTime) {
 	if(alive & !exploses) {
 		lifeTime += deltaTime.asSeconds();
-		if(lifeTime > MAX_LIFETIME) {
+		if(lifeTime > MISSILE_LIFETIME) {
 			alive = false;
 			this->getBody()->GetFixtureList()[0].SetSensor(true);
 		}
+		seek();
 	}else {
 		lifeTime = 0;
 	}
@@ -57,16 +59,16 @@ void Banana::update(sf::Time deltaTime) {
 		else{
 			exploses = false;
 			mSprite.setTexture(mTexture, true);
-			lifeTime = MAX_LIFETIME +1; //it will die next.
+			lifeTime = MISSILE_LIFETIME +1; //it will die next.
 		}
 	}
 	
 }
 
-void Banana::startContact(int id, Entity* contact){
+void Missile::startContact(int id, Entity* contact){
 	if(typeid(*contact) == typeid(Player)) {
 		if(alive) {
-			contact->updateHp(-10);
+			contact->updateHp(-20);
 			mSprite.setTexture(mExplosionTexture, true); //true resets the sprite boundaries
 			exploses = true;
 			explosionClock = 0;
@@ -74,6 +76,34 @@ void Banana::startContact(int id, Entity* contact){
 	}
 }
 
-int Banana::getType() {
-	return BANANA;
+int Missile::getType() {
+	return MISSILE;
+}
+
+void Missile::seek(){
+	b2Vec2 mPos = mBody->GetPosition();
+	b2Vec2 tPos = mGame->getPlayer(mTarget)->getBody()->GetPosition();//->isAlive();//getBody()->GetPosition();
+
+	float x = tPos.x-mPos.x;
+	float y = tPos.y-mPos.y;
+
+	// Fine-tuning the control algorithm
+	if(x > 5){
+		x = 5;
+	}
+	if(y > 5){
+		y = 5;
+	}
+	x *= 0.1f;
+	y *= 0.1f;
+
+	//Applying the forces
+	mBody->ApplyLinearImpulse( b2Vec2(x, y), mBody->GetWorldCenter() );
+
+	//Aiming
+	b2Vec2 mVel = mBody->GetLinearVelocity();
+	mBody->SetTransform(mPos, atan2(-mVel.x, mVel.y));
+}
+int Missile::getTarget() const{
+	return mTarget;
 }

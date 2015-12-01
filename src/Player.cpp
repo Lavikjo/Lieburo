@@ -1,10 +1,13 @@
 #include "Player.hpp"
 #include "BananaGun.hpp"
 #include "Banana.hpp"
+#include "MissileLauncher.hpp"
+#include "Missile.hpp"
 #include <iostream>
 
- Player::Player(Game* game){
+ Player::Player(Game* game, int opponent){
 
+ 	mOpponent = opponent;
  	mEntityWorld = game->getWorld();
  	mGame = game;
 	//Create the dynamic body
@@ -37,6 +40,7 @@
 
 	//Initialize weapons: without players there can't be weapons.
 	mWeapons.push_back(std::make_shared<BananaGun>(mGame));
+	mWeapons.push_back(std::make_shared<MissileLauncher>(mGame, mOpponent));
 
 	//create the aim dot
 	aimDotTexture.loadFromFile("punapiste.png");
@@ -182,11 +186,8 @@ void Player::update(sf::Time deltaTime) {
 	(void) deltaTime;
 }
 
-void Player::startContact(int id) {
-	if(id == BANANA) {
-		hp-= 10;
-		std::cout << "banana hit" << std::endl;
-	}
+void Player::startContact(int id, Entity* contact) {
+	
 }
 
 sf::Vector2f Player::getAimDotPosition() {
@@ -228,4 +229,17 @@ void Player::drawPlayer(sf::RenderTarget& target) {
 
 int Player::getHp() {
 	return hp;
+}
+
+void Player::updateHp(int val) {
+	hp += val;
+	std::cout << "Hp changed: " << val << std::endl;
+}
+
+void Player::scrollWeapons() {
+	currentWeapon++;
+	std::cout << "changed weapon" << std::endl;
+	if(currentWeapon >= mWeapons.size()) {
+		currentWeapon = 0;
+	}
 }

@@ -6,17 +6,21 @@
 #include "Game.hpp"
 #include <iostream>
 
-class Banana : public Projectile {
+class Missile : public Projectile {
 public:
-	Banana(Game* game);
-	~Banana(){}
+	Missile(Game* game, int target);
+	~Missile(){}
+
+	void seek();
 
 	virtual void update(sf::Time deltaTime);
 	virtual void startContact(int id, Entity* contact);
 	virtual int getType();
+	int getTarget() const;
 private:
-	const float MAX_LIFETIME = 2.5f;
-	const int BANANA_EXPLOSION_TIME = 15;
+	int mTarget;
+	const float MISSILE_LIFETIME = 20.0f;
+	const int MISSILE_EXPLOSION_TIME = 15;
 };
 
 #endif

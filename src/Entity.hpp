@@ -26,10 +26,11 @@ public:
 	void setAlive(bool status);
 
 	virtual void update(sf::Time deltaTime) = 0;
-	virtual void startContact(int id) = 0;
+	virtual void startContact(int id, Entity* contact) = 0;
 
 	virtual int getType() = 0;
 	virtual void drawPlayer(sf::RenderTarget& target){}
+	virtual void updateHp(int val){}
 
 
 protected:
