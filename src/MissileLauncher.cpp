@@ -2,7 +2,7 @@
 #include "Missile.hpp"
 #include <iostream>
 
-MissileLauncher::MissileLauncher(Game* game, int target): Weapon(10, 1, 3, 20.0f, game){
+MissileLauncher::MissileLauncher(Game* game, int target): Weapon(10, 1, 3, 30.0f, game){
 	//Adding a missile to the stack
 	mTarget = target;
 	for(int i = 0; i < 10; i++){
