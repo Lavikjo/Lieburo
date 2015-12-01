@@ -58,7 +58,7 @@ void Game::run() {
 	//third smaller viewport for displaying healthbar and other vital info about the game
 	statusView.setViewport(sf::FloatRect(0, 0, 1.0f, 0.075f));
 	statusView.setSize(SCREEN_WIDTH, SCREEN_HEIGHT*0.075f);
-	statusView.setCenter(10000, 10000);
+	statusView.setCenter(100000, 100000);
 
 
 	while(running) {
@@ -102,6 +102,10 @@ void Game::run() {
 			view2.setCenter(player2->returnPosition());
 			render();
 			rWindow.setView(statusView);
+			healthBar1.setSize(sf::Vector2f(15*player1->getHp()/100,15));
+			healthBar2.setSize(sf::Vector2f(15*player2->getHp()/100,15));
+			healthBar1.setPosition(100000,100000);
+			healthBar2.setPosition(100000,100000);
 			render();
 		}
 		rWindow.display();
@@ -191,15 +195,17 @@ void Game::render() {
 	gamefield->draw(rWindow);
 
 	//TODO: Move this to better place
-	healthBar1.setSize(sf::Vector2f(15*player1->getHp()/100,15));
+	
 	healthBar1.setOutlineColor(sf::Color::Red);
 	healthBar1.setOutlineThickness(5);
-	healthBar1.setPosition(15,15);
+	
+	rWindow.draw(healthBar1);
 
-	healthBar2.setSize(sf::Vector2f(15*player2->getHp()/100,15));
+	
 	healthBar2.setOutlineColor(sf::Color::Red);
 	healthBar2.setOutlineThickness(5);
-	healthBar2.setPosition(15,15);
+	healthBar2.setPosition(100000,100000);
+	rWindow.draw(healthBar2);
 }
 
 b2World* Game::getWorld(){
