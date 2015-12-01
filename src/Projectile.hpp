@@ -8,8 +8,8 @@ public:
 	Projectile() = default;
 	~Projectile(){}
 
-	virtual void update(sf::Time deltaTime) = 0;
-	virtual void startContact(int id, Entity* contact) = 0;
+	virtual void update(sf::Time) = 0;
+	virtual void startContact(int id, Entity*) = 0;
 
 protected:
 	sf::Sprite mExplosionSprite;

@@ -11,9 +11,11 @@ BananaGun::BananaGun(Game* game): Weapon(10, 0.5f, 3, 25.0f, game){
 	}
 	std::cout << "Added " << 3*clipSize << " Bananas to entities by BananaGun constructor." << std::endl;
 	ammo = clipSize;
+	(void) game;
 }
 
 void BananaGun::shoot(float angle, b2Vec2 position, b2Vec2 preSpeed, Game* game){
+	(void) game;
 	//Checking the fire rate
 	if(fireClock.getElapsedTime().asSeconds() < fireRate) {
 		return;

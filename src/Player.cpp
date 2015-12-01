@@ -187,7 +187,8 @@ void Player::update(sf::Time deltaTime) {
 }
 
 void Player::startContact(int id, Entity* contact) {
-	
+	(void) id;
+	(void) contact;	
 }
 
 sf::Vector2f Player::getAimDotPosition() {

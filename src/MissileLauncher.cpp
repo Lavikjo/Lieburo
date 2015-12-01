@@ -10,10 +10,13 @@ MissileLauncher::MissileLauncher(Game* game, int target): Weapon(10, 1, 3, 20.0f
 		game->getSceneNode()->attachChild(std::static_pointer_cast<SceneNode>(m));
 	}
 	ammo = 10;
+
+	(void) game;
 }
 
 void MissileLauncher::shoot(float angle, b2Vec2 position, b2Vec2 preSpeed, Game* game){
 
+	(void) game;
 	//Checking the fire rate
 	if(fireClock.getElapsedTime().asSeconds() < fireRate) {
 		return;

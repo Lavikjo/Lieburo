@@ -7,7 +7,7 @@ class MissileLauncher : public Weapon {
 public:
 	MissileLauncher(Game* game, int target);
 
-	virtual void shoot(float angle, b2Vec2 position, b2Vec2 preSpeed, Game* game);
+	virtual void shoot(float, b2Vec2, b2Vec2, Game*);
 
 private:
 	int mTarget;

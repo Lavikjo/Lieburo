@@ -21,6 +21,7 @@ private:
 	int mTarget;
 	const float MISSILE_LIFETIME = 20.0f;
 	const int MISSILE_EXPLOSION_TIME = 15;
+	const float MISSILE_MAX_VEL = 14;
 };
 
 #endif

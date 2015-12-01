@@ -72,6 +72,8 @@ void Banana::startContact(int id, Entity* contact){
 			explosionClock = 0;
 		}
 	}
+
+	(void) id;
 }
 
 int Banana::getType() {

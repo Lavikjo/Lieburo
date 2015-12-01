@@ -60,6 +60,9 @@ void MyContactListener::EndContact(b2Contact* contact) {
 	void* fixtureUserDataA = contact->GetFixtureA()->GetUserData();
 	void* fixtureUserDataB = contact->GetFixtureB()->GetUserData();
 
+	(void) bodyUserDataA;
+	(void) bodyUserDataB;
+
 
 	if((long)fixtureUserDataA == PLAYER_FOOT_SENSOR_FIXTURE && (long)fixtureUserDataB == GROUND_FIXTURE) {
 		static_cast<Player*>(bodyUserDataA)->updateGroundContacts(-1);

@@ -29,13 +29,13 @@ public:
 	std::vector<Ptr>& getChildren();
 	virtual b2Body* getBody()const{return NULL;}
 	virtual bool isAlive(){return false;}
-	virtual void setAlive(bool status){}
+	virtual void setAlive(bool){}
 
 	void updateAll(sf::Time deltaTime);
 	void drawAll(sf::RenderTarget& target);
 
-	virtual void update(sf::Time deltaTime){}
-	virtual void draw(sf::RenderTarget& target){}
+	virtual void update(sf::Time){}
+	virtual void draw(sf::RenderTarget&){}
 
 private:
 	std::vector<Ptr> mChildren;

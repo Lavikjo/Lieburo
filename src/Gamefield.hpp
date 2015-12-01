@@ -12,8 +12,8 @@ public:
 	void draw(sf::RenderTarget& target);
 	virtual int getType();
 
-	virtual void update(sf::Time deltaTime){}
-	virtual void startContact(int id, Entity* contact){}
+	virtual void update(sf::Time){}
+	virtual void startContact(int, Entity*){}
 
 private:
 	//Sprite

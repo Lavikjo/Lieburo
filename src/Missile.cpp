@@ -74,6 +74,8 @@ void Missile::startContact(int id, Entity* contact){
 			explosionClock = 0;
 		}
 	}
+
+	(void) id;
 }
 
 int Missile::getType() {
@@ -94,8 +96,8 @@ void Missile::seek(){
 	if(y > 5){
 		y = 5;
 	}
-	x *= 0.1f;
-	y *= 0.1f;
+	x *= 0.2f;
+	y *= 0.2f;
 
 	//Applying the forces
 	mBody->ApplyLinearImpulse( b2Vec2(x, y), mBody->GetWorldCenter() );
@@ -103,6 +105,13 @@ void Missile::seek(){
 	//Aiming
 	b2Vec2 mVel = mBody->GetLinearVelocity();
 	mBody->SetTransform(mPos, atan2(-mVel.x, mVel.y));
+
+	//Limiting the speed
+	float ratio = MISSILE_MAX_VEL/sqrt(mVel.x*mVel.x + mVel.y+mVel.y);
+	if(ratio < 1) {
+		mBody->SetLinearVelocity({mVel.x*ratio, mVel.y*ratio});
+	}
+	
 }
 int Missile::getTarget() const{
 	return mTarget;
