@@ -16,6 +16,7 @@ public:
 	virtual void update(sf::Time deltaTime);
 	virtual void startContact(int id, Entity* contact);
 	virtual int getType();
+	int getTarget() const;
 private:
 	int mTarget;
 	const float MISSILE_LIFETIME = 20.0f;

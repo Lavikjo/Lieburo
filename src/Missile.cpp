@@ -104,3 +104,6 @@ void Missile::seek(){
 	b2Vec2 mVel = mBody->GetLinearVelocity();
 	mBody->SetTransform(mPos, atan2(-mVel.x, mVel.y));
 }
+int Missile::getTarget() const{
+	return mTarget;
+}
