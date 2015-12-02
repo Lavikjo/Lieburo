@@ -2,7 +2,7 @@
 #include "Missile.hpp"
 #include <iostream>
 
-MissileLauncher::MissileLauncher(Game* game, int target): Weapon(10, 1, 3, 30.0f, "bazooka.png", game){
+MissileLauncher::MissileLauncher(Game* game, int target): Weapon(10, 1, 3, 30.0f, "texture/bazooka.png", game){
 	//Adding a missile to the stack
 	mTarget = target;
 	

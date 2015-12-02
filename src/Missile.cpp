@@ -3,11 +3,11 @@
 Missile::Missile(Game* game, int target) : Projectile(){
 
 
-	baseConstructor(game, "aim_120c.png");
+	baseConstructor(game, "texture/aim_120c.png");
 	mTarget = target;
 
 	//The explosion texture and clock
-	mExplosionTexture.loadFromFile("banana_explosion.png");
+	mExplosionTexture.loadFromFile("texture/banana_explosion.png");
 	explosionTime = MISSILE_EXPLOSION_TIME;
 
 	//Projectiles aren't alive by default

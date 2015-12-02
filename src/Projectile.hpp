@@ -17,6 +17,7 @@ protected:
 	bool exploses = false;
 	int explosionClock = 0; //Times for how many update cyckles the explosion sprite will be shown.
 	int explosionTime;
+	bool hasFragmented = false;
 
 };
 

@@ -31,11 +31,12 @@ void SceneNode::drawAll(sf::RenderTarget& target) {
 }
 
 void SceneNode::updateAll(sf::Time deltaTime) {
-	for(auto& child : mChildren) {
-		child->update(deltaTime);
+	auto size = mChildren.size();
+	for(auto i = 0; i < size; i++) {
+		mChildren[i]->update(deltaTime);
 		
-		if(!child->isAlive()) {
-			detachChild(*child);
+		if(!mChildren[i]->isAlive()) {
+			detachChild(*(mChildren[i]));
 			break; //after removal the iterator invalidates -> loop must be broken
 		}
 	}
@@ -43,6 +44,16 @@ void SceneNode::updateAll(sf::Time deltaTime) {
 
 std::vector<Ptr>& SceneNode::getChildren() {
 	return mChildren;
+}
+
+void SceneNode::removeAll(){
+	while(mChildren.size() != 0){
+		for(auto& child : mChildren) {
+			detachChild(*child);
+			std::cout << "removed entity" << std::endl;
+			break; //after removal the iterator invalidates -> loop must be broken
+		}
+	}
 }
 
 SceneNode::~SceneNode(){}

@@ -33,6 +33,7 @@ public:
 
 	void updateAll(sf::Time deltaTime);
 	void drawAll(sf::RenderTarget& target);
+	void removeAll();
 
 	virtual void update(sf::Time){}
 	virtual void draw(sf::RenderTarget&){}

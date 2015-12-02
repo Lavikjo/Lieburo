@@ -24,7 +24,7 @@
 	mBody->SetUserData(this);
 
 	// Declare and load a texture
-	mTexture.loadFromFile("Astronaut-1.png");
+	mTexture.loadFromFile("texture/Astronaut-1.png");
 	
 	// Create a sprite
 	mSprite.setTexture(mTexture);
@@ -47,13 +47,13 @@
 	mWeapons.push_back(std::make_shared<Rifle>(mGame));
 
 	//create the aim dot
-	aimDotTexture.loadFromFile("punapiste.png");
+	aimDotTexture.loadFromFile("texture/punapiste.png");
 	aimDotSprite.setTexture(aimDotTexture);
 	bounds = aimDotSprite.getLocalBounds();
 	aimDotSprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
 
 	//create the jetpack flame
-	jetpackTexture.loadFromFile("jetpack_flame.png");
+	jetpackTexture.loadFromFile("texture/jetpack_flame.png");
 	jetpackSprite.setTexture(jetpackTexture);
 	bounds = jetpackSprite.getLocalBounds();
 	jetpackSprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
@@ -240,7 +240,6 @@ unsigned int Player::getCurrentClipSize() const {
 
 void Player::updateHp(int val) {
 	hp += val;
-	std::cout << "Hp changed: " << val << std::endl;
 }
 
 void Player::scrollWeapons() {

@@ -2,7 +2,7 @@
 #include "Banana.hpp"
 #include <iostream>
 
-BananaGun::BananaGun(Game* game): Weapon(10, 0.5f, 3, 25.0f, "bazooka.png", game){
+BananaGun::BananaGun(Game* game): Weapon(10, 0.5f, 3, 25.0f, "texture/bananagun.png", game){
 	//Adding bananas to the stack
 	/*
 	for(unsigned int i = 0; i<3*clipSize; i++){
@@ -32,7 +32,7 @@ void BananaGun::shoot(float angle, b2Vec2 position, b2Vec2 preSpeed, Game* game)
 	mGame->getSceneNode()->attachChild(std::dynamic_pointer_cast<SceneNode>(std::make_shared<Banana>(mGame)));
 
 	auto entities = mGame->getSceneNode()->getChildren();
-	for(auto entity: entities){
+	for(auto& entity: entities){
 		if(!entity->isAlive() && typeid(*entity) == typeid(Banana)) {
 			entity->setAlive(true);
 			entity->getBody()->GetFixtureList()[0].SetSensor(false); //bananas have only 1 fixture

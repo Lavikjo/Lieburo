@@ -2,7 +2,7 @@
 
 Bullet::Bullet(Game* game) : Projectile(){
 
-	baseConstructor(game, "bullet.png");
+	baseConstructor(game, "texture/bullet.png");
 
 	//Projectiles aren't alive by default
 	alive = false;

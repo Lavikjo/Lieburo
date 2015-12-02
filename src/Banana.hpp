@@ -2,7 +2,7 @@
 #define BANANA_HH
 
 #include "Projectile.hpp"
-
+#include "Shrapnel.hpp"
 #include "Game.hpp"
 #include <iostream>
 

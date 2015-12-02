@@ -2,7 +2,7 @@
 #include "Bullet.hpp"
 #include <iostream>
 
-Rifle::Rifle(Game* game): Weapon(30, 0.1f, 4, 25.0f, "ak47.png", game){
+Rifle::Rifle(Game* game): Weapon(30, 0.1f, 4, 25.0f, "texture/ak47.png", game){
 	//Adding bananas to the stack
 	ammo = clipSize;
 	(void) game;
