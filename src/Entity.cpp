@@ -42,3 +42,35 @@ sf::Sprite Entity::getSprite() const {
 	return mSprite;
 }
 
+void Entity::baseConstructor(Game* game, std::string textureName) {
+	mEntityWorld = game->getWorld(); 
+	mGame = game;
+	//Create the dynamic body
+	mBodyDef.type = b2_dynamicBody;
+	mBodyDef.position.Set(0, 0);
+	mBodyDef.angle = 0;
+	mBody = mEntityWorld->CreateBody(&mBodyDef);
+	mBody->SetUserData(this);
+
+	// Declare and load a texture
+	mTexture.loadFromFile(textureName);
+	
+	// Create a sprite
+	mSprite.setTexture(mTexture);
+	mSprite.setPosition(0, 0);
+	sf::FloatRect bounds = mSprite.getLocalBounds();
+	mSprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
+
+	//Add a fixture to the body
+	b2PolygonShape boxShape;
+	boxShape.SetAsBox(0.5f*bounds.width / PIXELS_PER_METER, 0.5f*bounds.height/PIXELS_PER_METER);
+	mFixtureDef.shape = &boxShape;
+	mFixtureDef.isSensor = true;
+	mFixtureDef.density = 1;
+
+	mBody->CreateFixture(&mFixtureDef);
+}
+
+Entity::~Entity() {
+	mGame->getWorld()->DestroyBody(mBody);
+}

@@ -31,11 +31,14 @@ void SceneNode::drawAll(sf::RenderTarget& target) {
 }
 
 void SceneNode::updateAll(sf::Time deltaTime) {
-	
 	for(auto& child : mChildren) {
 		child->update(deltaTime);
+		
+		if(!child->isAlive()) {
+			detachChild(*child);
+			break; //after removal the iterator invalidates -> loop must be broken
+		}
 	}
-	
 }
 
 std::vector<Ptr>& SceneNode::getChildren() {

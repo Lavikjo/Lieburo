@@ -2,33 +2,9 @@
 
 Missile::Missile(Game* game, int target) : Projectile(){
 
-	mEntityWorld = game->getWorld(); 
-	mGame = game;
+
+	baseConstructor(game, "aim_120c.png");
 	mTarget = target;
-	//Create the dynamic body
-	mBodyDef.type = b2_dynamicBody;
-	mBodyDef.position.Set(0, 0);
-	mBodyDef.angle = 0;
-	mBody = mEntityWorld->CreateBody(&mBodyDef);
-	mBody->SetUserData(this);
-
-	//Add a fixture to the body
-	b2PolygonShape boxShape;
-	boxShape.SetAsBox(0.1f,0.4f);
-	mFixtureDef.shape = &boxShape;
-	mFixtureDef.isSensor = true;
-	mFixtureDef.density = 1;
-
-	mBody->CreateFixture(&mFixtureDef);
-
-	// Declare and load a texture
-	mTexture.loadFromFile("aim_120c.png");
-	
-	// Create a sprite
-	mSprite.setTexture(mTexture);
-	mSprite.setPosition(0, 0);
-	sf::FloatRect bounds = mSprite.getLocalBounds();
-	mSprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
 
 	//The explosion texture and clock
 	mExplosionTexture.loadFromFile("banana_explosion.png");
@@ -43,8 +19,8 @@ void Missile::update(sf::Time deltaTime) {
 		lifeTime += deltaTime.asSeconds();
 		if(lifeTime > MISSILE_LIFETIME) {
 			alive = false;
-			this->getBody()->GetFixtureList()[0].SetSensor(true);
-			return;
+			mSprite.setTexture(mTexture, true);
+
 		}
 		seek();
 	}else{
@@ -59,20 +35,22 @@ void Missile::update(sf::Time deltaTime) {
 		}
 		else{
 			exploses = false;
-			mSprite.setTexture(mTexture, true);
+			
 			lifeTime = MISSILE_LIFETIME +1; //it will die next.
 		}
 	}
 	
 }
 
-void Missile::startContact(int id, Entity* contact){
-	if(typeid(*contact) == typeid(Player)) {
-		if(alive) {
-			contact->updateHp(-20);
+void Missile::startContact(int id, Entity* contact){ 
+	if(lifeTime > 0.1f) {//Preventing barrel explosion
+		if(typeid(*contact) == typeid(Player)) {
+			if(alive) {
+				contact->updateHp(-20);
+			}
 		}
+		explode();
 	}
-	explode();
 
 	(void) id;
 }

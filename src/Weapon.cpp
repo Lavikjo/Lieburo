@@ -1,8 +1,11 @@
 #include "Weapon.hpp"
 
-Weapon::Weapon(unsigned int clipSize, float fireRate, float reloadTime, float muzzleVelocity, Game* game)
+Weapon::Weapon(unsigned int clipSize, float fireRate, float reloadTime, float muzzleVelocity, std::string texture, Game* game)
 	:clipSize(clipSize), fireRate(fireRate), reloadTime(reloadTime), muzzleVelocity(muzzleVelocity), mGame(game), mGameWorld(game->getWorld()){
 		ammo = clipSize;
+		
+		//load the texture
+		mWeaponTexture.loadFromFile(texture);
 	}
 
 void Weapon::launchProjectile(float angle, b2Vec2 position, b2Vec2 preSpeed, std::shared_ptr<SceneNode> entity){
@@ -27,4 +30,8 @@ unsigned int Weapon::getAmmo() const {
 
 unsigned int Weapon::getClipSize() const {
 	return clipSize;
+}
+
+sf::Texture Weapon::getTexture() const{
+	return mWeaponTexture;
 }

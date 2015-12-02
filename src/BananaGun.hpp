@@ -3,6 +3,7 @@
 
 #include "Weapon.hpp"
 #include "Game.hpp"
+#include "Banana.hpp"
 
 class BananaGun : public Weapon {
 public:

@@ -75,7 +75,7 @@ Gamefield::Gamefield(b2World* world) {
 		    //creating the fixture
 		    b2PolygonShape polygonShape;
 		    b2FixtureDef mFixtureDef;
-			polygonShape.SetAsBox(GREENGROUNDBOX_WIDTH / PIXELS_PER_METER, GREENGROUNDBOX_HEIGHT / PIXELS_PER_METER, b2Vec2(x/PIXELS_PER_METER,y/PIXELS_PER_METER), 0);
+			polygonShape.SetAsBox(0.5f*bounds.width / PIXELS_PER_METER, 0.5f*bounds.height/PIXELS_PER_METER, b2Vec2(x/PIXELS_PER_METER,y/PIXELS_PER_METER), 0);
 			mFixtureDef.shape = &polygonShape;
 			mFixtureDef.density = 1;
 			mFixtureDef.friction = 1.0f;
