@@ -1,15 +1,11 @@
-#ifndef BANANAGUN_HH
-#define BANANAGUN_HH
+#pragma once
 
 #include "Weapon.hpp"
 #include "Game.hpp"
-#include "Banana.hpp"
 
-class BananaGun : public Weapon {
+class Rifle : public Weapon {
 public:
-	BananaGun(Game* game);
+	Rifle(Game* game);
 
 	virtual void shoot(float angle, b2Vec2 position, b2Vec2 preSpeed, Game* game);
 };
-
-#endif

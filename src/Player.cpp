@@ -3,11 +3,14 @@
 #include "Banana.hpp"
 #include "MissileLauncher.hpp"
 #include "Missile.hpp"
+#include "Rifle.hpp"
+#include "Bullet.hpp"
 #include <iostream>
 
  Player::Player(Game* game, int opponent){
 
  	mOpponent = opponent;
+
  	mEntityWorld = game->getWorld();
  	mGame = game;
 	//Create the dynamic body
@@ -20,16 +23,6 @@
 	mBody = mEntityWorld->CreateBody(&mBodyDef);
 	mBody->SetUserData(this);
 
-	//Add a fixture to the body
-	b2PolygonShape polygonShape;
-	polygonShape.SetAsBox(0.1,0.5);
-	mFixtureDef.shape = &polygonShape;
-	mFixtureDef.density = 1;
-	mFixtureDef.friction = 0.1f;
-	mFixtureDef.filter.categoryBits = PLAYER; //I am a PLAYER
-    mFixtureDef.filter.maskBits = ~PLAYER; // I collide with everyhing else but another player. 
-	mBody->CreateFixture(&mFixtureDef);
-
 	// Declare and load a texture
 	mTexture.loadFromFile("Astronaut-1.png");
 	
@@ -38,9 +31,20 @@
 	sf::FloatRect bounds = mSprite.getLocalBounds();
 	mSprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
 
+	//Add a fixture to the body
+	b2PolygonShape polygonShape;
+	polygonShape.SetAsBox(0.5f*bounds.width / PIXELS_PER_METER, 0.5f*bounds.height/PIXELS_PER_METER);
+	mFixtureDef.shape = &polygonShape;
+	mFixtureDef.density = 1;
+	mFixtureDef.friction = 0.1f;
+	mFixtureDef.filter.categoryBits = PLAYER; //I am a PLAYER
+    mFixtureDef.filter.maskBits = ~PLAYER; // I collide with everyhing else but another player. 
+	mBody->CreateFixture(&mFixtureDef);
+
 	//Initialize weapons: without players there can't be weapons.
 	mWeapons.push_back(std::make_shared<BananaGun>(mGame));
 	mWeapons.push_back(std::make_shared<MissileLauncher>(mGame, mOpponent));
+	mWeapons.push_back(std::make_shared<Rifle>(mGame));
 
 	//create the aim dot
 	aimDotTexture.loadFromFile("punapiste.png");
@@ -54,12 +58,12 @@
 	bounds = jetpackSprite.getLocalBounds();
 	jetpackSprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
 
-	//create the bazooka
-	bazookaTexture.loadFromFile("bazooka.png");
-	bazookaSprite.setTexture(bazookaTexture);
-	bounds = bazookaSprite.getLocalBounds();
-	bazookaSprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
-	bazookaSprite.scale({-1,1});
+	//create the weapon
+	weaponTexture = mWeapons[currentWeapon]->getTexture();
+	weaponSprite.setTexture(weaponTexture);
+	bounds = weaponSprite.getLocalBounds();
+	weaponSprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
+	weaponSprite.scale({-1,1});
 
 	//Add foot sensor fixture: Used for determining on ground condition.
 	polygonShape.SetAsBox(0.01f, 0.02f, b2Vec2(0,0.5f), 0);
@@ -124,7 +128,6 @@ void Player::jump() {
 	    if(jetpackFuel < 0){
 	    	jetpackReady = false;
 	    }
-	    std::cout << "Jetpack fuel remaining: " << jetpackFuel << std::endl;
 	    //limiting the jetpack speed
 	    b2Vec2 vel = mBody->GetLinearVelocity();
 	    if(vel.y < -1*MAX_JETPACK_SPEED){
@@ -141,6 +144,7 @@ void Player::fire() {
 }
 
 void Player::update(sf::Time deltaTime) {
+
 	//position the aim dot
 	float x = (mBody->GetPosition().x+direction*sin(shootAngle)*GUN_BARREL_LENGTH)*PIXELS_PER_METER; 
 	float y = (mBody->GetPosition().y+cos(shootAngle)*GUN_BARREL_LENGTH)*PIXELS_PER_METER;
@@ -155,11 +159,11 @@ void Player::update(sf::Time deltaTime) {
 	x = (mBody->GetPosition().x+direction*sin(shootAngle)*0.2f*GUN_BARREL_LENGTH)*PIXELS_PER_METER; 
 	y = (mBody->GetPosition().y+cos(shootAngle)*0.2f*GUN_BARREL_LENGTH)*PIXELS_PER_METER;
 
-	bazookaSprite.setPosition(x,y);
-	bazookaSprite.setRotation(-direction*shootAngle*RAD_TO_DEG);
+	weaponSprite.setPosition(x,y);
+	weaponSprite.setRotation(-direction*shootAngle*RAD_TO_DEG);
 	if(direction*gunDirection == -1){//checking for if the player has changed direction
 		gunDirection = direction;
-		bazookaSprite.scale({-1, 1});
+		weaponSprite.scale({-1, 1});
 	}
 	
 
@@ -214,8 +218,8 @@ void Player::drawPlayer(sf::RenderTarget& target) {
 	mSprite.setRotation(spriteAngle);
 	target.draw(mSprite);
 
-	//draw bazooka
-	target.draw(bazookaSprite);
+	//draw weapon
+	target.draw(weaponSprite);
 }
 
 int Player::getHp() const{
@@ -245,4 +249,9 @@ void Player::scrollWeapons() {
 	if(currentWeapon >= mWeapons.size()) {
 		currentWeapon = 0;
 	}
+
+	weaponTexture = mWeapons[currentWeapon]->getTexture();
+	weaponSprite.setTexture(weaponTexture, true);
+	sf::FloatRect bounds = weaponSprite.getLocalBounds();
+	weaponSprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
 }

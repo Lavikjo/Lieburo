@@ -44,8 +44,8 @@ private:
 	sf::Sprite aimDotSprite;
 	sf::Texture jetpackTexture;
 	sf::Sprite jetpackSprite;
-	sf::Texture bazookaTexture;
-	sf::Sprite bazookaSprite;
+	sf::Texture weaponTexture;
+	sf::Sprite weaponSprite;
 
 	int hp = 100;
 	float jetpackFuel = 100;
@@ -57,13 +57,13 @@ private:
 	int gunDirection = 1; //used for setting the direction of the gun
 	std::vector<std::shared_ptr<Weapon>> mWeapons;
 	unsigned int currentWeapon = 0;
-	const float GUN_BARREL_LENGTH = 1.5f;//meters
+	const float GUN_BARREL_LENGTH = 2.0f;//pixels
 	const float MIN_SHOOT_ANGLE = 30*DEG_TO_RAD;
 	const float MAX_SHOOT_ANGLE = 180*DEG_TO_RAD;
 	float previousXVelocity = 1;//at the beginning the moving direction is +x -> velocity > 0
 	int numGroundContacts = 0;//used to check whether on ground ie. if the foot sensor is touching static bodies.  
 	const int PLAYER_JUMP_SPEED = -7;//negative for up
-	const float JETPACK_THRUST = -0.15;
+	const float JETPACK_THRUST = -1.5f;
 	const float MIN_JETPACK_RELOAD_FUEL = 50;
 	const float JETPACK_MAX_FUEL = 100;
 	const float JETPACK_FUEL_CONSUMPTION = 0.4f;

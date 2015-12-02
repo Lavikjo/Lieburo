@@ -12,13 +12,15 @@
 class Weapon {
 
 public:
-	Weapon(unsigned int clipSize, float fireRate, float reloadTime, float muzzleVelocity, Game* game);
+	Weapon(unsigned int clipSize, float fireRate, float reloadTime, float muzzleVelocity, std::string texture, Game* game);
 	~Weapon(){}
 	virtual void shoot(float, b2Vec2, b2Vec2, Game*) = 0;
 	void launchProjectile(float angle, b2Vec2 position, b2Vec2 preSpeed, std::shared_ptr<SceneNode> entity);
 
 	unsigned int getAmmo() const;
 	unsigned int getClipSize() const;
+
+	sf::Texture getTexture()const;
 protected:
 	unsigned int clipSize;
 	unsigned int ammo;
@@ -28,6 +30,7 @@ protected:
 	Game* mGame;
 	b2World* mGameWorld;
 	sf::Clock fireClock;
+	sf::Texture mWeaponTexture;
 
 };
 

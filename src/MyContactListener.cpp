@@ -4,14 +4,6 @@
 
 void MyContactListener::BeginContact(b2Contact* contact) {
 
-	/*
-	-Collision filtterit
-	-Ammuksen hit() ja pelaajan startContact()
-	-Guided missile: katsoo aina missä pelaaja on
-	-Räjähdykset
-	-Ampumiset realistisiksi
-	*/
-
 
 	void* bodyUserDataA = contact->GetFixtureA()->GetBody()->GetUserData();//User datassa on entity eli esim. Banana tai Player..
 	void* bodyUserDataB = contact->GetFixtureB()->GetBody()->GetUserData();

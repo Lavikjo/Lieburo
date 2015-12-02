@@ -16,7 +16,7 @@ class Entity : public SceneNode {
 public:
 
 	Entity(){}
-	~Entity(){}
+	~Entity();
 
 	void draw(sf::RenderTarget& target);
 	b2Body* getBody() const;
@@ -24,6 +24,8 @@ public:
 
 	bool isAlive();
 	void setAlive(bool status);
+
+	void baseConstructor(Game*, std::string);
 
 	virtual void update(sf::Time) = 0;
 	virtual void startContact(int, Entity*) = 0;
