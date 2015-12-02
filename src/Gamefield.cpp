@@ -55,9 +55,10 @@ Gamefield::Gamefield(b2World* world) {
 				fields.push_back(field);
 			}
 
-		    std::string filename = fields[0];
-		    int x = std::stoi(fields[1], nullptr);
-		    int y = std::stoi(fields[2], nullptr);
+			int type = std::stoi(fields[0],nullptr);
+		    std::string filename = fields[1];
+		    int x = std::stoi(fields[2], nullptr);
+		    int y = std::stoi(fields[3], nullptr);
 
 		    // Texture and sprite
 		    loadTexture(filename);
@@ -75,12 +76,55 @@ Gamefield::Gamefield(b2World* world) {
 		    //creating the fixture
 		    b2PolygonShape polygonShape;
 		    b2FixtureDef mFixtureDef;
-			polygonShape.SetAsBox(0.5f*bounds.width / PIXELS_PER_METER, 0.5f*bounds.height/PIXELS_PER_METER, b2Vec2(x/PIXELS_PER_METER,y/PIXELS_PER_METER), 0);
-			mFixtureDef.shape = &polygonShape;
-			mFixtureDef.density = 1;
-			mFixtureDef.friction = 1.0f;
-			mFixtureDef.filter.categoryBits = BOUNDARY; //I am a BOUNDARY, I collide with everything.
-			mBody->CreateFixture(&mFixtureDef);
+
+		    if(type == 1 || type ==4 || type == 5){
+				polygonShape.SetAsBox(0.5f*bounds.width / PIXELS_PER_METER, 0.5f*bounds.height/PIXELS_PER_METER, b2Vec2(x/PIXELS_PER_METER,y/PIXELS_PER_METER), 0);
+				mFixtureDef.shape = &polygonShape;
+				mFixtureDef.density = 1;
+				mFixtureDef.friction = 1.0f;
+				if(type == 4){
+					int x2 = std::stoi(fields[4], nullptr);
+			    	int y2 = std::stoi(fields[5], nullptr);
+					polygonShape.SetAsBox(x2 / PIXELS_PER_METER, y2 / PIXELS_PER_METER, b2Vec2(x/PIXELS_PER_METER,y/PIXELS_PER_METER), 0);
+
+					if(type == 5)
+						mFixtureDef.friction = 0.0f;
+				}
+
+				mFixtureDef.filter.categoryBits = BOUNDARY; //I am a BOUNDARY, I collide with everything.
+				mBody->CreateFixture(&mFixtureDef);
+			}
+
+			if(type == 2){
+			    int x2 = std::stoi(fields[4], nullptr);
+			    int y2 = std::stoi(fields[5], nullptr);
+			    int x3 = std::stoi(fields[6], nullptr);
+			    int y3 = std::stoi(fields[7], nullptr);
+
+				b2Vec2 vertices[3];
+				vertices[0].Set(x / PIXELS_PER_METER,y / PIXELS_PER_METER);
+				vertices[1].Set(x2 / PIXELS_PER_METER,y2 / PIXELS_PER_METER);
+				vertices[2].Set(x3 / PIXELS_PER_METER,y3 / PIXELS_PER_METER);
+				polygonShape.Set(vertices, 3);
+
+				mFixtureDef.shape = &polygonShape;
+				mFixtureDef.friction = 0.0f;
+				mFixtureDef.density = 1;
+				mFixtureDef.filter.categoryBits = BOUNDARY; //I am a BOUNDARY, I collide with everything.
+				mBody->CreateFixture(&mFixtureDef);
+			}
+
+			if(type == 3){
+				int radius = std::stoi(fields[4], nullptr);
+
+				b2CircleShape circleShape;
+				circleShape.m_p.Set(x / PIXELS_PER_METER,y / PIXELS_PER_METER);
+				circleShape.m_radius = radius / PIXELS_PER_METER;
+				mFixtureDef.density = 1;
+				mFixtureDef.shape = &circleShape;
+				mFixtureDef.friction = 0.0f;
+				mBody->CreateFixture(&mFixtureDef);
+			}
 		}
 	gameFieldFile.close();
 	}

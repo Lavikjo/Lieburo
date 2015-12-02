@@ -20,8 +20,5 @@ private:
 	std::vector<sf::Sprite> mGroundSprites;
 	std::map<std::string, sf::Texture> mGroundTextures;
 
-	int GREENGROUNDBOX_WIDTH = 60;
-	int GREENGROUNDBOX_HEIGHT = 30;
-
 	void loadTexture(std::string filename);
 };
