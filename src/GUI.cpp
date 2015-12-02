@@ -45,29 +45,25 @@ void GUI::update(Game* game) {
 
 	std::shared_ptr<Player> player1 = game->getPlayer(1);
 	std::shared_ptr<Player> player2 = game->getPlayer(2);
+
 	float currentHp1 = static_cast<float>(player1->getHp());
+	currentHp1 = clamp(currentHp1, 0, 100); //clamp values to avoid negative values
 	float currentHp2 = static_cast<float>(player2->getHp());
-
-	//sanity checks, so that negative values are not drawn
-	if(currentHp1 >= 0) {
-
-		amount << currentHp1;
-		hpText1.setString(amount.str());
-		amount.str("");
-		amount.clear();
-
-		healthBar1.setScale(currentHp1/100, 1);
-	}
-	if(currentHp2 >= 0) {
-		amount << currentHp2;
-		hpText2.setString(amount.str());
-		amount.str("");
-		amount.clear();
-
-		healthBar2.setScale(currentHp2/100, 1);
-	}
-
+	currentHp2 = clamp(currentHp2, 0, 100);
 	
+	amount << currentHp1;
+	hpText1.setString(amount.str());
+	amount.str("");
+	amount.clear();
+
+	healthBar1.setScale(currentHp1/100, 1);
+
+	amount << currentHp2;
+	hpText2.setString(amount.str());
+	amount.str("");
+	amount.clear();
+
+	healthBar2.setScale(currentHp2/100, 1);
 
 	amount << player1->getCurrentAmmo() << "/" << player1->getCurrentClipSize();
 	ammoText1.setString(amount.str());
@@ -139,4 +135,9 @@ void GUI::createText(sf::Text &text, sf::Vector2f pos, size_t outlineThickness) 
 	text.setPosition(pos);
 	text.setFont(statusFont);
 	text.setString("0");
+}
+
+//helper function for clamping hp values
+int GUI::clamp(int n, int lower, int upper) {
+	return std::max(lower, std::min(n, upper));
 }
