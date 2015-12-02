@@ -47,6 +47,7 @@ public:
 
 	void respawn();
 	void handleUserInput();
+	void disableUserInput(bool status);
 
 	void setBloodToSpill(int);
 	void spillBlood(int);
@@ -84,7 +85,7 @@ private:
 	bool waitingForRespawn = false;
 
 	int bloodToSpill = 0; //A separate variable must be used as blood cant't be created within startContact (box2d cause) 
-
+	bool userInputDisabled = false;
 	int hp = 0;
 	float jetpackFuel = 100;
 	bool jetpackReady = true;

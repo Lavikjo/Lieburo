@@ -26,6 +26,7 @@
 #include "GravityPU.hpp"
 #include "GravityInverter.hpp"
 #include "HealthRecovery.hpp"
+#include "Bomb.hpp"
 
 class GUI;
 class Menu;

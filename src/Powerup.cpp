@@ -10,6 +10,7 @@ Powerup::Powerup(Game* game, std::string textureName, bool bodyTypeDynamic){
 		mBodyDef.type = b2_dynamicBody;
 	else
 		mBodyDef.type = b2_staticBody;
+	
 	mBodyDef.position.Set((rand()/(int)PIXELS_PER_METER)%(GAMEFIELD_WIDTH/(int)PIXELS_PER_METER),
 	(rand()/(int)PIXELS_PER_METER)%(GAMEFIELD_HEIGHT/(int)PIXELS_PER_METER));
 	mBodyDef.angle = 0;
