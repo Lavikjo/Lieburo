@@ -79,13 +79,13 @@ void GUI::update(Game* game) {
 	amount.str("");
 	amount.clear();
 
-	amount << player1->getFuel();
+	amount << static_cast<int>(player1->getFuel());
 	jetText1.setString(amount.str());
 
 	amount.str("");
 	amount.clear();
 
-	amount << player2->getFuel();
+	amount << static_cast<int>(player2->getFuel());
 	jetText2.setString(amount.str());
 
 
