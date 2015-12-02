@@ -10,6 +10,7 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include "AnimatedSprite.hpp"
 
 class Weapon;
 
@@ -59,6 +60,9 @@ public:
 	void setMaxLives(int);
 	int getMaxLives()const;
 
+	Animation* getCurrentAnimation();
+	AnimatedSprite& getAnimatedSprite();
+
 private:
 	int mOpponent;
 	//possible aim dot, jetpack etc. (players only)
@@ -68,6 +72,11 @@ private:
 	sf::Sprite jetpackSprite;
 	sf::Texture weaponTexture;
 	sf::Sprite weaponSprite;
+
+	Animation walkingAnimation;
+	Animation* currentAnimation;
+	AnimatedSprite animatedSprite;
+	bool noKeyWasPressed = true;
 
 	int lives = 0; 
 	int maxLives = 4;

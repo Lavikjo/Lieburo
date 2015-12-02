@@ -96,6 +96,7 @@ void Game::run() {
 			for(int i = 0; i<10000; i++);
 		}
 		update(clock.getElapsedTime());
+
 		// render entities
 		rWindow.clear();
 		if (menu->isScreenShown()) {
@@ -166,6 +167,7 @@ void Game::update(sf::Time deltaTime) {
     	player1->handleUserInput();
     	player2->handleUserInput();
 
+  	
 		sceneNode->updateAll(deltaTime);
 
  	   	mGameWorld->Step(deltaTime.asSeconds(), velocityIterations, positionIterations);

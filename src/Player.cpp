@@ -31,16 +31,30 @@
 	b2Vec2 pos = mBody->GetPosition();
 	std::cout <<"x: "<<pos.x*30<<", y: "<<pos.y*30<<std::endl;
 	// Declare and load a texture
-	mTexture.loadFromFile("texture/Astronaut-1.png");
+	mTexture.loadFromFile("texture/alienBlue.png");
 	
+	//Setup animations for player movement
+	
+	walkingAnimation.setSpriteSheet(mTexture);
+	walkingAnimation.addFrame(sf::IntRect(0, 0, 70, 97));
+	walkingAnimation.addFrame(sf::IntRect(71, 0, 70, 97));
+	currentAnimation = &walkingAnimation;
+	animatedSprite.setFrameTime(sf::seconds(0.2f));
+	animatedSprite.pause();
+	animatedSprite.setLooped(false);
+	animatedSprite.play(*currentAnimation);
+	animatedSprite.scale({0.9f, 0.9f});
+	sf::FloatRect bounds = animatedSprite.getLocalBounds();
+	animatedSprite.setOrigin(bounds.width / 2.0f, bounds.height / 2.0f);
+
 	// Create a sprite
-	mSprite.setTexture(mTexture);
-	sf::FloatRect bounds = mSprite.getLocalBounds();
-	mSprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
+	//mSprite.setTexture(mTexture);
+	//sf::FloatRect bounds = mSprite.getLocalBounds();
+	//mSprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
 
 	//Add a fixture to the body
 	b2PolygonShape polygonShape;
-	polygonShape.SetAsBox(0.5f*bounds.width / PIXELS_PER_METER, 0.5f*bounds.height/PIXELS_PER_METER);
+	polygonShape.SetAsBox(0.42f*bounds.width / PIXELS_PER_METER, 0.42f*bounds.height/PIXELS_PER_METER);
 	mFixtureDef.shape = &polygonShape;
 	mFixtureDef.density = 1;
 	mFixtureDef.friction = 0.1f;
@@ -95,7 +109,8 @@ void Player::movePlayerX(float x) {
 	//Checking for the moving direction
 	if(previousXVelocity*x < 0) {//if the signs differ eg. direction changes. Note: this applies only to user movements
 		direction *= -1;
-		mSprite.scale({ -1, 1 });
+		//mSprite.scale({ -1, 1 });
+		animatedSprite.scale({-1, 1});
 	}
 
 	//Apply some impulse to the body
@@ -226,6 +241,16 @@ void Player::update(sf::Time deltaTime) {
 
 	//Spill blood
 	spillBlood(bloodToSpill);
+
+	animatedSprite.play(*currentAnimation);
+
+	if(noKeyWasPressed) {
+		animatedSprite.stop();
+	}
+
+	noKeyWasPressed = true;
+
+	animatedSprite.update(deltaTime);
 }
 
 void Player::startContact(Entity* contact) {
@@ -241,7 +266,8 @@ void Player::updateGroundContacts(int val) {
 }
 
 sf::Vector2f Player::getSpritePosition() {
-	return mSprite.getPosition();
+	//return mSprite.getPosition();
+	return animatedSprite.getPosition();
 }
 
 
@@ -259,9 +285,14 @@ void Player::drawPlayer(sf::RenderTarget& target) {
 		spritePosition.y = pos.y * PIXELS_PER_METER;
 
 		//Draw Sprite
+		/*
 		mSprite.setPosition(spritePosition);
 		mSprite.setRotation(spriteAngle);
 		target.draw(mSprite);
+		*/
+		animatedSprite.setPosition(spritePosition);
+		animatedSprite.setRotation(spriteAngle);
+		target.draw(animatedSprite);
 
 		//draw weapon
 		target.draw(weaponSprite);
@@ -388,21 +419,30 @@ void Player::handleUserInput(){
 	if(!waitingForRespawn){
 		if (sf::Keyboard::isKeyPressed(keys[0])) {
 		    jump();
+		    noKeyWasPressed = false;
 		}
 	    if (sf::Keyboard::isKeyPressed(keys[1])) {
 		    movePlayerX(-0.1f);
+		    currentAnimation = &walkingAnimation;
+		    noKeyWasPressed = false;
+
 		}
 		if (sf::Keyboard::isKeyPressed(keys[2])) {
 		    movePlayerX(0.1f);
+		    currentAnimation = &walkingAnimation;
+		    noKeyWasPressed = false;
 		}
 		if (sf::Keyboard::isKeyPressed(keys[3])) {
 		    aim(5);
+		    noKeyWasPressed = false;
 		}
 		if (sf::Keyboard::isKeyPressed(keys[4])) {
 		    aim(-5);
+		    noKeyWasPressed = false;
 		}
 		if (sf::Keyboard::isKeyPressed(keys[5])) {
 		    fire();
+		    noKeyWasPressed = false;
 		}
 	}
 }
@@ -473,4 +513,12 @@ void Player::setMaxLives(int ml){
 
 int Player::getMaxLives()const{
 	return maxLives;
+}
+
+Animation* Player::getCurrentAnimation() {
+	return currentAnimation;
+}
+
+AnimatedSprite& Player::getAnimatedSprite() {
+	return animatedSprite;
 }
