@@ -86,10 +86,6 @@ Gamefield::Gamefield(b2World* world) {
 	}
 }
 
-Gamefield::~Gamefield() {
-
-}
-
 void Gamefield::draw(sf::RenderTarget& target) {
 	for(auto& groundSprite:mGroundSprites) {
 		target.draw(groundSprite);

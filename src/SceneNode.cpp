@@ -31,8 +31,8 @@ void SceneNode::drawAll(sf::RenderTarget& target) {
 }
 
 void SceneNode::updateAll(sf::Time deltaTime) {
-	auto size = mChildren.size();
-	for(auto i = 0; i < size; i++) {
+	unsigned int size = mChildren.size();
+	for(unsigned int i = 0; i < size; i++) {
 		mChildren[i]->update(deltaTime);
 		
 		if(!mChildren[i]->isAlive()) {

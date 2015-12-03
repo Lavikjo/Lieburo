@@ -7,7 +7,7 @@
 class Gamefield :public Entity{
 public:
 	Gamefield(b2World* world);
-	~Gamefield();	
+	~Gamefield(){}	
 
 	void draw(sf::RenderTarget& target);
 	virtual int getType();
