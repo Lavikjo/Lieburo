@@ -89,20 +89,14 @@ void Options::setInformation() {
 		options[i].setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
 		if (i < 8) {
 			options[i].setColor(sf::Color::White);
-			//sf::FloatRect textRect = options[i].getLocalBounds();
-			//options[i].setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
 			options[i].setPosition(sf::Vector2f(SCREEN_WIDTH / 4.0f, (SCREEN_HEIGHT / (MAX_NUMBER_OF_OPTIONS_ITEMS - 7) * (i + 1))));		
 		}
 		else if (8 <= i && i < 16) {
 			options[i].setColor(sf::Color::White);
-			//sf::FloatRect textRect = options[i].getLocalBounds();
-			//options[i].setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
 			options[i].setPosition(sf::Vector2f(SCREEN_WIDTH / 4.0f * 3.0f, (SCREEN_HEIGHT / (MAX_NUMBER_OF_OPTIONS_ITEMS - 7) * (i - 7))));					
 		}
 		else {
 			options[i].setColor(sf::Color::Red);
-			//sf::FloatRect textRect = options[i].getLocalBounds();
-			//options[i].setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
 			options[i].setPosition(sf::Vector2f(SCREEN_WIDTH / 2.0f, (SCREEN_HEIGHT / (MAX_NUMBER_OF_OPTIONS_ITEMS - 7) * (i - 7))));		
 		}
 	}

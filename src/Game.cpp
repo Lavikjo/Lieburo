@@ -1,5 +1,4 @@
 #include "Game.hpp"
-#include <iostream>
 
 namespace Textures {
 	enum ID {
@@ -50,6 +49,9 @@ Game::Game() {
 	//construct menu and options screens
 	menu = std::make_shared<Menu>();
 	options = std::make_shared<Options>();
+
+	//set data for keyboard input
+	setButtons();
 
 	run();
 
@@ -154,10 +156,10 @@ void Game::update(sf::Time deltaTime) {
 	            break;
             case sf::Event::KeyPressed:
             	//Keyboard inputs with delay between presses
-			    if (sf::Keyboard::isKeyPressed(player1->Switch)) {
+			    if (sf::Keyboard::isKeyPressed(player1->keys[6])) {
 				    	player1->scrollWeapons();
 				}
-			    if (sf::Keyboard::isKeyPressed(player2->Switch)) {
+			    if (sf::Keyboard::isKeyPressed(player2->keys[6])) {
 			   		player2->scrollWeapons();
 				}
             	break;
@@ -168,41 +170,41 @@ void Game::update(sf::Time deltaTime) {
 	}
 
     if(!menu->showScreen) {
-    	if (sf::Keyboard::isKeyPressed(player1->Up)) {
+    	if (sf::Keyboard::isKeyPressed(player1->keys[0])) {
 		    player1->jump();
 		}
-	    if (sf::Keyboard::isKeyPressed(player1->Left)) {
+	    if (sf::Keyboard::isKeyPressed(player1->keys[1])) {
 		    player1->movePlayerX(-0.1f);
 		}
-		if (sf::Keyboard::isKeyPressed(player1->Right)) {
+		if (sf::Keyboard::isKeyPressed(player1->keys[2])) {
 		    player1->movePlayerX(0.1f);
 		}
-		if (sf::Keyboard::isKeyPressed(player1->Fire)) {
-		    player1->fire();
-		}
-		if (sf::Keyboard::isKeyPressed(player1->AimUp)) {
+		if (sf::Keyboard::isKeyPressed(player1->keys[3])) {
 		    player1->aim(3);
 		}
-		if (sf::Keyboard::isKeyPressed(player1->AimDown)) {
+		if (sf::Keyboard::isKeyPressed(player1->keys[4])) {
 		    player1->aim(-3);
 		}
-		if (sf::Keyboard::isKeyPressed(player2->Up)) {
+		if (sf::Keyboard::isKeyPressed(player1->keys[5])) {
+		    player1->fire();
+		}
+		if (sf::Keyboard::isKeyPressed(player2->keys[0])) {
 		    player2->jump();
 		}
-		if (sf::Keyboard::isKeyPressed(player2->Left)) {
+		if (sf::Keyboard::isKeyPressed(player2->keys[1])) {
 		    player2->movePlayerX(-0.1f);
 		}
-		if (sf::Keyboard::isKeyPressed(player2->Right)) {
+		if (sf::Keyboard::isKeyPressed(player2->keys[2])) {
 		    player2->movePlayerX(0.1f);
 		}
-		if (sf::Keyboard::isKeyPressed(player2->Fire)) {
-		    player2->fire();
-		}
-		if (sf::Keyboard::isKeyPressed(player2->AimUp)) {
+		if (sf::Keyboard::isKeyPressed(player2->keys[3])) {
 		    player2->aim(3);
 		}
-		if (sf::Keyboard::isKeyPressed(player2->AimDown)) {
+		if (sf::Keyboard::isKeyPressed(player2->keys[4])) {
 		    player2->aim(-3);
+		}
+		if (sf::Keyboard::isKeyPressed(player2->keys[5])) {
+		    player2->fire();
 		}
 
 		sceneNode->updateAll(deltaTime);
@@ -289,14 +291,46 @@ void Game::navigateOptions(sf::Event &event) {
 				case sf::Keyboard::Return:
 					switch (options->getPressedItem()) {
 						case 1:
-							std::cout << "User pressed first button." << std::endl;
-							player1->Up = whichKeyPressed();
+							whichKeyPressed(player1->keys[0]);
 							break;
 						case 2:
-							std::cout << "User pressed second button." << std::endl;
-							break;;
+							whichKeyPressed(player1->keys[1]);
+							break;
 						case 3:
-							std::cout << "User pressed second button." << std::endl;
+							whichKeyPressed(player1->keys[2]);
+							break;
+						case 4:
+							whichKeyPressed(player1->keys[3]);
+							break;
+						case 5:
+							whichKeyPressed(player1->keys[4]);
+							break;
+						case 6:
+							whichKeyPressed(player1->keys[5]);
+							break;
+						case 7:
+							whichKeyPressed(player1->keys[6]);
+							break;
+						case 9:
+							whichKeyPressed(player2->keys[0]);
+							break;
+						case 10:
+							whichKeyPressed(player2->keys[1]);
+							break;
+						case 11:
+							whichKeyPressed(player2->keys[2]);
+							break;
+						case 12:
+							whichKeyPressed(player2->keys[3]);
+							break;
+						case 13:
+							whichKeyPressed(player2->keys[4]);
+							break;
+						case 14:
+							whichKeyPressed(player2->keys[5]);
+							break;
+						case 15:
+							whichKeyPressed(player2->keys[6]);
 							break;
 						case 16:
 							std::cout << "User pressed Return to main menu." << std::endl;
@@ -328,9 +362,112 @@ std::shared_ptr<Player> Game::getPlayer(int id){
 	return nullptr;
 }
 
-sf::Keyboard::Key Game::whichKeyPressed() {
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::V)) {
-		return sf::Keyboard::V;
-	}
+void Game::whichKeyPressed(sf::Keyboard::Key &key) {
 
+	for (auto it = button.begin(); it != button.end(); it++) {
+		if (sf::Keyboard::isKeyPressed(it->first)) {
+			std::cout << "testi" << std::endl;
+			key = it->first;
+		}
+	}
+}
+
+void Game::setButtons() {
+	button.insert(std::make_pair(sf::Keyboard::A, "A"));
+	button.insert(std::make_pair(sf::Keyboard::B, "B"));
+	button.insert(std::make_pair(sf::Keyboard::C, "C"));
+	button.insert(std::make_pair(sf::Keyboard::D, "D"));
+	button.insert(std::make_pair(sf::Keyboard::E, "E"));
+	button.insert(std::make_pair(sf::Keyboard::F, "F"));
+	button.insert(std::make_pair(sf::Keyboard::G, "G"));
+	button.insert(std::make_pair(sf::Keyboard::H, "H"));
+	button.insert(std::make_pair(sf::Keyboard::I, "J"));
+	button.insert(std::make_pair(sf::Keyboard::K, "K"));
+	button.insert(std::make_pair(sf::Keyboard::L, "L"));
+	button.insert(std::make_pair(sf::Keyboard::M, "M"));
+	button.insert(std::make_pair(sf::Keyboard::N, "N"));
+	button.insert(std::make_pair(sf::Keyboard::O, "O"));
+	button.insert(std::make_pair(sf::Keyboard::P, "P"));
+	button.insert(std::make_pair(sf::Keyboard::Q, "Q"));
+	button.insert(std::make_pair(sf::Keyboard::R, "R"));
+	button.insert(std::make_pair(sf::Keyboard::S, "S"));
+	button.insert(std::make_pair(sf::Keyboard::T, "T"));
+	button.insert(std::make_pair(sf::Keyboard::U, "U"));
+	button.insert(std::make_pair(sf::Keyboard::W, "W"));
+	button.insert(std::make_pair(sf::Keyboard::X, "X"));
+	button.insert(std::make_pair(sf::Keyboard::Y, "Y"));
+	button.insert(std::make_pair(sf::Keyboard::Z, "Z"));
+	button.insert(std::make_pair(sf::Keyboard::Num0, "Num0"));
+	button.insert(std::make_pair(sf::Keyboard::Num1, "Num1"));
+	button.insert(std::make_pair(sf::Keyboard::Num2, "Num2"));
+	button.insert(std::make_pair(sf::Keyboard::Num3, "Num3"));
+	button.insert(std::make_pair(sf::Keyboard::Num4, "Num4"));
+	button.insert(std::make_pair(sf::Keyboard::Num5, "Num5"));
+	button.insert(std::make_pair(sf::Keyboard::Num6, "Num6"));
+	button.insert(std::make_pair(sf::Keyboard::Num7, "Num7"));
+	button.insert(std::make_pair(sf::Keyboard::Num8, "Num8"));
+	button.insert(std::make_pair(sf::Keyboard::Num9, "Num9"));
+	button.insert(std::make_pair(sf::Keyboard::Escape, "Escape"));
+	button.insert(std::make_pair(sf::Keyboard::LControl, "LControl"));
+	button.insert(std::make_pair(sf::Keyboard::LShift, "LShift"));
+	button.insert(std::make_pair(sf::Keyboard::LAlt, "LAlt"));
+	button.insert(std::make_pair(sf::Keyboard::LSystem, "LSystem"));
+	button.insert(std::make_pair(sf::Keyboard::RControl, "RControl"));
+	button.insert(std::make_pair(sf::Keyboard::RShift, "RShift"));
+	button.insert(std::make_pair(sf::Keyboard::RAlt, "RAlt"));
+	button.insert(std::make_pair(sf::Keyboard::RSystem, "RSystem"));
+	button.insert(std::make_pair(sf::Keyboard::Menu, "Menu"));
+	button.insert(std::make_pair(sf::Keyboard::LBracket, "LBracket"));
+	button.insert(std::make_pair(sf::Keyboard::RBracket, "RBracket"));
+	button.insert(std::make_pair(sf::Keyboard::SemiColon, "SemiColon"));
+	button.insert(std::make_pair(sf::Keyboard::Comma, "Comma"));
+	button.insert(std::make_pair(sf::Keyboard::Period, "Period"));
+	button.insert(std::make_pair(sf::Keyboard::Quote, "Quote"));
+	button.insert(std::make_pair(sf::Keyboard::Slash, "Slash"));
+	button.insert(std::make_pair(sf::Keyboard::BackSlash, "BackSlash"));
+	button.insert(std::make_pair(sf::Keyboard::Tilde, "Tilde"));
+	button.insert(std::make_pair(sf::Keyboard::Equal, "Equal"));
+	button.insert(std::make_pair(sf::Keyboard::Dash, "Dash"));
+	button.insert(std::make_pair(sf::Keyboard::Space, "Space"));
+	button.insert(std::make_pair(sf::Keyboard::BackSpace, "BackSpace"));
+	button.insert(std::make_pair(sf::Keyboard::Tab, "Tab"));
+	button.insert(std::make_pair(sf::Keyboard::PageUp, "PageDown"));
+	button.insert(std::make_pair(sf::Keyboard::End, "End"));
+	button.insert(std::make_pair(sf::Keyboard::Home, "Home"));
+	button.insert(std::make_pair(sf::Keyboard::Insert, "Insert"));
+	button.insert(std::make_pair(sf::Keyboard::Delete, "Delete"));
+	button.insert(std::make_pair(sf::Keyboard::Add, "Add"));
+	button.insert(std::make_pair(sf::Keyboard::Subtract, "Subtract"));
+	button.insert(std::make_pair(sf::Keyboard::Multiply, "Multiply"));
+	button.insert(std::make_pair(sf::Keyboard::Divide, "Divide"));
+	button.insert(std::make_pair(sf::Keyboard::Left, "Left"));
+	button.insert(std::make_pair(sf::Keyboard::Right, "Right"));
+	button.insert(std::make_pair(sf::Keyboard::Up, "Up"));
+	button.insert(std::make_pair(sf::Keyboard::Down, "Down"));
+	button.insert(std::make_pair(sf::Keyboard::Numpad0, "Numpad0"));
+	button.insert(std::make_pair(sf::Keyboard::Numpad1, "Numpad1"));
+	button.insert(std::make_pair(sf::Keyboard::Numpad2, "Numpad2"));
+	button.insert(std::make_pair(sf::Keyboard::Numpad3, "Numpad3"));
+	button.insert(std::make_pair(sf::Keyboard::Numpad4, "Numpad4"));
+	button.insert(std::make_pair(sf::Keyboard::Numpad5, "Numpad5"));
+	button.insert(std::make_pair(sf::Keyboard::Numpad6, "Numpad6"));
+	button.insert(std::make_pair(sf::Keyboard::Numpad7, "Numpad7"));
+	button.insert(std::make_pair(sf::Keyboard::Numpad8, "Numpad8"));
+	button.insert(std::make_pair(sf::Keyboard::Numpad9, "Numpad9"));
+	button.insert(std::make_pair(sf::Keyboard::F1, "F1"));
+	button.insert(std::make_pair(sf::Keyboard::F2, "F2"));
+	button.insert(std::make_pair(sf::Keyboard::F3, "F3"));
+	button.insert(std::make_pair(sf::Keyboard::F4, "F4"));
+	button.insert(std::make_pair(sf::Keyboard::F5, "F5"));
+	button.insert(std::make_pair(sf::Keyboard::F6, "F6"));
+	button.insert(std::make_pair(sf::Keyboard::F7, "F7"));
+	button.insert(std::make_pair(sf::Keyboard::F8, "F8"));
+	button.insert(std::make_pair(sf::Keyboard::F9, "F9"));
+	button.insert(std::make_pair(sf::Keyboard::F10, "F10"));
+	button.insert(std::make_pair(sf::Keyboard::F11, "F11"));
+	button.insert(std::make_pair(sf::Keyboard::F12, "F12"));
+	button.insert(std::make_pair(sf::Keyboard::F13, "F13"));
+	button.insert(std::make_pair(sf::Keyboard::F14, "F14"));
+	button.insert(std::make_pair(sf::Keyboard::F15, "F15"));
+	button.insert(std::make_pair(sf::Keyboard::Pause, "Pause"));
 }

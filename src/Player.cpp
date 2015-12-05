@@ -73,7 +73,7 @@
 
 	alive = true;
 
-	setButtons();
+	setCommands();
 	
 }
 
@@ -255,24 +255,38 @@ void Player::scrollWeapons() {
 	weaponSprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
 }
 
-void Player::setButtons() {
+void Player::setCommands() {
 	if (mOpponent == 2) {
-		Up = sf::Keyboard::T;
-		Left = sf::Keyboard::F;
-		Right = sf::Keyboard::H;
-		Fire = sf::Keyboard::Q;
-		AimUp = sf::Keyboard::W;
-		AimDown = sf::Keyboard::S;
-		Switch = sf::Keyboard::G;
+		keys.push_back(sf::Keyboard::T);
+		keys.push_back(sf::Keyboard::F);
+		keys.push_back(sf::Keyboard::H);
+		keys.push_back(sf::Keyboard::W);
+		keys.push_back(sf::Keyboard::S);
+		keys.push_back(sf::Keyboard::Q);
+		keys.push_back(sf::Keyboard::G);
+		keyNames.push_back("T");
+		keyNames.push_back("F");
+		keyNames.push_back("H");
+		keyNames.push_back("Q");
+		keyNames.push_back("W");
+		keyNames.push_back("S");
+		keyNames.push_back("G");
 	}
 
 	else if (mOpponent == 1) {
-		Up = sf::Keyboard::Up;
-		Left = sf::Keyboard::Left;
-		Right = sf::Keyboard::Right;
-		Fire = sf::Keyboard::Dash;
-		AimUp = sf::Keyboard::RShift;
-		AimDown = sf::Keyboard::RControl;
-		Switch = sf::Keyboard::Down;
+		keys.push_back(sf::Keyboard::Up);
+		keys.push_back(sf::Keyboard::Left);
+		keys.push_back(sf::Keyboard::Right);
+		keys.push_back(sf::Keyboard::RShift);
+		keys.push_back(sf::Keyboard::RControl);
+		keys.push_back(sf::Keyboard::Dash);
+		keys.push_back(sf::Keyboard::Down);
+		keyNames.push_back("Up arrow");
+		keyNames.push_back("Left arrow");
+		keyNames.push_back("Right arrow");
+		keyNames.push_back("Right shift");
+		keyNames.push_back("Right control");
+		keyNames.push_back("-");
+		keyNames.push_back("Down arrow");
 	}
 }
