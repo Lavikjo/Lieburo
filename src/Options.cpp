@@ -35,9 +35,26 @@ Options::~Options() {
 
 }
 
-void Options::draw(sf::RenderWindow &window) {
+void Options::draw(sf::RenderWindow &window, std::vector<std::string> keyNames1, std::vector<std::string> keyNames2) {
 	for (int i = 0; i < MAX_NUMBER_OF_OPTIONS_ITEMS; i++) {
 		window.draw(options[i]);
+	}
+	sf::Text keys[7];
+	sf::Text keys2[7];
+	for (unsigned int j = 0; j < 7; j++) {
+		keys[j].setString(keyNames1[j]);
+		keys[j].setFont(font);
+		keys[j].setColor(sf::Color::White);
+		keys[j].setPosition(sf::Vector2f(SCREEN_WIDTH / 20.0f * 8.0f, (SCREEN_HEIGHT / 10 * (j + 2))));
+		keys[j].setCharacterSize(28);
+		window.draw(keys[j]);
+
+		keys2[j].setString(keyNames2[j]);
+		keys2[j].setFont(font);
+		keys2[j].setColor(sf::Color::White);
+		keys2[j].setPosition(sf::Vector2f(SCREEN_WIDTH / 20.0f * 16.0f, (SCREEN_HEIGHT / 10 * (j + 2))));
+		keys2[j].setCharacterSize(28);
+		window.draw(keys2[j]);
 	}
 }
 
@@ -85,18 +102,31 @@ int Options::getPressedItem() {
 void Options::setInformation() {
 	for (unsigned int i = 0; i < MAX_NUMBER_OF_OPTIONS_ITEMS; i++) {
 		options[i].setFont(font);
-		sf::FloatRect textRect = options[i].getLocalBounds();
-		options[i].setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
 		if (i < 8) {
+			if (i == 0) {
+				options[i].setCharacterSize(37);
+			}
+			else {
+				options[i].setCharacterSize(28);
+			}
 			options[i].setColor(sf::Color::White);
-			options[i].setPosition(sf::Vector2f(SCREEN_WIDTH / 4.0f, (SCREEN_HEIGHT / (MAX_NUMBER_OF_OPTIONS_ITEMS - 7) * (i + 1))));		
+			options[i].setPosition(sf::Vector2f(SCREEN_WIDTH / 20.0f, (SCREEN_HEIGHT / (MAX_NUMBER_OF_OPTIONS_ITEMS - 7) * (i + 1))));		
 		}
 		else if (8 <= i && i < 16) {
+			if (i == 8) {
+				options[i].setCharacterSize(37);
+			}
+			else {
+				options[i].setCharacterSize(28);
+			}
 			options[i].setColor(sf::Color::White);
-			options[i].setPosition(sf::Vector2f(SCREEN_WIDTH / 4.0f * 3.0f, (SCREEN_HEIGHT / (MAX_NUMBER_OF_OPTIONS_ITEMS - 7) * (i - 7))));					
+			options[i].setPosition(sf::Vector2f(SCREEN_WIDTH / 2.0f, (SCREEN_HEIGHT / (MAX_NUMBER_OF_OPTIONS_ITEMS - 7) * (i - 7))));					
 		}
 		else {
 			options[i].setColor(sf::Color::Red);
+			options[i].setCharacterSize(40);
+			sf::FloatRect textRect = options[i].getLocalBounds();
+			options[i].setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
 			options[i].setPosition(sf::Vector2f(SCREEN_WIDTH / 2.0f, (SCREEN_HEIGHT / (MAX_NUMBER_OF_OPTIONS_ITEMS - 7) * (i - 7))));		
 		}
 	}

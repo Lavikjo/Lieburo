@@ -281,12 +281,12 @@ void Player::setCommands() {
 		keys.push_back(sf::Keyboard::RControl);
 		keys.push_back(sf::Keyboard::Dash);
 		keys.push_back(sf::Keyboard::Down);
-		keyNames.push_back("Up arrow");
-		keyNames.push_back("Left arrow");
-		keyNames.push_back("Right arrow");
-		keyNames.push_back("Right shift");
-		keyNames.push_back("Right control");
-		keyNames.push_back("-");
-		keyNames.push_back("Down arrow");
+		keyNames.push_back("Up");
+		keyNames.push_back("Left");
+		keyNames.push_back("Right");
+		keyNames.push_back("RShift");
+		keyNames.push_back("RControl");
+		keyNames.push_back("Dash");
+		keyNames.push_back("Down");
 	}
 }

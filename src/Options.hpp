@@ -3,6 +3,8 @@
 
 #include "SFML/Graphics.hpp"
 #include "Constants.h"
+#include <vector>
+#include <string>
 
 #define MAX_NUMBER_OF_OPTIONS_ITEMS 17
 
@@ -11,7 +13,7 @@ public:
 	Options();
 	~Options();
 
-	void draw(sf::RenderWindow &window);
+	void draw(sf::RenderWindow &window, std::vector<std::string> keyNames1, std::vector<std::string> keyNames2);
 	void moveUp();
 	void moveDown();
 	void moveLeft();
