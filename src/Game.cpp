@@ -363,11 +363,14 @@ std::shared_ptr<Player> Game::getPlayer(int id){
 }
 
 void Game::whichKeyPressed(sf::Keyboard::Key &key, std::string &s) {
-
-	for (auto it = button.begin(); it != button.end(); it++) {
-		if (sf::Keyboard::isKeyPressed(it->first)) {
-			key = it->first;
-			s = it->second;
+	bool selected = 1;
+	while (selected) {
+		for (auto it = button.begin(); it != button.end(); it++) {
+			if (sf::Keyboard::isKeyPressed(it->first)) {
+				key = it->first;
+				s = it->second;
+				selected = 0;
+			}
 		}
 	}
 }
@@ -381,13 +384,13 @@ void Game::setButtons() {
 	button.insert(std::make_pair(sf::Keyboard::F, "F"));
 	button.insert(std::make_pair(sf::Keyboard::G, "G"));
 	button.insert(std::make_pair(sf::Keyboard::H, "H"));
-	button.insert(std::make_pair(sf::Keyboard::I, "J"));
+	button.insert(std::make_pair(sf::Keyboard::I, "I"));
+	button.insert(std::make_pair(sf::Keyboard::J, "J"));
 	button.insert(std::make_pair(sf::Keyboard::K, "K"));
 	button.insert(std::make_pair(sf::Keyboard::L, "L"));
 	button.insert(std::make_pair(sf::Keyboard::M, "M"));
 	button.insert(std::make_pair(sf::Keyboard::N, "N"));
 	button.insert(std::make_pair(sf::Keyboard::O, "O"));
-	button.insert(std::make_pair(sf::Keyboard::P, "P"));
 	button.insert(std::make_pair(sf::Keyboard::Q, "Q"));
 	button.insert(std::make_pair(sf::Keyboard::R, "R"));
 	button.insert(std::make_pair(sf::Keyboard::S, "S"));

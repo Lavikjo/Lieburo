@@ -25,7 +25,7 @@ Options::Options() {
 	options[15].setString("Change weapon");	
 	options[16].setString("Return to Main Menu");
 
-	setInformation();
+	setText();
 
 	selectedItemIndex = 16;
 	showScreen = false;
@@ -39,21 +39,11 @@ void Options::draw(sf::RenderWindow &window, std::vector<std::string> keyNames1,
 	for (int i = 0; i < MAX_NUMBER_OF_OPTIONS_ITEMS; i++) {
 		window.draw(options[i]);
 	}
-	sf::Text keys[7];
-	sf::Text keys2[7];
 	for (unsigned int j = 0; j < 7; j++) {
 		keys[j].setString(keyNames1[j]);
-		keys[j].setFont(font);
-		keys[j].setColor(sf::Color::White);
-		keys[j].setPosition(sf::Vector2f(SCREEN_WIDTH / 20.0f * 8.0f, (SCREEN_HEIGHT / 10 * (j + 2))));
-		keys[j].setCharacterSize(28);
-		window.draw(keys[j]);
-
 		keys2[j].setString(keyNames2[j]);
-		keys2[j].setFont(font);
-		keys2[j].setColor(sf::Color::White);
-		keys2[j].setPosition(sf::Vector2f(SCREEN_WIDTH / 20.0f * 16.0f, (SCREEN_HEIGHT / 10 * (j + 2))));
-		keys2[j].setCharacterSize(28);
+
+		window.draw(keys[j]);
 		window.draw(keys2[j]);
 	}
 }
@@ -72,7 +62,7 @@ void Options::moveDown() {
 		selectedItemIndex = 16;
 		options[selectedItemIndex].setColor(sf::Color::Red);
 	}
-	else  if (selectedItemIndex + 1 < MAX_NUMBER_OF_OPTIONS_ITEMS) {
+	else if (selectedItemIndex + 1 < MAX_NUMBER_OF_OPTIONS_ITEMS) {
 		options[selectedItemIndex].setColor(sf::Color::White);
 		selectedItemIndex++;
 		options[selectedItemIndex].setColor(sf::Color::Red);
@@ -99,7 +89,7 @@ int Options::getPressedItem() {
 	return selectedItemIndex;
 }
 
-void Options::setInformation() {
+void Options::setText() {
 	for (unsigned int i = 0; i < MAX_NUMBER_OF_OPTIONS_ITEMS; i++) {
 		options[i].setFont(font);
 		if (i < 8) {
@@ -114,13 +104,13 @@ void Options::setInformation() {
 		}
 		else if (8 <= i && i < 16) {
 			if (i == 8) {
-				options[i].setCharacterSize(37);
+				options[i].setCharacterSize(29);
 			}
 			else {
 				options[i].setCharacterSize(28);
 			}
 			options[i].setColor(sf::Color::White);
-			options[i].setPosition(sf::Vector2f(SCREEN_WIDTH / 2.0f, (SCREEN_HEIGHT / (MAX_NUMBER_OF_OPTIONS_ITEMS - 7) * (i - 7))));					
+			options[i].setPosition(sf::Vector2f(SCREEN_WIDTH / 20.0f * 11.0f, (SCREEN_HEIGHT / (MAX_NUMBER_OF_OPTIONS_ITEMS - 7) * (i - 7))));					
 		}
 		else {
 			options[i].setColor(sf::Color::Red);
@@ -129,5 +119,16 @@ void Options::setInformation() {
 			options[i].setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
 			options[i].setPosition(sf::Vector2f(SCREEN_WIDTH / 2.0f, (SCREEN_HEIGHT / (MAX_NUMBER_OF_OPTIONS_ITEMS - 7) * (i - 7))));		
 		}
+	}
+	for (unsigned int j = 0; j < 7; j++) {
+		keys[j].setFont(font);
+		keys[j].setColor(sf::Color::White);
+		keys[j].setPosition(sf::Vector2f(SCREEN_WIDTH / 20.0f * 8.0f, (SCREEN_HEIGHT / 10 * (j + 2))));
+		keys[j].setCharacterSize(28);
+
+		keys2[j].setFont(font);
+		keys2[j].setColor(sf::Color::White);
+		keys2[j].setPosition(sf::Vector2f(SCREEN_WIDTH / 20.0f * 16.0f, (SCREEN_HEIGHT / 10 * (j + 2))));
+		keys2[j].setCharacterSize(28);
 	}
 }

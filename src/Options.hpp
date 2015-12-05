@@ -20,7 +20,9 @@ public:
 	void moveRight();
 	int getPressedItem();
 	bool showScreen;
-	void setInformation();
+	void setText();
+	sf::Text keys[7];
+	sf::Text keys2[7];
 
 private:
 	int selectedItemIndex;
