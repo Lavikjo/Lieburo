@@ -6,8 +6,9 @@
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
 #include <Box2D/Box2D.h>
-
-
+#include <iostream>
+#include <map>
+#include <string>
 
 //include required objects
 #include "Player.hpp"
@@ -39,12 +40,10 @@ public:
 	b2World* getWorld();
 	std::shared_ptr<SceneNode> getSceneNode();
 	std::shared_ptr<Player> getPlayer(int id); //used by guided projectiles
+	void whichKeyPressed(sf::Keyboard::Key &key, std::string &s);
+	void setButtons();
 
 private:
-	std::shared_ptr<Player> player1;
-	std::shared_ptr<Player> player2;
-	std::shared_ptr<Menu> menu;
-	std::shared_ptr<Options> options;
 	bool running;
 	bool menu_screen;
 	sf::RenderWindow rWindow;
@@ -54,6 +53,11 @@ private:
 	std::shared_ptr<Gamefield> gamefield;
 	sf::View viewMenu, view1, view2, statusView;
 	std::shared_ptr<GUI> gui;
+	std::map<sf::Keyboard::Key, std::string> button;
+	std::shared_ptr<Player> player1;
+	std::shared_ptr<Player> player2;
+	std::shared_ptr<Menu> menu;
+	std::shared_ptr<Options> options;
 };
 
 #endif

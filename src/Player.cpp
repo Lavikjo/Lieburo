@@ -71,8 +71,9 @@
 	b2Fixture* footSensorFixture = mBody->CreateFixture(&mFixtureDef);
 	footSensorFixture->SetUserData((void*)PLAYER_FOOT_SENSOR_FIXTURE); //user data contains an identification number for the foot sensor, can be any number.
 
-
 	alive = true;
+
+	setCommands();
 	
 }
 
@@ -244,7 +245,6 @@ void Player::updateHp(int val) {
 
 void Player::scrollWeapons() {
 	currentWeapon++;
-	std::cout << "changed weapon" << std::endl;
 	if(currentWeapon >= mWeapons.size()) {
 		currentWeapon = 0;
 	}
@@ -253,4 +253,40 @@ void Player::scrollWeapons() {
 	weaponSprite.setTexture(weaponTexture, true);
 	sf::FloatRect bounds = weaponSprite.getLocalBounds();
 	weaponSprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
+}
+
+void Player::setCommands() {
+	if (mOpponent == 2) {
+		keys.push_back(sf::Keyboard::T);
+		keys.push_back(sf::Keyboard::F);
+		keys.push_back(sf::Keyboard::H);
+		keys.push_back(sf::Keyboard::W);
+		keys.push_back(sf::Keyboard::S);
+		keys.push_back(sf::Keyboard::Q);
+		keys.push_back(sf::Keyboard::G);
+		keyNames.push_back("T");
+		keyNames.push_back("F");
+		keyNames.push_back("H");
+		keyNames.push_back("Q");
+		keyNames.push_back("W");
+		keyNames.push_back("S");
+		keyNames.push_back("G");
+	}
+
+	else if (mOpponent == 1) {
+		keys.push_back(sf::Keyboard::Up);
+		keys.push_back(sf::Keyboard::Left);
+		keys.push_back(sf::Keyboard::Right);
+		keys.push_back(sf::Keyboard::RShift);
+		keys.push_back(sf::Keyboard::RControl);
+		keys.push_back(sf::Keyboard::Dash);
+		keys.push_back(sf::Keyboard::Down);
+		keyNames.push_back("Up");
+		keyNames.push_back("Left");
+		keyNames.push_back("Right");
+		keyNames.push_back("RShift");
+		keyNames.push_back("RControl");
+		keyNames.push_back("Dash");
+		keyNames.push_back("Down");
+	}
 }

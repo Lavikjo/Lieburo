@@ -5,6 +5,8 @@
 #include "Entity.hpp"
 #include "Weapon.hpp"
 #include "Constants.h"
+#include <vector>
+#include <string>
 class Weapon;
 
 
@@ -36,6 +38,12 @@ public:
 
 	sf::Vector2f returnPosition();
 	void scrollWeapons();
+
+	sf::Keyboard::Key Switch;
+	std::vector<sf::Keyboard::Key> keys;
+	std::vector<std::string> keyNames;
+	void setCommands();
+
 
 private:
 	int mOpponent;
