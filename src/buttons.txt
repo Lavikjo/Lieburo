@@ -1,0 +1,33 @@
+T
+F
+H
+Q
+W
+S
+G
+Up
+Left
+Right
+Dash
+RShift
+RControl
+Down
+
+
+
+
+
+Player1_Jetpack=
+Player1_"Move left=
+Player1_Move right=
+Player1_Aim up=
+Player1_Aim down=
+Player1_Shoot=
+Player1_Change weapon=
+Player2_Jetpack=
+Player2_"Move left=
+Player2_Move right=
+Player2_Aim up=
+Player2_Aim down=
+Player2_Shoot=
+Player2_Change weapon=

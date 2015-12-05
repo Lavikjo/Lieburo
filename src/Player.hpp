@@ -37,6 +37,16 @@ public:
 	sf::Vector2f returnPosition();
 	void scrollWeapons();
 
+	sf::Keyboard::Key Up;
+	sf::Keyboard::Key Left;
+	sf::Keyboard::Key Right;
+	sf::Keyboard::Key Fire;
+	sf::Keyboard::Key AimUp;
+	sf::Keyboard::Key AimDown;
+	sf::Keyboard::Key Switch;
+	void setButtons();
+
+
 private:
 	int mOpponent;
 	//possible aim dot, jetpack etc. (players only)

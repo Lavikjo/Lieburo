@@ -39,6 +39,7 @@ public:
 	b2World* getWorld();
 	std::shared_ptr<SceneNode> getSceneNode();
 	std::shared_ptr<Player> getPlayer(int id); //used by guided projectiles
+	sf::Keyboard::Key whichKeyPressed();
 
 private:
 	std::shared_ptr<Player> player1;

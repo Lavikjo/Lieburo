@@ -71,8 +71,9 @@
 	b2Fixture* footSensorFixture = mBody->CreateFixture(&mFixtureDef);
 	footSensorFixture->SetUserData((void*)PLAYER_FOOT_SENSOR_FIXTURE); //user data contains an identification number for the foot sensor, can be any number.
 
-
 	alive = true;
+
+	setButtons();
 	
 }
 
@@ -244,7 +245,6 @@ void Player::updateHp(int val) {
 
 void Player::scrollWeapons() {
 	currentWeapon++;
-	std::cout << "changed weapon" << std::endl;
 	if(currentWeapon >= mWeapons.size()) {
 		currentWeapon = 0;
 	}
@@ -253,4 +253,26 @@ void Player::scrollWeapons() {
 	weaponSprite.setTexture(weaponTexture, true);
 	sf::FloatRect bounds = weaponSprite.getLocalBounds();
 	weaponSprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
+}
+
+void Player::setButtons() {
+	if (mOpponent == 2) {
+		Up = sf::Keyboard::T;
+		Left = sf::Keyboard::F;
+		Right = sf::Keyboard::H;
+		Fire = sf::Keyboard::Q;
+		AimUp = sf::Keyboard::W;
+		AimDown = sf::Keyboard::S;
+		Switch = sf::Keyboard::G;
+	}
+
+	else if (mOpponent == 1) {
+		Up = sf::Keyboard::Up;
+		Left = sf::Keyboard::Left;
+		Right = sf::Keyboard::Right;
+		Fire = sf::Keyboard::Dash;
+		AimUp = sf::Keyboard::RShift;
+		AimDown = sf::Keyboard::RControl;
+		Switch = sf::Keyboard::Down;
+	}
 }

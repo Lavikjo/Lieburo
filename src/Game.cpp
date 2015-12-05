@@ -154,12 +154,11 @@ void Game::update(sf::Time deltaTime) {
 	            break;
             case sf::Event::KeyPressed:
             	//Keyboard inputs with delay between presses
-			    if (sf::Keyboard::isKeyPressed(sf::Keyboard::V)) {
-			    	//std::cout << "jump1" <<std::endl;
-				    player2->scrollWeapons();
+			    if (sf::Keyboard::isKeyPressed(player1->Switch)) {
+				    	player1->scrollWeapons();
 				}
-			    if (sf::Keyboard::isKeyPressed(sf::Keyboard::B)) {
-				    player1->scrollWeapons();
+			    if (sf::Keyboard::isKeyPressed(player2->Switch)) {
+			   		player2->scrollWeapons();
 				}
             	break;
 	        default:
@@ -169,41 +168,40 @@ void Game::update(sf::Time deltaTime) {
 	}
 
     if(!menu->showScreen) {
-    	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-	    	//std::cout << "jump1" <<std::endl;
+    	if (sf::Keyboard::isKeyPressed(player1->Up)) {
 		    player1->jump();
 		}
-	    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+	    if (sf::Keyboard::isKeyPressed(player1->Left)) {
 		    player1->movePlayerX(-0.1f);
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+		if (sf::Keyboard::isKeyPressed(player1->Right)) {
 		    player1->movePlayerX(0.1f);
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+		if (sf::Keyboard::isKeyPressed(player1->Fire)) {
 		    player1->fire();
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+		if (sf::Keyboard::isKeyPressed(player1->AimUp)) {
 		    player1->aim(3);
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::X)) {
+		if (sf::Keyboard::isKeyPressed(player1->AimDown)) {
 		    player1->aim(-3);
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::I)) {
+		if (sf::Keyboard::isKeyPressed(player2->Up)) {
 		    player2->jump();
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::J)) {
+		if (sf::Keyboard::isKeyPressed(player2->Left)) {
 		    player2->movePlayerX(-0.1f);
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::L)) {
+		if (sf::Keyboard::isKeyPressed(player2->Right)) {
 		    player2->movePlayerX(0.1f);
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::T)) {
+		if (sf::Keyboard::isKeyPressed(player2->Fire)) {
 		    player2->fire();
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Y)) {
+		if (sf::Keyboard::isKeyPressed(player2->AimUp)) {
 		    player2->aim(3);
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::H)) {
+		if (sf::Keyboard::isKeyPressed(player2->AimDown)) {
 		    player2->aim(-3);
 		}
 
@@ -281,24 +279,35 @@ void Game::navigateOptions(sf::Event &event) {
 				case sf::Keyboard::Down:
 					options->moveDown();
 					break;
+				case sf::Keyboard::Left:
+					options->moveLeft();
+					break;
+				case sf::Keyboard::Right:
+					options->moveRight();
+					break;
+
 				case sf::Keyboard::Return:
 					switch (options->getPressedItem()) {
-						case 0:
-							std::cout << "User pressed first button." << std::endl;
-							options->showScreen = false;
-							menu->showScreen = true;
-							break;
 						case 1:
-							std::cout << "User pressed second button." << std::endl;
-							break;;
+							std::cout << "User pressed first button." << std::endl;
+							player1->Up = whichKeyPressed();
+							break;
 						case 2:
 							std::cout << "User pressed second button." << std::endl;
+							break;;
+						case 3:
+							std::cout << "User pressed second button." << std::endl;
 							break;
+						case 16:
+							std::cout << "User pressed Return to main menu." << std::endl;
+							options->showScreen = false;
+							menu->showScreen = true;
 					}
 				default:
 					break;
 			}
 			default:
+
 				break;
 	}
 }
@@ -317,4 +326,11 @@ std::shared_ptr<Player> Game::getPlayer(int id){
 	}
 
 	return nullptr;
+}
+
+sf::Keyboard::Key Game::whichKeyPressed() {
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::V)) {
+		return sf::Keyboard::V;
+	}
+
 }
