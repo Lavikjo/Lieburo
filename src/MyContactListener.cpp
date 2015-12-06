@@ -4,38 +4,21 @@
 
 void MyContactListener::BeginContact(b2Contact* contact) {
 
-
+	//This code block is used for the collision detection. Ie. if a banana and a player collide,
+	//both entities' startContact() -methods are called with the other entity as an argument.
+	//It's okay to call both, as only the projectiles reduce the player's health and for example player's startContact
+	//does nothing. 
 	void* bodyUserDataA = contact->GetFixtureA()->GetBody()->GetUserData();//User datassa on entity eli esim. Banana tai Player..
 	void* bodyUserDataB = contact->GetFixtureB()->GetBody()->GetUserData();
+
+	static_cast<Entity*>(bodyUserDataA)->startContact(static_cast<Entity*>(bodyUserDataB));
+	static_cast<Entity*>(bodyUserDataB)->startContact(static_cast<Entity*>(bodyUserDataA));
+
+
+	//This is used for sensing the player's ability to jump.
 	void* fixtureUserDataA = contact->GetFixtureA()->GetUserData();
 	void* fixtureUserDataB = contact->GetFixtureB()->GetUserData();
 
-	int idA = 0, idB = 0;
-
-
-	if(true) { //the playground has the bodyUserData of 0.
-		idA = static_cast<Entity*>(bodyUserDataA)->getType();
-	}
-	if(true) {
-		idB = static_cast<Entity*>(bodyUserDataB)->getType();
-	}
-
-	//std::cout<<"idA:"<<idA<<"idB:"<<idB<<std::endl;
-	if(idA == PLAYER || idA == BANANA) { 
-		static_cast<Entity*>(bodyUserDataA)->startContact(idB, static_cast<Entity*>(bodyUserDataB));
-	}
-
-	if(idB == PLAYER || idB == BANANA) {
-		static_cast<Entity*>(bodyUserDataB)->startContact(idA, static_cast<Entity*>(bodyUserDataA));
-	}
-	if(idA == MISSILE) { 
-		static_cast<Entity*>(bodyUserDataA)->startContact(idB, static_cast<Entity*>(bodyUserDataB));
-	}
-	if(idB == MISSILE) {
-		static_cast<Entity*>(bodyUserDataB)->startContact(idA, static_cast<Entity*>(bodyUserDataA));
-	}
-
-	//std::cout << (long)fixtureUserDataA<<", "<< (long)fixtureUserDataB << std::endl;
 	if((long)fixtureUserDataA == PLAYER_FOOT_SENSOR_FIXTURE && (long)fixtureUserDataB == GROUND_FIXTURE) {
 		static_cast<Player*>(bodyUserDataA)->updateGroundContacts(1);
 	}
@@ -49,12 +32,13 @@ void MyContactListener::EndContact(b2Contact* contact) {
 	
 	void* bodyUserDataA = contact->GetFixtureA()->GetBody()->GetUserData();//User datassa on entity eli esim. Banana tai Player..
 	void* bodyUserDataB = contact->GetFixtureB()->GetBody()->GetUserData();
-	void* fixtureUserDataA = contact->GetFixtureA()->GetUserData();
-	void* fixtureUserDataB = contact->GetFixtureB()->GetUserData();
 
 	(void) bodyUserDataA;
 	(void) bodyUserDataB;
 
+	//This is used for sensing the player's ability to jump.
+	void* fixtureUserDataA = contact->GetFixtureA()->GetUserData();
+	void* fixtureUserDataB = contact->GetFixtureB()->GetUserData();
 
 	if((long)fixtureUserDataA == PLAYER_FOOT_SENSOR_FIXTURE && (long)fixtureUserDataB == GROUND_FIXTURE) {
 		static_cast<Player*>(bodyUserDataA)->updateGroundContacts(-1);

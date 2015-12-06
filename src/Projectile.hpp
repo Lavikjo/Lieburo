@@ -6,18 +6,19 @@
 class Projectile : public Entity {
 public:
 	Projectile() = default;
-	~Projectile(){}
+	~Projectile(){mEntityWorld->DestroyBody(mBody);}
 
 	virtual void update(sf::Time) = 0;
-	virtual void startContact(int id, Entity*) = 0;
+	void fragment(std::string, float, float, float, int, float);
 
 protected:
 	sf::Sprite mExplosionSprite;
 	sf::Texture mExplosionTexture;
 	bool exploses = false;
-	int explosionClock = 0; //Times for how many update cyckles the explosion sprite will be shown.
-	int explosionTime;
+	float explosionClock = 0;
+	float explosionTime;
 	bool hasFragmented = false;
+	float hitDamage;//Used to set the damage to player
 
 };
 

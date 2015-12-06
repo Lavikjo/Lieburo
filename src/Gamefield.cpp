@@ -141,7 +141,3 @@ void Gamefield::loadTexture(std::string filename){
 	t.loadFromFile(filename);
 	mGroundTextures[filename] = t; 
 }
-
-int Gamefield::getType() {
-	return BOUNDARY;
-}

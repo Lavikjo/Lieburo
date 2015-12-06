@@ -17,7 +17,6 @@ class Weapon;
 class Player : public Entity {
 public:
 	Player(Game* game, int opponent);
-	~Player();
 
 	void movePlayerX(float x);
 	void jump();
@@ -28,9 +27,8 @@ public:
 	sf::Vector2f getAimDotPosition() const;
 
 	void update(sf::Time deltaTime);
-	void startContact(int id, Entity* contact);
+	void startContact(Entity* contact);
 
-	virtual int getType();
 	virtual void drawPlayer(sf::RenderTarget& target);
 	int getHp() const;
 	float getFuel() const;
@@ -75,11 +73,11 @@ private:
 	float previousXVelocity = 1;//at the beginning the moving direction is +x -> velocity > 0
 	int numGroundContacts = 0;//used to check whether on ground ie. if the foot sensor is touching static bodies.  
 	const int PLAYER_JUMP_SPEED = -7;//negative for up
-	const float JETPACK_THRUST = -1.5f;
+	const float JETPACK_THRUST = -2.0f;
 	const float MIN_JETPACK_RELOAD_FUEL = 50;
 	const float JETPACK_MAX_FUEL = 100;
-	const float JETPACK_FUEL_CONSUMPTION = 0.4f;
-	const float JETPACK_FUEL_FILL = 0.05f;
+	const float JETPACK_FUEL_CONSUMPTION = 1.2f;
+	const float JETPACK_FUEL_FILL = 0.4f;
 	const float MAX_JETPACK_SPEED = 10;
 };
 

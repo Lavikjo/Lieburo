@@ -11,14 +11,12 @@ const float RAD_TO_DEG = 57.275f;
 const float DEG_TO_RAD = 0.01745329f;
 const int PLAYER_KEYS = 7;
 
-enum entityCategory{
+enum entityCategory{ //Used for collision masks
 	PLAYER = 1<<1,
 	BOUNDARY = 1<<2,
-	BANANA = 1<<3,
-	MISSILE = 1<<4,
 };
-
-enum fixtureTypes{
+ 
+enum fixtureTypes{ //Used for checking fixture contacts
 	GROUND_FIXTURE = 0,
 	PLAYER_FOOT_SENSOR_FIXTURE = 1,
 };

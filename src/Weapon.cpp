@@ -9,7 +9,9 @@ Weapon::Weapon(unsigned int clipSize, float fireRate, float reloadTime, float mu
 	}
 
 void Weapon::launchProjectile(float angle, b2Vec2 position, b2Vec2 preSpeed, std::shared_ptr<SceneNode> entity){
-	//Apply movement
+	//Apply movement and set the entity alive
+
+	entity->setAlive(true);
 
 	b2Body* body = entity->getBody();
 	
@@ -24,7 +26,10 @@ void Weapon::launchProjectile(float angle, b2Vec2 position, b2Vec2 preSpeed, std
 
 }
 
-unsigned int Weapon::getAmmo() const {
+unsigned int Weapon::getAmmo(){
+	if(ammo == 0 && fireClock.getElapsedTime().asSeconds() > reloadTime) {
+		ammo = clipSize; //reload time up -> load clip
+	}
 	return ammo;
 }
 

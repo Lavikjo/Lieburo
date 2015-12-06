@@ -1,6 +1,6 @@
 #include "Missile.hpp"
 
-Missile::Missile(Game* game, int target) : Projectile(){
+Missile::Missile(Game* game, int target){
 
 
 	baseConstructor(game, "texture/aim_120c.png");
@@ -31,7 +31,12 @@ void Missile::update(sf::Time deltaTime) {
 		if(explosionClock < explosionTime){
 			mBody->SetLinearVelocity(b2Vec2(0,0));//We want the explosion to be stationary(?)
 			mBody->SetAngularVelocity(0);
-			explosionClock++;
+			explosionClock+= deltaTime.asSeconds();
+
+			if(!hasFragmented) {
+				fragment("texture/bullet.png", 1.0f, 0.25f, 30.0f, 20, 1.0f);
+				
+			}
 		}
 		else{
 			exploses = false;
@@ -42,7 +47,7 @@ void Missile::update(sf::Time deltaTime) {
 	
 }
 
-void Missile::startContact(int id, Entity* contact){ 
+void Missile::startContact(Entity* contact){ 
 	if(lifeTime > 0.1f) {//Preventing barrel explosion
 		if(typeid(*contact) == typeid(Player)) {
 			if(alive) {
@@ -52,12 +57,8 @@ void Missile::startContact(int id, Entity* contact){
 		explode();
 	}
 
-	(void) id;
 }
 
-int Missile::getType() {
-	return MISSILE;
-}
 
 void Missile::seek(){
 	b2Vec2 mPos = mBody->GetPosition();
@@ -102,7 +103,7 @@ void Missile::seek(){
 
 	//check near hit
 	if(dist < 1.0f) {
-		startContact(0, std::dynamic_pointer_cast<Entity>(mGame->getPlayer(mTarget)).get());
+		startContact(std::dynamic_pointer_cast<Entity>(mGame->getPlayer(mTarget)).get());
 	}
 
 

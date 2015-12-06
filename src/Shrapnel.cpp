@@ -1,9 +1,9 @@
 #include "Shrapnel.hpp"
 
-Shrapnel::Shrapnel(Game* game, std::string texture, float maxLifeTime, float maxExplosionTime = 0) : Projectile(){
+Shrapnel::Shrapnel(Game* game, std::string texture, float maxLifeTime, float maxExplosionTime, float damage) : Projectile(){
 
 	baseConstructor(game, texture);
-
+	hitDamage = damage;
 	//The explosion texture and clock
 	mExplosionTexture.loadFromFile("texture/banana_explosion.png");
 	mMaxExplosionTime = maxExplosionTime;
@@ -28,7 +28,7 @@ void Shrapnel::update(sf::Time deltaTime) {
 		if(explosionClock < mMaxExplosionTime){
 			mBody->SetLinearVelocity(b2Vec2(0,0));//We want the explosion to be stationary(?)
 			mBody->SetAngularVelocity(0);
-			explosionClock++;
+			explosionClock += deltaTime.asSeconds();
 		}
 		else{
 			exploses = false;
@@ -38,19 +38,14 @@ void Shrapnel::update(sf::Time deltaTime) {
 	
 }
 
-void Shrapnel::startContact(int id, Entity* contact){
+void Shrapnel::startContact(Entity* contact){
 	if(typeid(*contact) == typeid(Player)) {
 		if(alive && lifeTime > 0.1f) {
-			contact->updateHp(-10);
+			contact->updateHp(-hitDamage);
 			mSprite.setTexture(mExplosionTexture, true); //true resets the sprite boundaries
 			exploses = true;
 			explosionClock = 0;
 		}
 	}
 
-	(void) id;
-}
-
-int Shrapnel::getType() {
-	return BANANA;
 }

@@ -65,12 +65,8 @@ void Entity::baseConstructor(Game* game, std::string textureName) {
 	b2PolygonShape boxShape;
 	boxShape.SetAsBox(0.5f*bounds.width / PIXELS_PER_METER, 0.5f*bounds.height/PIXELS_PER_METER);
 	mFixtureDef.shape = &boxShape;
-	mFixtureDef.isSensor = true;
 	mFixtureDef.density = 1;
 
 	mBody->CreateFixture(&mFixtureDef);
 }
 
-Entity::~Entity() {
-	mGame->getWorld()->DestroyBody(mBody);
-}

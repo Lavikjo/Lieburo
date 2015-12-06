@@ -31,6 +31,7 @@ void SceneNode::drawAll(sf::RenderTarget& target) {
 }
 
 void SceneNode::updateAll(sf::Time deltaTime) {
+
 	unsigned int size = mChildren.size();
 	for(unsigned int i = 0; i < size; i++) {
 		mChildren[i]->update(deltaTime);

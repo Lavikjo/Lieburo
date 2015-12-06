@@ -27,18 +27,10 @@ void MissileLauncher::shoot(float angle, b2Vec2 position, b2Vec2 preSpeed, Game*
 			return;
 		}
 	}
-	mGame->getSceneNode()->attachChild(std::static_pointer_cast<SceneNode>(std::make_shared<Missile>(mGame, mTarget)));
-	auto entities = mGame->getSceneNode()->getChildren();
-	for(auto entity: entities){
-		if(!entity->isAlive() && typeid(*entity) == typeid(Missile)) {
-			if(std::static_pointer_cast<Missile>(entity)->getTarget() == mTarget){
-				entity->setAlive(true);
-				entity->getBody()->GetFixtureList()[0].SetSensor(false); //missiles have only 1 fixture
-				launchProjectile(angle, position, preSpeed, entity);
-				fireClock.restart();//restarting the fire rate observing clock
-				ammo--;
-				break;
-			}
-		}
-	}
+	std::shared_ptr<Missile> m = std::make_shared<Missile>(mGame, mTarget);
+	mGame->getSceneNode()->attachChild(std::dynamic_pointer_cast<SceneNode>(m));
+	launchProjectile(angle, position, preSpeed, m);
+
+	fireClock.restart();//restarting the fire rate observing clock
+	ammo--;//reducing ammo in the clip by 1.
 }

@@ -1,6 +1,6 @@
 #include "Banana.hpp"
 
-Banana::Banana(Game* game) : Projectile(){
+Banana::Banana(Game* game){
 
 	baseConstructor(game, "texture/banana.png");
 
@@ -28,30 +28,11 @@ void Banana::update(sf::Time deltaTime) {
 		if(explosionClock < explosionTime){
 			mBody->SetLinearVelocity(b2Vec2(0,0));//We want the explosion to be stationary(?)
 			mBody->SetAngularVelocity(0);
-			explosionClock++;
+			explosionClock += deltaTime.asSeconds();
 
 			if(!hasFragmented) {
-				hasFragmented = true;
-				for(auto i = 0; i < 5; i++) {
-
-				//Create shrapnel
-				std::shared_ptr<Shrapnel> s = std::make_shared<Shrapnel>(mGame, "texture/minibanana.png", 1.0f, 15.0f);
-				mGame->getSceneNode()->attachChild(std::dynamic_pointer_cast<SceneNode>(s));
-
-				//Make it fly
-				s->setAlive(true);
-				s->getBody()->GetFixtureList()[0].SetSensor(false); //bananas have only 1 fixture
-				b2Body* body = s->getBody();
-				body->SetTransform(mBody->GetPosition(), 0);
-
-				float angle = i;
-
-		    	float velX = sin(angle)*20;
-		    
-		    	float velY = cos(angle)*20;
-		    
-		    	body->SetLinearVelocity(b2Vec2(velX, velY));
-			}
+				fragment("texture/minibanana.png", 2.0f, 0.25f, 20.0f, 5, 1.0);
+				
 			}
 		}
 		else{
@@ -62,7 +43,7 @@ void Banana::update(sf::Time deltaTime) {
 	
 }
 
-void Banana::startContact(int id, Entity* contact){
+void Banana::startContact(Entity* contact){
 	if(typeid(*contact) == typeid(Player)) {
 		if(alive) {
 			contact->updateHp(-10);
@@ -72,9 +53,5 @@ void Banana::startContact(int id, Entity* contact){
 		}
 	}
 	
-	(void) id;
 }
 
-int Banana::getType() {
-	return BANANA;
-}

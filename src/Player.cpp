@@ -77,10 +77,6 @@
 	
 }
 
-Player::~Player(){
-	mEntityWorld->DestroyBody(mBody);
-}
-
 void Player::aim(float angleChange) {
 	shootAngle += angleChange*DEG_TO_RAD;
 	if(shootAngle > MAX_SHOOT_ANGLE) {
@@ -181,8 +177,7 @@ void Player::update(sf::Time deltaTime) {
 	(void) deltaTime;
 }
 
-void Player::startContact(int id, Entity* contact) {
-	(void) id;
+void Player::startContact(Entity* contact) {
 	(void) contact;	
 }
 
@@ -198,9 +193,6 @@ sf::Vector2f Player::returnPosition() {
 	return mSprite.getPosition();
 }
 
-int Player::getType(){
-	return PLAYER;
-}
 
 void Player::drawPlayer(sf::RenderTarget& target) {
 	target.draw(aimDotSprite);

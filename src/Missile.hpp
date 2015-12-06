@@ -1,5 +1,4 @@
-#ifndef BANANA_HH
-#define BANANA_HH
+#pragma once
 
 #include "Projectile.hpp"
 
@@ -14,16 +13,13 @@ public:
 	void seek();
 
 	virtual void update(sf::Time deltaTime);
-	virtual void startContact(int id, Entity* contact);
-	virtual int getType();
+	virtual void startContact(Entity* contact);
 	int getTarget() const;
 	void explode();
 private:
 	int mTarget;
 	bool nearMiss = false;
-	const float MISSILE_LIFETIME = 10.0f; // note: max value is number of missiles in the entity vector times trigger time.
-	const int MISSILE_EXPLOSION_TIME = 15;
+	const float MISSILE_LIFETIME = 10.0f; 
+	const float MISSILE_EXPLOSION_TIME = 0.25f;
 	const float MISSILE_MAX_VEL = 20;
 };
-
-#endif

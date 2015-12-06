@@ -10,7 +10,6 @@ public:
 	~Gamefield(){}	
 
 	void draw(sf::RenderTarget& target);
-	virtual int getType();
 
 	virtual void update(sf::Time){}
 	virtual void startContact(int, Entity*){}

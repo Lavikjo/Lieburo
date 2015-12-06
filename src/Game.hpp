@@ -34,7 +34,7 @@ public:
 	//TODO: Contact masks
 
 	Game();
-	~Game(){}
+	~Game();
 	void run();
 	void update(sf::Time deltaTime);
 	void render();

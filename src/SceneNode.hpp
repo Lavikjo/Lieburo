@@ -40,6 +40,7 @@ public:
 
 private:
 	std::vector<Ptr> mChildren;
+	std::vector<Ptr> childrenToDestroy;
 	SceneNode* mParent;
 };
 

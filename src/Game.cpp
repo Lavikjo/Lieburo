@@ -129,6 +129,9 @@ void Game::run() {
 	    	menu->showScreen = true;
 		}
 	}
+	//sceneNode->removeAll();
+	//delete mGameWorld;
+	
 }
 
 void Game::update(sf::Time deltaTime) {
@@ -395,4 +398,9 @@ void Game::whichKeyPressed(sf::Keyboard::Key &key, std::string &s) {
 			}
 		}
 	}
+}
+
+Game::~Game(){
+	sceneNode->removeAll();
+	delete mGameWorld;
 }

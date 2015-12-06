@@ -8,7 +8,7 @@ G
 Up
 Left
 Right
-RShift
-RControl
-Dash
+S
+C
+A
 Down

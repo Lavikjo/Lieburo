@@ -24,17 +24,10 @@ void Rifle::shoot(float angle, b2Vec2 position, b2Vec2 preSpeed, Game* game){
 		}
 	}
 
-	game->getSceneNode()->attachChild(std::static_pointer_cast<SceneNode>(std::make_shared<Bullet>(mGame)));
+	std::shared_ptr<Bullet> b = std::make_shared<Bullet>(mGame);
+	mGame->getSceneNode()->attachChild(std::dynamic_pointer_cast<SceneNode>(b));
+	launchProjectile(angle, position, preSpeed, b);
 
-	auto entities = mGame->getSceneNode()->getChildren();
-	for(auto entity: entities){
-		if(!entity->isAlive() && typeid(*entity) == typeid(Bullet)) {
-			entity->setAlive(true);
-			entity->getBody()->GetFixtureList()[0].SetSensor(false); //bananas have only 1 fixture
-			launchProjectile(angle, position, preSpeed, entity);
-			fireClock.restart();//restarting the fire rate observing clock
-			ammo--;//reducing ammo in the clip by 1.
-			break;
-		}
-	}
+	fireClock.restart();//restarting the fire rate observing clock
+	ammo--;//reducing ammo in the clip by 1.
 }
