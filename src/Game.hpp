@@ -9,6 +9,9 @@
 #include <iostream>
 #include <map>
 #include <string>
+#include <fstream>
+#include <sstream>
+#include <stdio.h>
 
 //include required objects
 #include "Player.hpp"
@@ -41,7 +44,6 @@ public:
 	std::shared_ptr<SceneNode> getSceneNode();
 	std::shared_ptr<Player> getPlayer(int id); //used by guided projectiles
 	void whichKeyPressed(sf::Keyboard::Key &key, std::string &s);
-	void setButtons();
 
 private:
 	bool running;
@@ -53,7 +55,6 @@ private:
 	std::shared_ptr<Gamefield> gamefield;
 	sf::View viewMenu, view1, view2, statusView;
 	std::shared_ptr<GUI> gui;
-	std::map<sf::Keyboard::Key, std::string> button;
 	std::shared_ptr<Player> player1;
 	std::shared_ptr<Player> player2;
 	std::shared_ptr<Menu> menu;

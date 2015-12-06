@@ -104,7 +104,7 @@ void Options::setText() {
 		}
 		else if (8 <= i && i < 16) {
 			if (i == 8) {
-				options[i].setCharacterSize(29);
+				options[i].setCharacterSize(37);
 			}
 			else {
 				options[i].setCharacterSize(28);

@@ -50,9 +50,6 @@ Game::Game() {
 	menu = std::make_shared<Menu>();
 	options = std::make_shared<Options>();
 
-	//set data for keyboard input
-	setButtons();
-
 	run();
 
 	rWindow.close();
@@ -365,112 +362,37 @@ std::shared_ptr<Player> Game::getPlayer(int id){
 void Game::whichKeyPressed(sf::Keyboard::Key &key, std::string &s) {
 	bool selected = 1;
 	while (selected) {
-		for (auto it = button.begin(); it != button.end(); it++) {
-			if (sf::Keyboard::isKeyPressed(it->first)) {
-				key = it->first;
-				s = it->second;
+		for (auto it = player1->button.begin(); it != player1->button.end(); it++) {
+			if (sf::Keyboard::isKeyPressed(it->second)) {
+				std::ifstream buttons;
+				buttons.open("buttons.txt");
+				std::ofstream newButtons;
+				newButtons.open("newButtons.txt");
+				std::string line;
+				for (unsigned int i = 0; i < (PLAYER_KEYS * 2); i++) {
+					std::getline(buttons, line);
+					if (line == s) {
+						newButtons << it->first << std::endl;
+					}
+					else if (i < (PLAYER_KEYS * 2 - 1)) {
+						newButtons << line << std::endl;
+					}
+					else {
+						newButtons << line;
+					}
+				}
+				buttons.close();
+				newButtons.close();
+				if (remove("buttons.txt")) {
+					std::cout << "Error removing file." << std::endl;
+				}
+				if (rename("newButtons.txt", "buttons.txt")) {
+					std::cout << "Error renaming file." << std::endl;
+				}
+				key = it->second;
+				s = it->first;
 				selected = 0;
 			}
 		}
 	}
-}
-
-void Game::setButtons() {
-	button.insert(std::make_pair(sf::Keyboard::A, "A"));
-	button.insert(std::make_pair(sf::Keyboard::B, "B"));
-	button.insert(std::make_pair(sf::Keyboard::C, "C"));
-	button.insert(std::make_pair(sf::Keyboard::D, "D"));
-	button.insert(std::make_pair(sf::Keyboard::E, "E"));
-	button.insert(std::make_pair(sf::Keyboard::F, "F"));
-	button.insert(std::make_pair(sf::Keyboard::G, "G"));
-	button.insert(std::make_pair(sf::Keyboard::H, "H"));
-	button.insert(std::make_pair(sf::Keyboard::I, "I"));
-	button.insert(std::make_pair(sf::Keyboard::J, "J"));
-	button.insert(std::make_pair(sf::Keyboard::K, "K"));
-	button.insert(std::make_pair(sf::Keyboard::L, "L"));
-	button.insert(std::make_pair(sf::Keyboard::M, "M"));
-	button.insert(std::make_pair(sf::Keyboard::N, "N"));
-	button.insert(std::make_pair(sf::Keyboard::O, "O"));
-	button.insert(std::make_pair(sf::Keyboard::Q, "Q"));
-	button.insert(std::make_pair(sf::Keyboard::R, "R"));
-	button.insert(std::make_pair(sf::Keyboard::S, "S"));
-	button.insert(std::make_pair(sf::Keyboard::T, "T"));
-	button.insert(std::make_pair(sf::Keyboard::U, "U"));
-	button.insert(std::make_pair(sf::Keyboard::W, "W"));
-	button.insert(std::make_pair(sf::Keyboard::X, "X"));
-	button.insert(std::make_pair(sf::Keyboard::Y, "Y"));
-	button.insert(std::make_pair(sf::Keyboard::Z, "Z"));
-	button.insert(std::make_pair(sf::Keyboard::Num0, "Num0"));
-	button.insert(std::make_pair(sf::Keyboard::Num1, "Num1"));
-	button.insert(std::make_pair(sf::Keyboard::Num2, "Num2"));
-	button.insert(std::make_pair(sf::Keyboard::Num3, "Num3"));
-	button.insert(std::make_pair(sf::Keyboard::Num4, "Num4"));
-	button.insert(std::make_pair(sf::Keyboard::Num5, "Num5"));
-	button.insert(std::make_pair(sf::Keyboard::Num6, "Num6"));
-	button.insert(std::make_pair(sf::Keyboard::Num7, "Num7"));
-	button.insert(std::make_pair(sf::Keyboard::Num8, "Num8"));
-	button.insert(std::make_pair(sf::Keyboard::Num9, "Num9"));
-	button.insert(std::make_pair(sf::Keyboard::Escape, "Escape"));
-	button.insert(std::make_pair(sf::Keyboard::LControl, "LControl"));
-	button.insert(std::make_pair(sf::Keyboard::LShift, "LShift"));
-	button.insert(std::make_pair(sf::Keyboard::LAlt, "LAlt"));
-	button.insert(std::make_pair(sf::Keyboard::LSystem, "LSystem"));
-	button.insert(std::make_pair(sf::Keyboard::RControl, "RControl"));
-	button.insert(std::make_pair(sf::Keyboard::RShift, "RShift"));
-	button.insert(std::make_pair(sf::Keyboard::RAlt, "RAlt"));
-	button.insert(std::make_pair(sf::Keyboard::RSystem, "RSystem"));
-	button.insert(std::make_pair(sf::Keyboard::Menu, "Menu"));
-	button.insert(std::make_pair(sf::Keyboard::LBracket, "LBracket"));
-	button.insert(std::make_pair(sf::Keyboard::RBracket, "RBracket"));
-	button.insert(std::make_pair(sf::Keyboard::SemiColon, "SemiColon"));
-	button.insert(std::make_pair(sf::Keyboard::Comma, "Comma"));
-	button.insert(std::make_pair(sf::Keyboard::Period, "Period"));
-	button.insert(std::make_pair(sf::Keyboard::Quote, "Quote"));
-	button.insert(std::make_pair(sf::Keyboard::Slash, "Slash"));
-	button.insert(std::make_pair(sf::Keyboard::BackSlash, "BackSlash"));
-	button.insert(std::make_pair(sf::Keyboard::Tilde, "Tilde"));
-	button.insert(std::make_pair(sf::Keyboard::Equal, "Equal"));
-	button.insert(std::make_pair(sf::Keyboard::Dash, "Dash"));
-	button.insert(std::make_pair(sf::Keyboard::Space, "Space"));
-	button.insert(std::make_pair(sf::Keyboard::BackSpace, "BackSpace"));
-	button.insert(std::make_pair(sf::Keyboard::Tab, "Tab"));
-	button.insert(std::make_pair(sf::Keyboard::PageUp, "PageDown"));
-	button.insert(std::make_pair(sf::Keyboard::End, "End"));
-	button.insert(std::make_pair(sf::Keyboard::Home, "Home"));
-	button.insert(std::make_pair(sf::Keyboard::Insert, "Insert"));
-	button.insert(std::make_pair(sf::Keyboard::Delete, "Delete"));
-	button.insert(std::make_pair(sf::Keyboard::Add, "Add"));
-	button.insert(std::make_pair(sf::Keyboard::Subtract, "Subtract"));
-	button.insert(std::make_pair(sf::Keyboard::Multiply, "Multiply"));
-	button.insert(std::make_pair(sf::Keyboard::Divide, "Divide"));
-	button.insert(std::make_pair(sf::Keyboard::Left, "Left"));
-	button.insert(std::make_pair(sf::Keyboard::Right, "Right"));
-	button.insert(std::make_pair(sf::Keyboard::Up, "Up"));
-	button.insert(std::make_pair(sf::Keyboard::Down, "Down"));
-	button.insert(std::make_pair(sf::Keyboard::Numpad0, "Numpad0"));
-	button.insert(std::make_pair(sf::Keyboard::Numpad1, "Numpad1"));
-	button.insert(std::make_pair(sf::Keyboard::Numpad2, "Numpad2"));
-	button.insert(std::make_pair(sf::Keyboard::Numpad3, "Numpad3"));
-	button.insert(std::make_pair(sf::Keyboard::Numpad4, "Numpad4"));
-	button.insert(std::make_pair(sf::Keyboard::Numpad5, "Numpad5"));
-	button.insert(std::make_pair(sf::Keyboard::Numpad6, "Numpad6"));
-	button.insert(std::make_pair(sf::Keyboard::Numpad7, "Numpad7"));
-	button.insert(std::make_pair(sf::Keyboard::Numpad8, "Numpad8"));
-	button.insert(std::make_pair(sf::Keyboard::Numpad9, "Numpad9"));
-	button.insert(std::make_pair(sf::Keyboard::F1, "F1"));
-	button.insert(std::make_pair(sf::Keyboard::F2, "F2"));
-	button.insert(std::make_pair(sf::Keyboard::F3, "F3"));
-	button.insert(std::make_pair(sf::Keyboard::F4, "F4"));
-	button.insert(std::make_pair(sf::Keyboard::F5, "F5"));
-	button.insert(std::make_pair(sf::Keyboard::F6, "F6"));
-	button.insert(std::make_pair(sf::Keyboard::F7, "F7"));
-	button.insert(std::make_pair(sf::Keyboard::F8, "F8"));
-	button.insert(std::make_pair(sf::Keyboard::F9, "F9"));
-	button.insert(std::make_pair(sf::Keyboard::F10, "F10"));
-	button.insert(std::make_pair(sf::Keyboard::F11, "F11"));
-	button.insert(std::make_pair(sf::Keyboard::F12, "F12"));
-	button.insert(std::make_pair(sf::Keyboard::F13, "F13"));
-	button.insert(std::make_pair(sf::Keyboard::F14, "F14"));
-	button.insert(std::make_pair(sf::Keyboard::F15, "F15"));
-	button.insert(std::make_pair(sf::Keyboard::Pause, "Pause"));
 }

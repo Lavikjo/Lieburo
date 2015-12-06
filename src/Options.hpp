@@ -21,8 +21,8 @@ public:
 	int getPressedItem();
 	bool showScreen;
 	void setText();
-	sf::Text keys[7];
-	sf::Text keys2[7];
+	sf::Text keys[PLAYER_KEYS];
+	sf::Text keys2[PLAYER_KEYS];
 
 private:
 	int selectedItemIndex;

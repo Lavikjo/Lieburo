@@ -7,8 +7,11 @@
 #include "Constants.h"
 #include <vector>
 #include <string>
-class Weapon;
+#include <fstream>
+#include <iostream>
+#include <sstream>
 
+class Weapon;
 
 
 class Player : public Entity {
@@ -43,7 +46,8 @@ public:
 	std::vector<sf::Keyboard::Key> keys;
 	std::vector<std::string> keyNames;
 	void setCommands();
-
+	void setButtons();
+	std::map<std::string, sf::Keyboard::Key> button;
 
 private:
 	int mOpponent;
