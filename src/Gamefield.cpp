@@ -36,14 +36,14 @@ Gamefield::Gamefield(b2World* world) {
 	mBody->SetUserData(this); //emun would be better
 
 	
-	std::cout<<"Initializing gamefield" << std::endl;
+	std::cout<< "Initializing gamefield" << std::endl;
 
 	//Step 2
 	std::string line;
 	std::ifstream gameFieldFile ("gamefield1");
 
 	if (gameFieldFile.is_open()) {
-		while (std::getline(gameFieldFile,line)) {
+		while (std::getline(gameFieldFile, line)) {
 			//Steps 3-5
 
 			//splitting the line at the "," 
