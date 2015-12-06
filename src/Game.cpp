@@ -145,25 +145,25 @@ void Game::update(sf::Time deltaTime) {
     	else if (options->showScreen) {
     		navigateOptions(event);
     	}
-
-    	switch (event.type) {
-	        // "close requested" event: we close the window
-	        case sf::Event::Closed:
-	            running = false;
-	            break;
-            case sf::Event::KeyPressed:
-            	//Keyboard inputs with delay between presses
-			    if (sf::Keyboard::isKeyPressed(player1->keys[6])) {
-				    	player1->scrollWeapons();
-				}
-			    if (sf::Keyboard::isKeyPressed(player2->keys[6])) {
-			   		player2->scrollWeapons();
-				}
-            	break;
-	        default:
-	        	break;
-	    }
-
+    	else {
+	    	switch (event.type) {
+		        // "close requested" event: we close the window
+		        case sf::Event::Closed:
+		            running = false;
+		            break;
+	            case sf::Event::KeyPressed:
+	            	//Keyboard inputs with delay between presses
+				    if (sf::Keyboard::isKeyPressed(player1->keys[6])) {
+					    	player1->scrollWeapons();
+					}
+				    if (sf::Keyboard::isKeyPressed(player2->keys[6])) {
+				   		player2->scrollWeapons();
+					}
+	            	break;
+		        default:
+		        	break;
+		    }
+		}
 	}
 
     if(!menu->showScreen) {
