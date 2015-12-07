@@ -2,6 +2,8 @@
 
 const int SCREEN_WIDTH = 1024;
 const int SCREEN_HEIGHT = 768;
+const int GAMEFIELD_WIDTH = 1800;
+const int GAMEFIELD_HEIGHT = 1200;
 const int BITS_PER_PIXEL = 32;
 const sf::Time TIMESTEP = sf::seconds(1.0f / 60.0f); // timestep, 60 fps
 const int velocityIterations = 8;

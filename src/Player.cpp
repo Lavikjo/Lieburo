@@ -175,6 +175,20 @@ void Player::update(sf::Time deltaTime) {
 	jetpackTimer--; //decrementing the jetpack timer.
 	jumpTimer--;
 	(void) deltaTime;
+
+	if(respawning){
+		hp += 1;
+		if(hp >= PLAYER_MAX_HP){
+			hp = PLAYER_MAX_HP;
+			respawning = false;
+		}
+	}
+
+	if(hp <= 0){
+		hp = 0;
+		respawning = true;
+		respawn();
+	}
 }
 
 void Player::startContact(Entity* contact) {
@@ -473,4 +487,14 @@ void Player::setButtons() {
 	button.insert(std::make_pair(sf::Keyboard::F14, "F14"));
 	button.insert(std::make_pair(sf::Keyboard::F15, "F15"));
 	button.insert(std::make_pair(sf::Keyboard::Pause, "Pause"));*/
+}
+
+void Player::respawn(){
+	lives--;
+	if(lives == 0) {
+		std::cout << "Player"<<mOpponent<<" Wins!"<< std::endl;
+		alive = false;
+	}
+	//respawn the player to a random position
+	mBody->SetTransform(b2Vec2(rand()%(GAMEFIELD_WIDTH/(int)PIXELS_PER_METER), rand()%(GAMEFIELD_HEIGHT/(int)PIXELS_PER_METER)), 0);
 }

@@ -11,7 +11,7 @@ namespace Textures {
 Game::Game() {
 
 	//create the Box2D world
-	b2Vec2 gravity(0.0f, -9.8f);
+	b2Vec2 gravity(0.0f, 9.8f);
 	mGameWorld = new b2World(gravity, true);
 	mGameWorld->SetContactListener(&myContactListenerInstance);
 

@@ -47,6 +47,8 @@ public:
 	void setButtons();
 	std::map<std::string, sf::Keyboard::Key> button;
 
+	void respawn();
+
 private:
 	int mOpponent;
 	//possible aim dot, jetpack etc. (players only)
@@ -57,7 +59,10 @@ private:
 	sf::Texture weaponTexture;
 	sf::Sprite weaponSprite;
 
-	int hp = 100;
+	int lives = 3; //Note:1 life will be reduced at start as the hp is initially 0.
+	bool respawning = false;
+
+	int hp = 0;
 	float jetpackFuel = 100;
 	bool jetpackReady = true;
 	int jetpackTimer = 0;//a timer-like counter used to extinquish the jetpack flame 
@@ -79,6 +84,7 @@ private:
 	const float JETPACK_FUEL_CONSUMPTION = 1.2f;
 	const float JETPACK_FUEL_FILL = 0.4f;
 	const float MAX_JETPACK_SPEED = 10;
+	const int PLAYER_MAX_HP = 100;
 };
 
 #endif
