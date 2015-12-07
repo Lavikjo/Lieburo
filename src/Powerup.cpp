@@ -28,22 +28,33 @@ Powerup::Powerup(Game* game, std::string textureName){
 	mBody->CreateFixture(&mFixtureDef);
 }
 
-Powerup::~Powerup(){
-	mEntityWorld->DestroyBody(mBody);
-}
+Powerup::~Powerup(){}
 
-void Powerup::changeGravity(Game* game){
-	mEntityWorld->SetGravity(b2Vec2(0, 2.0f));
+void Powerup::changeGravity(Game* game,float gravityValue){
+
+	mEntityWorld->SetGravity(b2Vec2(0, gravityValue));
 }
 
 void Powerup::update(sf::Time deltaTime) {
-	(void) deltaTime;
+	if(alive){
+		lifeTime += deltaTime.asSeconds();	
+		if(lifeTime > LIFETIME){
+			changeGravity(mGame,9.8f);
+			alive = false;
+			mEntityWorld->DestroyBody(mBody);
+
+		}
+	}
+	else
+		lifeTime = 0;
+
 }
 
 void Powerup::startContact(Entity* contact){
 	if(typeid(*contact) == typeid(Player)){
 		if(alive)
-			changeGravity(mGame);
+			changeGravity(mGame,2.0f);
+
 	}
 }
 
