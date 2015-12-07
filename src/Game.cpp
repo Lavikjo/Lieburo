@@ -11,7 +11,7 @@ namespace Textures {
 Game::Game() {
 
 	//create the Box2D world
-	b2Vec2 gravity(0.0f, -9.8f);
+	b2Vec2 gravity(0.0f, 9.8f);
 	mGameWorld = new b2World(gravity, true);
 	mGameWorld->SetContactListener(&myContactListenerInstance);
 
@@ -25,6 +25,11 @@ Game::Game() {
 	sceneNode->attachChild(std::static_pointer_cast<SceneNode>(player1));
 	player2 = std::make_shared<Player>(this, 1);
 	sceneNode->attachChild(std::static_pointer_cast<SceneNode>(player2));
+
+	std::shared_ptr<Powerup> powerup = std::make_shared<Powerup>(this,"texture/greengrassbox.png");
+	sceneNode->attachChild(std::static_pointer_cast<SceneNode>(powerup));
+
+
 /*
 	healthBar1.setOutlineColor(sf::Color::Green);
 	healthBar1.setFillColor(sf::Color(0,220, 0, 255));

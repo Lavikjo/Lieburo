@@ -1,5 +1,4 @@
-#ifndef PROJECTILE_HH
-#define PROJECTILE_HH
+#pragma once
 
 #include "Entity.hpp"
 
@@ -21,6 +20,3 @@ protected:
 	float hitDamage;//Used to set the damage to player
 
 };
-
-
-#endif

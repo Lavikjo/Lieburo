@@ -1,5 +1,4 @@
-#ifndef GAME_HH
-#define GAME_HH
+#pragma once
 
 //library includes
 #include <SFML/Window.hpp>
@@ -23,6 +22,7 @@
 #include "Constants.h"
 #include "Gamefield.hpp"
 #include "GUI.hpp"
+#include "Powerup.hpp"
 
 class GUI;
 class Gamefield;
@@ -60,5 +60,3 @@ private:
 	std::shared_ptr<Menu> menu;
 	std::shared_ptr<Options> options;
 };
-
-#endif
