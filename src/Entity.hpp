@@ -1,5 +1,4 @@
-#ifndef ENTITY_HH
-#define ENTITY_HH
+#pragma once
 
 #include <SFML/Graphics.hpp>
 #include <Box2D/Box2D.h>
@@ -63,5 +62,3 @@ protected:
 
 
 };
-
-#endif
