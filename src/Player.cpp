@@ -65,7 +65,7 @@
 	weaponSprite.scale({-1,1});
 
 	//Add foot sensor fixture: Used for determining on ground condition.
-	polygonShape.SetAsBox(0.01f, 0.02f, b2Vec2(0,0.5f), 0);
+	polygonShape.SetAsBox(bounds.width/PIXELS_PER_METER/5.0f, bounds.width/PIXELS_PER_METER/5.0f, b2Vec2(0,bounds.height/PIXELS_PER_METER), 0);
 	mFixtureDef.isSensor = true;
 	b2Fixture* footSensorFixture = mBody->CreateFixture(&mFixtureDef);
 	footSensorFixture->SetUserData((void*)PLAYER_FOOT_SENSOR_FIXTURE); //user data contains an identification number for the foot sensor, can be any number.
