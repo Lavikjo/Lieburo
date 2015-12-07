@@ -33,7 +33,7 @@ Powerup::~Powerup(){
 }
 
 void Powerup::changeGravity(Game* game){
-	mEntityWorld->SetGravity(b2Vec2(0.0, 0));
+	mEntityWorld->SetGravity(b2Vec2(0, 2.0f));
 }
 
 void Powerup::update(sf::Time deltaTime) {
