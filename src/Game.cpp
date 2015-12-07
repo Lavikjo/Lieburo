@@ -11,13 +11,12 @@ namespace Textures {
 Game::Game() {
 
 	//create the Box2D world
-	b2Vec2 gravity(0.0f, 9.8f);
+	b2Vec2 gravity(0.0f, -9.8f);
 	mGameWorld = new b2World(gravity, true);
 	mGameWorld->SetContactListener(&myContactListenerInstance);
 
 	//instantiate the main window
 	rWindow.create(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, BITS_PER_PIXEL), "Lieburo");
-
 
 	running = true;
 
@@ -215,8 +214,8 @@ void Game::update(sf::Time deltaTime) {
 
 void Game::render() {
 	//foreach entity call render
-	sceneNode->drawAll(rWindow);
 	gamefield->draw(rWindow);
+	sceneNode->drawAll(rWindow);
 	gui->draw(rWindow);
 /*	
 	//TODO: Move this to better place
