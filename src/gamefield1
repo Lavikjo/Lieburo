@@ -1,6 +1,6 @@
-5,texture/blank.png,0,600,5,1300
+5,texture/blank.png,-5,600,5,1300
 5,texture/blank.png,1800,600,5,1300
-5,texture/blank.png,900,0,1800,5
+5,texture/blank.png,900,13,1800,5
 4,texture/blank.png,900,1225,1800,5
 1,texture/greengrassbox.png,120,300
 1,texture/greengrassbox.png,300,300
@@ -37,7 +37,6 @@
 1,texture/greengrassbox.png,1320,690
 1,texture/greengrassbox.png,1260,930
 1,texture/greengrassbox.png,1500,810
-3,texture/moon.png,1650,150,130
 1,texture/greengrassbox_p.png,450,240
 1,texture/greengrassbox_p.png,450,300
 1,texture/greengrassbox_p.png,210,540
@@ -58,6 +57,7 @@
 1,texture/greengrassbox_p.png,1500,420
 1,texture/greengrassbox_p.png,1500,480
 1,texture/greengrassbox_p.png,1500,540
+3,texture/moon.png,1650,150,100
 4,texture/blank.png,958,1174,37,52
 3,texture/blank.png,958,1065,70
-4,texture/Tree.png,954,1102,10,10
+4,texture/Tree.png,954,1104,10,10

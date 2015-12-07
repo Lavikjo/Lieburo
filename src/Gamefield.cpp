@@ -6,6 +6,17 @@
 #include <sstream>
 
 Gamefield::Gamefield(b2World* world) {
+	//load the background
+    loadTexture("texture/sky.png");
+    sf::Sprite backgroundSprite;
+    backgroundSprite.setTexture(mGroundTextures["texture/sky.png"]);
+	sf::FloatRect bounds = backgroundSprite.getLocalBounds();
+	backgroundSprite.setOrigin(0,-20);
+	mGroundSprites.push_back(backgroundSprite);
+
+
+
+
 	/*
 	1. Create the static body
 
@@ -77,20 +88,11 @@ Gamefield::Gamefield(b2World* world) {
 		    b2PolygonShape polygonShape;
 		    b2FixtureDef mFixtureDef;
 
-		    if(type == 1 || type ==4 || type == 5){
+		    if(type == 1){
 				polygonShape.SetAsBox(0.5f*bounds.width / PIXELS_PER_METER, 0.5f*bounds.height/PIXELS_PER_METER, b2Vec2(x/PIXELS_PER_METER,y/PIXELS_PER_METER), 0);
 				mFixtureDef.shape = &polygonShape;
 				mFixtureDef.density = 1;
 				mFixtureDef.friction = 1.0f;
-				if(type == 4){
-					int x2 = std::stoi(fields[4], nullptr);
-			    	int y2 = std::stoi(fields[5], nullptr);
-					polygonShape.SetAsBox(x2 / PIXELS_PER_METER, y2 / PIXELS_PER_METER, b2Vec2(x/PIXELS_PER_METER,y/PIXELS_PER_METER), 0);
-
-					if(type == 5)
-						mFixtureDef.friction = 0.0f;
-				}
-
 				mFixtureDef.filter.categoryBits = BOUNDARY; //I am a BOUNDARY, I collide with everything.
 				mBody->CreateFixture(&mFixtureDef);
 			}
@@ -115,7 +117,7 @@ Gamefield::Gamefield(b2World* world) {
 			}
 
 			if(type == 3){
-				int radius = std::stoi(fields[4], nullptr);
+				int radius = std::stoi(fields[4],nullptr);
 
 				b2CircleShape circleShape;
 				circleShape.m_p.Set(x / PIXELS_PER_METER,y / PIXELS_PER_METER);
@@ -125,10 +127,25 @@ Gamefield::Gamefield(b2World* world) {
 				mFixtureDef.friction = 0.0f;
 				mBody->CreateFixture(&mFixtureDef);
 			}
+
+			if(type == 4 || type == 5){
+		    	int x2 = std::stoi(fields[4], nullptr);
+		    	int y2 = std::stoi(fields[5], nullptr);
+				polygonShape.SetAsBox(x2 / PIXELS_PER_METER, y2 / PIXELS_PER_METER, b2Vec2(x/PIXELS_PER_METER,y/PIXELS_PER_METER), 0);
+				mFixtureDef.shape = &polygonShape;
+				mFixtureDef.density = 1;
+				mFixtureDef.friction = 1.0f;
+				if(type == 5)
+					mFixtureDef.friction = 0.0f;
+				mFixtureDef.filter.categoryBits = BOUNDARY; //I am a BOUNDARY, I collide with everything.
+				mBody->CreateFixture(&mFixtureDef);
+			}
 		}
 	gameFieldFile.close();
 	}
 }
+
+
 
 void Gamefield::draw(sf::RenderTarget& target) {
 	for(auto& groundSprite:mGroundSprites) {
