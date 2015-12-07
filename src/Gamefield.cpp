@@ -34,6 +34,7 @@ Gamefield::Gamefield(b2World* world) {
 	mBodyDef.fixedRotation = true; // prevent rotation
 	mBody = world->CreateBody(&mBodyDef);
 	mBody->SetUserData(this); //emun would be better
+	
 
 	
 	std::cout<< "Initializing gamefield" << std::endl;
@@ -111,7 +112,6 @@ Gamefield::Gamefield(b2World* world) {
 				mFixtureDef.friction = 0.0f;
 				mFixtureDef.density = 1;
 				mFixtureDef.filter.categoryBits = BOUNDARY; //I am a BOUNDARY, I collide with everything.
-				mBody->CreateFixture(&mFixtureDef);
 			}
 
 			if(type == 3){
