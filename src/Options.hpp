@@ -6,8 +6,6 @@
 #include <vector>
 #include <string>
 
-#define MAX_NUMBER_OF_OPTIONS_ITEMS 17
-
 class Options {
 public:
 	Options();

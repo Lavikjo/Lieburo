@@ -1,0 +1,14 @@
+T
+F
+H
+W
+S
+Q
+G
+Up
+Left
+Right
+RShift
+RControl
+Dash
+Down
