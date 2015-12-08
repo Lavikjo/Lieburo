@@ -10,13 +10,18 @@ void Projectile::fragment(std::string texture, float maxLifeTime, float maxExplo
 
 		//Make it fly
 		s->setAlive(true);
+
+		float a = (rand()%100)/100.0f;
+
+		float angle = a*i; //The direction is random enough as i is radians.
+
 		b2Body* body = s->getBody();
-		body->SetTransform(mBody->GetPosition(), 0);
+		float x = mBody->GetPosition().x+sin(angle+a)*a; 
+		float y = mBody->GetPosition().y+cos(angle+a)*a;
+		body->SetTransform(b2Vec2(x,y), 0);
 
-
-		float angle = i; //The direction is random enough as i is radians.
-		float velX = sin(angle)*velocity;
-		float velY = cos(angle)*velocity;
+		float velX = sin(angle)*velocity*a;
+		float velY = cos(angle)*velocity*a;
 
 		body->SetLinearVelocity(b2Vec2(velX, velY));
 	}

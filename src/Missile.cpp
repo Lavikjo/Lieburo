@@ -34,7 +34,7 @@ void Missile::update(sf::Time deltaTime) {
 			explosionClock+= deltaTime.asSeconds();
 
 			if(!hasFragmented) {
-				fragment("texture/bullet.png", 1.0f, 0.25f, 30.0f, 20, 1.0f);
+				fragment("texture/bullet.png", 0.2f, 0.25f, 30.0f, 12, 1.0f);
 				
 			}
 		}
@@ -50,7 +50,7 @@ void Missile::update(sf::Time deltaTime) {
 void Missile::startContact(Entity* contact){ 
 	if(lifeTime > 0.2) {//Preventing barrel explosion
 		if(typeid(*contact) == typeid(Player)) {
-			contact->updateHp(-20);
+			contact->updateHp(-5);
 			lifeTime = MISSILE_LIFETIME +1;
 			hasFragmented = true;
 		}
@@ -82,7 +82,7 @@ void Missile::seek(){
 	}
 
 	//slow at first second(s)
-	if(lifeTime < 0.5f) {
+	if(lifeTime < 0.2f) {
 		x *= 0.1f;
 		y *= 0.1f;
 	}

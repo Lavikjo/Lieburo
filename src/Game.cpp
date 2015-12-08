@@ -193,6 +193,7 @@ void Game::render() {
 	gamefield->draw(rWindow);
 	sceneNode->drawAll(rWindow);
 	gui->draw(rWindow);
+
 /*	
 	//TODO: Move this to better place
 	
