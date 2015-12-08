@@ -26,7 +26,7 @@ Game::Game() {
 	player2 = std::make_shared<Player>(this, 1);
 	sceneNode->attachChild(std::static_pointer_cast<SceneNode>(player2));
 
-	std::shared_ptr<Powerup> powerup = std::make_shared<Powerup>(this,"texture/greengrassbox.png");
+	std::shared_ptr<Powerup> powerup = std::make_shared<Powerup>(this,"texture/ak47.png");
 	sceneNode->attachChild(std::static_pointer_cast<SceneNode>(powerup));
 
 
@@ -402,6 +402,10 @@ void Game::whichKeyPressed(sf::Keyboard::Key &key, std::string &s) {
 			}
 		}
 	}
+}
+
+void Game::gameOver(int winner){
+	std::cout << "Player"<<winner<<" Wins!"<< std::endl;
 }
 
 Game::~Game(){

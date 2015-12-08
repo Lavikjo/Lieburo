@@ -72,7 +72,7 @@ private:
 	int gunDirection = 1; //used for setting the direction of the gun
 	std::vector<std::shared_ptr<Weapon>> mWeapons;
 	unsigned int currentWeapon = 0;
-	const float GUN_BARREL_LENGTH = 2.0f;//pixels
+	const float GUN_BARREL_LENGTH = 1.7f;//pixels
 	const float MIN_SHOOT_ANGLE = 30*DEG_TO_RAD;
 	const float MAX_SHOOT_ANGLE = 180*DEG_TO_RAD;
 	float previousXVelocity = 1;//at the beginning the moving direction is +x -> velocity > 0

@@ -492,9 +492,10 @@ void Player::setButtons() {
 void Player::respawn(){
 	lives--;
 	if(lives == 0) {
-		std::cout << "Player"<<mOpponent<<" Wins!"<< std::endl;
 		alive = false;
+		mGame->gameOver(mOpponent);
 	}
-	//respawn the player to a random position
-	mBody->SetTransform(b2Vec2(rand()%(GAMEFIELD_WIDTH/(int)PIXELS_PER_METER), rand()%(GAMEFIELD_HEIGHT/(int)PIXELS_PER_METER)), 0);
+	//respawn the player to a random position. Safe margin of 30 pixels to edges
+	mBody->SetTransform(b2Vec2((rand()+30/(int)PIXELS_PER_METER)%(GAMEFIELD_WIDTH/(int)PIXELS_PER_METER)-30/PIXELS_PER_METER,
+		(rand()+30/(int)PIXELS_PER_METER)%(GAMEFIELD_HEIGHT/(int)PIXELS_PER_METER)-30/PIXELS_PER_METER), 0);
 }

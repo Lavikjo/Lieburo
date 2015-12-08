@@ -44,6 +44,7 @@ public:
 	std::shared_ptr<SceneNode> getSceneNode();
 	std::shared_ptr<Player> getPlayer(int id); //used by guided projectiles
 	void whichKeyPressed(sf::Keyboard::Key &key, std::string &s);
+	void gameOver(int);
 
 private:
 	bool running;
