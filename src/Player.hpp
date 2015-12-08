@@ -48,6 +48,10 @@ public:
 	std::map<std::string, sf::Keyboard::Key> button;
 
 	void respawn();
+	void handleUserInput();
+
+	void spillBlood(int);
+	bool isWaitingForRespawn() const;
 
 private:
 	int mOpponent;
@@ -59,8 +63,11 @@ private:
 	sf::Texture weaponTexture;
 	sf::Sprite weaponSprite;
 
-	int lives = 3; //Note:1 life will be reduced at start as the hp is initially 0.
-	bool respawning = false;
+	int lives = 2; 
+	bool respawning = true; //Respawn at start
+	bool waitingForRespawn = false;
+
+	int bloodToSpill = 0; //A separate variable must be used as blood cant't be created within startContact (box2d cause) 
 
 	int hp = 0;
 	float jetpackFuel = 100;

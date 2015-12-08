@@ -42,9 +42,11 @@ void Shrapnel::startContact(Entity* contact){
 	if(typeid(*contact) == typeid(Player)) {
 		if(alive && lifeTime > 0.1f) {
 			contact->updateHp(-hitDamage);
-			mSprite.setTexture(mExplosionTexture, true); //true resets the sprite boundaries
-			exploses = true;
-			explosionClock = 0;
+			if(mMaxExplosionTime > 0){
+				mSprite.setTexture(mExplosionTexture, true); //true resets the sprite boundaries
+				exploses = true;
+				explosionClock = 0;
+			}
 		}
 	}
 

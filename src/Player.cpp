@@ -6,6 +6,8 @@
 #include "Rifle.hpp"
 #include "Bullet.hpp"
 
+#include "Shrapnel.hpp"
+
  Player::Player(Game* game, int opponent){
 
  	mOpponent = opponent;
@@ -16,12 +18,17 @@
 
 	mBodyDef.type = b2_dynamicBody;
 	mBodyDef.fixedRotation = true; // prevent rotation
-	mBodyDef.position.Set(20, 10);
 	mBodyDef.angle = 0;
 	mBodyDef.fixedRotation = true; // prevent rotation
 	mBody = mEntityWorld->CreateBody(&mBodyDef);
 	mBody->SetUserData(this);
 
+	//respawn the player to a random position.
+	mBody->SetTransform(b2Vec2((rand()/(int)PIXELS_PER_METER)%(GAMEFIELD_WIDTH/(int)PIXELS_PER_METER),
+		(rand()/(int)PIXELS_PER_METER)%(GAMEFIELD_HEIGHT/(int)PIXELS_PER_METER)), 0);
+
+	b2Vec2 pos = mBody->GetPosition();
+	std::cout <<"x: "<<pos.x*30<<", y: "<<pos.y*30<<std::endl;
 	// Declare and load a texture
 	mTexture.loadFromFile("texture/Astronaut-1.png");
 	
@@ -70,11 +77,10 @@
 	b2Fixture* footSensorFixture = mBody->CreateFixture(&mFixtureDef);
 	footSensorFixture->SetUserData((void*)PLAYER_FOOT_SENSOR_FIXTURE); //user data contains an identification number for the foot sensor, can be any number.
 
-	alive = true;
+	alive = true;	
 
 	setButtons();
-	setCommands();
-	
+	setCommands();	
 }
 
 void Player::aim(float angleChange) {
@@ -176,19 +182,53 @@ void Player::update(sf::Time deltaTime) {
 	jumpTimer--;
 	(void) deltaTime;
 
+	//The lifelost-handler
+
+	//Update hp back up after player has pressed fire
 	if(respawning){
 		hp += 1;
+		if(hp>0.3f*PLAYER_MAX_HP){
+			waitingForRespawn = false;//Taking this flag off now to prevent a gunshot from the fire button press.
+		}
 		if(hp >= PLAYER_MAX_HP){
 			hp = PLAYER_MAX_HP;
 			respawning = false;
 		}
 	}
 
-	if(hp <= 0){
+	//If the hp is gone
+	else if(hp <= 0){
 		hp = 0;
-		respawning = true;
-		respawn();
+		//Single-time checks
+		if(!waitingForRespawn){
+			lives--;
+			bloodToSpill = 70;
+
+			//setting the body fixture to collide with nothing.
+			b2Fixture* f = mBody->GetFixtureList()->GetNext();
+			b2Filter filter;
+			filter.maskBits = 0; 
+			f->SetFilterData(filter);
+
+			//Checking for game over
+			if(lives == 0) {
+				alive = false;
+				mGame->gameOver(mOpponent);
+				return;
+			}
+			std::cout<<"Press fire to respawn"<<std::endl;
+		}
+		waitingForRespawn = true;
+
+		//waiting for user input to load hp and reposition.
+		if(sf::Keyboard::isKeyPressed(keys[5])){
+			respawning = true;
+			respawn();
+		}
 	}
+
+	//Spill blood
+	spillBlood(bloodToSpill);
 }
 
 void Player::startContact(Entity* contact) {
@@ -209,24 +249,26 @@ sf::Vector2f Player::returnPosition() {
 
 
 void Player::drawPlayer(sf::RenderTarget& target) {
-	target.draw(aimDotSprite);
-	if(jetpackTimer > 0 ){
-		target.draw(jetpackSprite);
+	if(!waitingForRespawn){
+		target.draw(aimDotSprite);
+		if(jetpackTimer > 0 ){
+			target.draw(jetpackSprite);
+		}
+
+		//Synchronize sprite coordinates with body
+		b2Vec2 pos = mBody->GetPosition();
+		spriteAngle = mBody->GetAngle() * RAD_TO_DEG;
+		spritePosition.x = pos.x * PIXELS_PER_METER;
+		spritePosition.y = pos.y * PIXELS_PER_METER;
+
+		//Draw Sprite
+		mSprite.setPosition(spritePosition);
+		mSprite.setRotation(spriteAngle);
+		target.draw(mSprite);
+
+		//draw weapon
+		target.draw(weaponSprite);
 	}
-
-	//Synchronize sprite coordinates with body
-	b2Vec2 pos = mBody->GetPosition();
-	spriteAngle = mBody->GetAngle() * RAD_TO_DEG;
-	spritePosition.x = pos.x * PIXELS_PER_METER;
-	spritePosition.y = pos.y * PIXELS_PER_METER;
-
-	//Draw Sprite
-	mSprite.setPosition(spritePosition);
-	mSprite.setRotation(spriteAngle);
-	target.draw(mSprite);
-
-	//draw weapon
-	target.draw(weaponSprite);
 }
 
 int Player::getHp() const{
@@ -247,6 +289,7 @@ unsigned int Player::getCurrentClipSize() const {
 
 void Player::updateHp(int val) {
 	hp += val;
+	bloodToSpill = -val*2;
 }
 
 void Player::scrollWeapons() {
@@ -490,12 +533,70 @@ void Player::setButtons() {
 }
 
 void Player::respawn(){
-	lives--;
-	if(lives == 0) {
-		alive = false;
-		mGame->gameOver(mOpponent);
+
+	//setting the body fixture to collide with nothing.
+	b2Fixture* f = mBody->GetFixtureList()->GetNext();
+	b2Filter filter;
+	filter.maskBits = ~PLAYER; 
+	filter.categoryBits = PLAYER; //I am a PLAYER
+	f->SetFilterData(filter);
+
+	//respawn the player to a random position.
+	mBody->SetTransform(b2Vec2((rand()/(int)PIXELS_PER_METER)%(GAMEFIELD_WIDTH/(int)PIXELS_PER_METER),
+		(rand()/(int)PIXELS_PER_METER)%(GAMEFIELD_HEIGHT/(int)PIXELS_PER_METER)), 0);
+	jetpackFuel = JETPACK_MAX_FUEL;
+} 
+
+void Player::handleUserInput(){
+	if(!waitingForRespawn){
+		if (sf::Keyboard::isKeyPressed(keys[0])) {
+		    jump();
+		}
+	    if (sf::Keyboard::isKeyPressed(keys[1])) {
+		    movePlayerX(-0.1f);
+		}
+		if (sf::Keyboard::isKeyPressed(keys[2])) {
+		    movePlayerX(0.1f);
+		}
+		if (sf::Keyboard::isKeyPressed(keys[3])) {
+		    aim(3);
+		}
+		if (sf::Keyboard::isKeyPressed(keys[4])) {
+		    aim(-3);
+		}
+		if (sf::Keyboard::isKeyPressed(keys[5])) {
+		    fire();
+		}
 	}
-	//respawn the player to a random position. Safe margin of 30 pixels to edges
-	mBody->SetTransform(b2Vec2((rand()+30/(int)PIXELS_PER_METER)%(GAMEFIELD_WIDTH/(int)PIXELS_PER_METER)-30/PIXELS_PER_METER,
-		(rand()+30/(int)PIXELS_PER_METER)%(GAMEFIELD_HEIGHT/(int)PIXELS_PER_METER)-30/PIXELS_PER_METER), 0);
+}
+
+void Player::spillBlood(int amount){
+	for(auto i = 0; i < amount; i++) {
+		//Create blood shrapnel
+		std::shared_ptr<Shrapnel> s = std::make_shared<Shrapnel>(mGame, "texture/blood.png", 2.0f, 0, 0);		
+  
+		mGame->getSceneNode()->attachChild(std::dynamic_pointer_cast<SceneNode>(s));
+
+		//Make it fly
+		s->setAlive(true);
+
+		float a = (rand()%100)/100.0f;
+
+		float angle = a*i; //The direction is random enough as i is radians.
+
+		b2Body* body = s->getBody();
+		float x = mBody->GetPosition().x+direction*sin(angle+a)*0.15f*a*GUN_BARREL_LENGTH; 
+		float y = mBody->GetPosition().y+cos(angle+a)*0.15f*a*GUN_BARREL_LENGTH;
+		body->SetTransform(b2Vec2(x,y), 0);
+
+		float velX = sin(angle)*8.0f*a;
+		float velY = cos(angle)*8.0f*a;
+
+		body->SetLinearVelocity(b2Vec2(velX, velY));
+	}
+	bloodToSpill = 0;
+}
+
+bool Player::isWaitingForRespawn() const{
+	return waitingForRespawn;
 }

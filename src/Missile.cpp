@@ -48,11 +48,11 @@ void Missile::update(sf::Time deltaTime) {
 }
 
 void Missile::startContact(Entity* contact){ 
-	if(lifeTime > 0.1f) {//Preventing barrel explosion
+	if(lifeTime > 0.2) {//Preventing barrel explosion
 		if(typeid(*contact) == typeid(Player)) {
-			if(alive) {
-				contact->updateHp(-20);
-			}
+			contact->updateHp(-20);
+			lifeTime = MISSILE_LIFETIME +1;
+			hasFragmented = true;
 		}
 		explode();
 	}
@@ -82,7 +82,7 @@ void Missile::seek(){
 	}
 
 	//slow at first second(s)
-	if(lifeTime < 1.0f) {
+	if(lifeTime < 0.5f) {
 		x *= 0.1f;
 		y *= 0.1f;
 	}

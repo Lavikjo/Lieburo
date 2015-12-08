@@ -160,8 +160,12 @@ void Game::update(sf::Time deltaTime) {
 		            break;
 	            case sf::Event::KeyPressed:
 	            	//Keyboard inputs with delay between presses
-				    if (sf::Keyboard::isKeyPressed(player1->keys[6])) {
-					    	player1->scrollWeapons();
+
+
+
+	            	//tässä voisi olla tyyliin player1->getKey("scrollweapon")
+				    if (sf::Keyboard::isKeyPressed(player1->keys[6])) { 
+					    player1->scrollWeapons();
 					}
 				    if (sf::Keyboard::isKeyPressed(player2->keys[6])) {
 				   		player2->scrollWeapons();
@@ -174,42 +178,9 @@ void Game::update(sf::Time deltaTime) {
 	}
 
     if(!menu->showScreen) {
-    	if (sf::Keyboard::isKeyPressed(player1->keys[0])) {
-		    player1->jump();
-		}
-	    if (sf::Keyboard::isKeyPressed(player1->keys[1])) {
-		    player1->movePlayerX(-0.1f);
-		}
-		if (sf::Keyboard::isKeyPressed(player1->keys[2])) {
-		    player1->movePlayerX(0.1f);
-		}
-		if (sf::Keyboard::isKeyPressed(player1->keys[3])) {
-		    player1->aim(3);
-		}
-		if (sf::Keyboard::isKeyPressed(player1->keys[4])) {
-		    player1->aim(-3);
-		}
-		if (sf::Keyboard::isKeyPressed(player1->keys[5])) {
-		    player1->fire();
-		}
-		if (sf::Keyboard::isKeyPressed(player2->keys[0])) {
-		    player2->jump();
-		}
-		if (sf::Keyboard::isKeyPressed(player2->keys[1])) {
-		    player2->movePlayerX(-0.1f);
-		}
-		if (sf::Keyboard::isKeyPressed(player2->keys[2])) {
-		    player2->movePlayerX(0.1f);
-		}
-		if (sf::Keyboard::isKeyPressed(player2->keys[3])) {
-		    player2->aim(3);
-		}
-		if (sf::Keyboard::isKeyPressed(player2->keys[4])) {
-		    player2->aim(-3);
-		}
-		if (sf::Keyboard::isKeyPressed(player2->keys[5])) {
-		    player2->fire();
-		}
+
+    	player1->handleUserInput();
+    	player2->handleUserInput();
 
 		sceneNode->updateAll(deltaTime);
 

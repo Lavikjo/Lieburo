@@ -10,7 +10,6 @@ void Projectile::fragment(std::string texture, float maxLifeTime, float maxExplo
 
 		//Make it fly
 		s->setAlive(true);
-		s->getBody()->GetFixtureList()[0].SetSensor(false); //bananas have only 1 fixture
 		b2Body* body = s->getBody();
 		body->SetTransform(mBody->GetPosition(), 0);
 

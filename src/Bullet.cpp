@@ -21,7 +21,7 @@ void Bullet::update(sf::Time deltaTime) {
 
 void Bullet::startContact(Entity* contact){
 	if(typeid(*contact) == typeid(Player)) {
-		if(alive) {
+		if(lifeTime > 0.05) {
 			contact->updateHp(-3);
 		}
 	}

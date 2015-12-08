@@ -32,6 +32,8 @@ public:
 	virtual void drawPlayer(sf::RenderTarget&){}
 	virtual void updateHp(int){}
 
+	void fragment(std::string, float, float, float, int, float);//used for spreading possibly damaging objects around.
+
 
 protected:
 	//Sprite
