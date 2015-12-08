@@ -36,7 +36,7 @@ void Banana::update(sf::Time deltaTime) {
 			explosionClock += deltaTime.asSeconds();
 
 			if(!hasFragmented) {
-				fragment("texture/minibanana.png", 2.0f, 0.25f, 20.0f, 8, 1.0);
+				fragment("texture/minibanana.png", 2.0f, 0.25f, 20.0f, 10, 4.0);
 				
 			}
 		}
@@ -49,6 +49,9 @@ void Banana::update(sf::Time deltaTime) {
 }
 
 void Banana::startContact(Entity* contact){
+	(void) contact;
+	//Banana doesn't explode on collision.
+	/*
 	if(typeid(*contact) == typeid(Player)) {
 		if(lifeTime > 0.05) {//Preventing barrell explosion
 			contact->updateHp(-10);
@@ -57,6 +60,7 @@ void Banana::startContact(Entity* contact){
 			hasFragmented = true;//Upon player hit we want it not to fragment.
 		}
 	}
+	*/
 }
 
 void Banana::explode(){
