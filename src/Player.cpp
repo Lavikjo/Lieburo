@@ -574,7 +574,13 @@ void Player::spillBlood(int amount){
 	for(auto i = 0; i < amount; i++) {
 		//Create blood shrapnel
 		std::shared_ptr<Shrapnel> s = std::make_shared<Shrapnel>(mGame, "texture/blood.png", 2.0f, 0, 0);		
-  
+  		
+  		//setting the body fixture to collide with nothing.
+		b2Fixture* f = s->getBody()->GetFixtureList();
+		b2Filter filter;
+		filter.maskBits = ~BOUNDARY; //I collide with boundary only 
+		f->SetFilterData(filter);
+		
 		mGame->getSceneNode()->attachChild(std::dynamic_pointer_cast<SceneNode>(s));
 
 		//Make it fly
@@ -585,8 +591,8 @@ void Player::spillBlood(int amount){
 		float angle = a*i; //The direction is random enough as i is radians.
 
 		b2Body* body = s->getBody();
-		float x = mBody->GetPosition().x+direction*sin(angle+a)*0.15f*a*GUN_BARREL_LENGTH; 
-		float y = mBody->GetPosition().y+cos(angle+a)*0.15f*a*GUN_BARREL_LENGTH;
+		float x = mBody->GetPosition().x+direction*sin(angle+a)*0.5f*a*GUN_BARREL_LENGTH; 
+		float y = mBody->GetPosition().y+cos(angle+a)*0.5f*a*GUN_BARREL_LENGTH;
 		body->SetTransform(b2Vec2(x,y), 0);
 
 		float velX = sin(angle)*8.0f*a;

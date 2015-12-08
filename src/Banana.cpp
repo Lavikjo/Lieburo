@@ -49,18 +49,12 @@ void Banana::update(sf::Time deltaTime) {
 }
 
 void Banana::startContact(Entity* contact){
-	(void) contact;
 	//Banana doesn't explode on collision.
-	/*
 	if(typeid(*contact) == typeid(Player)) {
 		if(lifeTime > 0.05) {//Preventing barrell explosion
-			contact->updateHp(-10);
-			explode();
-			
-			hasFragmented = true;//Upon player hit we want it not to fragment.
+			contact->updateHp(-5);
 		}
 	}
-	*/
 }
 
 void Banana::explode(){
