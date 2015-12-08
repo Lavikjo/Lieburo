@@ -305,8 +305,8 @@ void Player::scrollWeapons() {
 }
 
 void Player::setCommands() {
-		std::ifstream buttons("buttons.txt");
-		std::string line;	
+	std::ifstream buttons("buttons.txt");
+	std::string line;	
 	if (mOpponent == 2) {
 		for (unsigned int i = 0; i < PLAYER_KEYS; i++) {
 			std::getline(buttons, line);
@@ -332,6 +332,36 @@ void Player::setCommands() {
 			keyNames.push_back(s);
 		}
 	}
+}
+
+void Player::resetCommands() {
+	std::ifstream buttonsReset("buttonsReset.txt");
+	std::string line;
+	std::ofstream newButtons("newButtons.txt");
+	if (mOpponent == 2) {
+		for (unsigned int i = 0; i < PLAYER_KEYS * 2; i++) {
+			std::getline(buttonsReset, line);
+			newButtons << line << std::endl;
+			if (i < PLAYER_KEYS) {
+				keys[i] = button[line];
+				keyNames[i] = line;
+			}
+		}
+	}
+	else if (mOpponent == 1) {
+		for (unsigned int i = 0; i < PLAYER_KEYS * 2; i++) {
+			std::getline(buttonsReset, line);
+			newButtons << line << std::endl;
+			if (i >= PLAYER_KEYS) {
+				keys[i - PLAYER_KEYS] = button[line];
+				keyNames[i - PLAYER_KEYS] = line;
+			}
+		}
+	}
+	if (rename("newButtons.txt", "buttons.txt")) {
+		std::cout << "Error renaming file." << std::endl;
+	}
+	buttonsReset.close();
 }
 
 void Player::setButtons() {

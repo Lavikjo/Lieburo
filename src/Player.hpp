@@ -44,6 +44,7 @@ public:
 	std::vector<sf::Keyboard::Key> keys;
 	std::vector<std::string> keyNames;
 	void setCommands();
+	void resetCommands();
 	void setButtons();
 	std::map<std::string, sf::Keyboard::Key> button;
 

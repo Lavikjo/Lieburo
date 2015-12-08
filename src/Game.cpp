@@ -263,50 +263,55 @@ void Game::navigateOptions(sf::Event &event) {
 				case sf::Keyboard::Right:
 					options->moveRight();
 					break;
+				case sf::Keyboard::F12:
+					player1->resetCommands();
+					player2->resetCommands();
+					options->draw(rWindow, player1->keyNames, player2->keyNames);
+					break;
 
 				case sf::Keyboard::Return:
 					switch (options->getPressedItem()) {
 						case 1:
-							whichKeyPressed(player1->keys[0], player1->keyNames[0]);
+							whichKeyPressed(player1->keys[0], player1->keyNames[0], 0);
 							break;
 						case 2:
-							whichKeyPressed(player1->keys[1], player1->keyNames[1]);
+							whichKeyPressed(player1->keys[1], player1->keyNames[1], 1);
 							break;
 						case 3:
-							whichKeyPressed(player1->keys[2], player1->keyNames[2]);
+							whichKeyPressed(player1->keys[2], player1->keyNames[2], 2);
 							break;
 						case 4:
-							whichKeyPressed(player1->keys[3], player1->keyNames[3]);
+							whichKeyPressed(player1->keys[3], player1->keyNames[3], 3);
 							break;
 						case 5:
-							whichKeyPressed(player1->keys[4], player1->keyNames[4]);
+							whichKeyPressed(player1->keys[4], player1->keyNames[4], 4);
 							break;
 						case 6:
-							whichKeyPressed(player1->keys[5], player1->keyNames[5]);
+							whichKeyPressed(player1->keys[5], player1->keyNames[5], 5);
 							break;
 						case 7:
-							whichKeyPressed(player1->keys[6], player1->keyNames[6]);
+							whichKeyPressed(player1->keys[6], player1->keyNames[6], 6);
 							break;
 						case 9:
-							whichKeyPressed(player2->keys[0], player2->keyNames[0]);
+							whichKeyPressed(player2->keys[0], player2->keyNames[0], 7);
 							break;
 						case 10:
-							whichKeyPressed(player2->keys[1], player2->keyNames[1]);
+							whichKeyPressed(player2->keys[1], player2->keyNames[1], 8);
 							break;
 						case 11:
-							whichKeyPressed(player2->keys[2], player2->keyNames[2]);
+							whichKeyPressed(player2->keys[2], player2->keyNames[2], 9);
 							break;
 						case 12:
-							whichKeyPressed(player2->keys[3], player2->keyNames[3]);
+							whichKeyPressed(player2->keys[3], player2->keyNames[3], 10);
 							break;
 						case 13:
-							whichKeyPressed(player2->keys[4], player2->keyNames[4]);
+							whichKeyPressed(player2->keys[4], player2->keyNames[4], 11);
 							break;
 						case 14:
-							whichKeyPressed(player2->keys[5], player2->keyNames[5]);
+							whichKeyPressed(player2->keys[5], player2->keyNames[5], 12);
 							break;
 						case 15:
-							whichKeyPressed(player2->keys[6], player2->keyNames[6]);
+							whichKeyPressed(player2->keys[6], player2->keyNames[6], 13);
 							break;
 						case 16:
 							std::cout << "User pressed Return to main menu." << std::endl;
@@ -338,7 +343,7 @@ std::shared_ptr<Player> Game::getPlayer(int id){
 	return nullptr;
 }
 
-void Game::whichKeyPressed(sf::Keyboard::Key &key, std::string &s) {
+void Game::whichKeyPressed(sf::Keyboard::Key &key, std::string &s, unsigned int a) {
 	bool selected = 1;
 	while (selected) {
 		for (auto it = player1->button.begin(); it != player1->button.end(); it++) {
@@ -350,7 +355,7 @@ void Game::whichKeyPressed(sf::Keyboard::Key &key, std::string &s) {
 				std::string line;
 				for (unsigned int i = 0; i < (PLAYER_KEYS * 2); i++) {
 					std::getline(buttons, line);
-					if (line == s) {
+					if (i == a) {
 						newButtons << it->first << std::endl;
 					}
 					else if (i < (PLAYER_KEYS * 2 - 1)) {
