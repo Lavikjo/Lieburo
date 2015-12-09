@@ -23,9 +23,9 @@
 	mBody = mEntityWorld->CreateBody(&mBodyDef);
 	mBody->SetUserData(this);
 
-	//respawn the player to a random position.
-	mBody->SetTransform(b2Vec2((rand()/(int)PIXELS_PER_METER)%(GAMEFIELD_WIDTH/(int)PIXELS_PER_METER),
-		(rand()/(int)PIXELS_PER_METER)%(GAMEFIELD_HEIGHT/(int)PIXELS_PER_METER)), 0);
+	//respawn the player to a random position. 100px margin.
+	mBody->SetTransform(b2Vec2((rand()%(GAMEFIELD_WIDTH-200)+100)/(int)PIXELS_PER_METER,
+		(rand()%(GAMEFIELD_HEIGHT-200)+100)/(int)PIXELS_PER_METER), 0);
 
 	b2Vec2 pos = mBody->GetPosition();
 	std::cout <<"x: "<<pos.x*30<<", y: "<<pos.y*30<<std::endl;
@@ -463,103 +463,6 @@ void Player::setButtons() {
 	button.insert(std::make_pair("F15", sf::Keyboard::F15));
 	button.insert(std::make_pair("Pause", sf::Keyboard::Pause));
 
-	/*button.insert(std::make_pair(sf::Keyboard::A, "A"));
-	button.insert(std::make_pair(sf::Keyboard::B, "B"));
-	button.insert(std::make_pair(sf::Keyboard::C, "C"));
-	button.insert(std::make_pair(sf::Keyboard::D, "D"));
-	button.insert(std::make_pair(sf::Keyboard::E, "E"));
-	button.insert(std::make_pair(sf::Keyboard::F, "F"));
-	button.insert(std::make_pair(sf::Keyboard::G, "G"));
-	button.insert(std::make_pair(sf::Keyboard::H, "H"));
-	button.insert(std::make_pair(sf::Keyboard::I, "I"));
-	button.insert(std::make_pair(sf::Keyboard::J, "J"));
-	button.insert(std::make_pair(sf::Keyboard::K, "K"));
-	button.insert(std::make_pair(sf::Keyboard::L, "L"));
-	button.insert(std::make_pair(sf::Keyboard::M, "M"));
-	button.insert(std::make_pair(sf::Keyboard::N, "N"));
-	button.insert(std::make_pair(sf::Keyboard::O, "O"));
-	button.insert(std::make_pair(sf::Keyboard::Q, "Q"));
-	button.insert(std::make_pair(sf::Keyboard::R, "R"));
-	button.insert(std::make_pair(sf::Keyboard::S, "S"));
-	button.insert(std::make_pair(sf::Keyboard::T, "T"));
-	button.insert(std::make_pair(sf::Keyboard::U, "U"));
-	button.insert(std::make_pair(sf::Keyboard::W, "W"));
-	button.insert(std::make_pair(sf::Keyboard::X, "X"));
-	button.insert(std::make_pair(sf::Keyboard::Y, "Y"));
-	button.insert(std::make_pair(sf::Keyboard::Z, "Z"));
-	button.insert(std::make_pair(sf::Keyboard::Num0, "Num0"));
-	button.insert(std::make_pair(sf::Keyboard::Num1, "Num1"));
-	button.insert(std::make_pair(sf::Keyboard::Num2, "Num2"));
-	button.insert(std::make_pair(sf::Keyboard::Num3, "Num3"));
-	button.insert(std::make_pair(sf::Keyboard::Num4, "Num4"));
-	button.insert(std::make_pair(sf::Keyboard::Num5, "Num5"));
-	button.insert(std::make_pair(sf::Keyboard::Num6, "Num6"));
-	button.insert(std::make_pair(sf::Keyboard::Num7, "Num7"));
-	button.insert(std::make_pair(sf::Keyboard::Num8, "Num8"));
-	button.insert(std::make_pair(sf::Keyboard::Num9, "Num9"));
-	button.insert(std::make_pair(sf::Keyboard::Escape, "Escape"));
-	button.insert(std::make_pair(sf::Keyboard::LControl, "LControl"));
-	button.insert(std::make_pair(sf::Keyboard::LShift, "LShift"));
-	button.insert(std::make_pair(sf::Keyboard::LAlt, "LAlt"));
-	button.insert(std::make_pair(sf::Keyboard::LSystem, "LSystem"));
-	button.insert(std::make_pair(sf::Keyboard::RControl, "RControl"));
-	button.insert(std::make_pair(sf::Keyboard::RShift, "RShift"));
-	button.insert(std::make_pair(sf::Keyboard::RAlt, "RAlt"));
-	button.insert(std::make_pair(sf::Keyboard::RSystem, "RSystem"));
-	button.insert(std::make_pair(sf::Keyboard::Menu, "Menu"));
-	button.insert(std::make_pair(sf::Keyboard::LBracket, "LBracket"));
-	button.insert(std::make_pair(sf::Keyboard::RBracket, "RBracket"));
-	button.insert(std::make_pair(sf::Keyboard::SemiColon, "SemiColon"));
-	button.insert(std::make_pair(sf::Keyboard::Comma, "Comma"));
-	button.insert(std::make_pair(sf::Keyboard::Period, "Period"));
-	button.insert(std::make_pair(sf::Keyboard::Quote, "Quote"));
-	button.insert(std::make_pair(sf::Keyboard::Slash, "Slash"));
-	button.insert(std::make_pair(sf::Keyboard::BackSlash, "BackSlash"));
-	button.insert(std::make_pair(sf::Keyboard::Tilde, "Tilde"));
-	button.insert(std::make_pair(sf::Keyboard::Equal, "Equal"));
-	button.insert(std::make_pair(sf::Keyboard::Dash, "Dash"));
-	button.insert(std::make_pair(sf::Keyboard::Space, "Space"));
-	button.insert(std::make_pair(sf::Keyboard::BackSpace, "BackSpace"));
-	button.insert(std::make_pair(sf::Keyboard::Tab, "Tab"));
-	button.insert(std::make_pair(sf::Keyboard::PageUp, "PageDown"));
-	button.insert(std::make_pair(sf::Keyboard::End, "End"));
-	button.insert(std::make_pair(sf::Keyboard::Home, "Home"));
-	button.insert(std::make_pair(sf::Keyboard::Insert, "Insert"));
-	button.insert(std::make_pair(sf::Keyboard::Delete, "Delete"));
-	button.insert(std::make_pair(sf::Keyboard::Add, "Add"));
-	button.insert(std::make_pair(sf::Keyboard::Subtract, "Subtract"));
-	button.insert(std::make_pair(sf::Keyboard::Multiply, "Multiply"));
-	button.insert(std::make_pair(sf::Keyboard::Divide, "Divide"));
-	button.insert(std::make_pair(sf::Keyboard::Left, "Left"));
-	button.insert(std::make_pair(sf::Keyboard::Right, "Right"));
-	button.insert(std::make_pair(sf::Keyboard::Up, "Up"));
-	button.insert(std::make_pair(sf::Keyboard::Down, "Down"));
-	button.insert(std::make_pair(sf::Keyboard::Numpad0, "Numpad0"));
-	button.insert(std::make_pair(sf::Keyboard::Numpad1, "Numpad1"));
-	button.insert(std::make_pair(sf::Keyboard::Numpad2, "Numpad2"));
-	button.insert(std::make_pair(sf::Keyboard::Numpad3, "Numpad3"));
-	button.insert(std::make_pair(sf::Keyboard::Numpad4, "Numpad4"));
-	button.insert(std::make_pair(sf::Keyboard::Numpad5, "Numpad5"));
-	button.insert(std::make_pair(sf::Keyboard::Numpad6, "Numpad6"));
-	button.insert(std::make_pair(sf::Keyboard::Numpad7, "Numpad7"));
-	button.insert(std::make_pair(sf::Keyboard::Numpad8, "Numpad8"));
-	button.insert(std::make_pair(sf::Keyboard::Numpad9, "Numpad9"));
-	button.insert(std::make_pair(sf::Keyboard::F1, "F1"));
-	button.insert(std::make_pair(sf::Keyboard::F2, "F2"));
-	button.insert(std::make_pair(sf::Keyboard::F3, "F3"));
-	button.insert(std::make_pair(sf::Keyboard::F4, "F4"));
-	button.insert(std::make_pair(sf::Keyboard::F5, "F5"));
-	button.insert(std::make_pair(sf::Keyboard::F6, "F6"));
-	button.insert(std::make_pair(sf::Keyboard::F7, "F7"));
-	button.insert(std::make_pair(sf::Keyboard::F8, "F8"));
-	button.insert(std::make_pair(sf::Keyboard::F9, "F9"));
-	button.insert(std::make_pair(sf::Keyboard::F10, "F10"));
-	button.insert(std::make_pair(sf::Keyboard::F11, "F11"));
-	button.insert(std::make_pair(sf::Keyboard::F12, "F12"));
-	button.insert(std::make_pair(sf::Keyboard::F13, "F13"));
-	button.insert(std::make_pair(sf::Keyboard::F14, "F14"));
-	button.insert(std::make_pair(sf::Keyboard::F15, "F15"));
-	button.insert(std::make_pair(sf::Keyboard::Pause, "Pause"));*/
 }
 
 void Player::respawn(){
@@ -571,9 +474,9 @@ void Player::respawn(){
 	filter.categoryBits = PLAYER; //I am a PLAYER
 	f->SetFilterData(filter);
 
-	//respawn the player to a random position.
-	mBody->SetTransform(b2Vec2((rand()/(int)PIXELS_PER_METER)%(GAMEFIELD_WIDTH/(int)PIXELS_PER_METER),
-		(rand()/(int)PIXELS_PER_METER)%(GAMEFIELD_HEIGHT/(int)PIXELS_PER_METER)), 0);
+	//respawn the player to a random position. 100px margin.
+	mBody->SetTransform(b2Vec2((rand()%(GAMEFIELD_WIDTH-200)+100)/(int)PIXELS_PER_METER,
+		(rand()%(GAMEFIELD_HEIGHT-200)+100)/(int)PIXELS_PER_METER), 0);
 	jetpackFuel = JETPACK_MAX_FUEL;
 } 
 
@@ -608,7 +511,8 @@ void Player::spillBlood(int amount){
   		//setting the body fixture to collide with nothing.
 		b2Fixture* f = s->getBody()->GetFixtureList();
 		b2Filter filter;
-		filter.maskBits = ~BOUNDARY; //I collide with boundary only 
+		filter.maskBits = BOUNDARY; //I collide with boundary only 
+		filter.categoryBits = BLOOD;
 		f->SetFilterData(filter);
 		
 		mGame->getSceneNode()->attachChild(std::dynamic_pointer_cast<SceneNode>(s));
@@ -625,8 +529,8 @@ void Player::spillBlood(int amount){
 		float y = mBody->GetPosition().y+cos(angle+a)*0.5f*a*GUN_BARREL_LENGTH;
 		body->SetTransform(b2Vec2(x,y), 0);
 
-		float velX = sin(angle)*8.0f*a;
-		float velY = cos(angle)*8.0f*a;
+		float velX = sin(angle)*5.0f*a;
+		float velY = cos(angle)*5.0f*a;
 
 		body->SetLinearVelocity(b2Vec2(velX, velY));
 	}

@@ -17,7 +17,7 @@ public:
 	void explode();
 
 private:
-	const float MAX_LIFETIME = 2.5f;
+	const float MAX_LIFETIME = 1.5f;
 	const float BANANA_EXPLOSION_TIME = 0.25f;
 };
 

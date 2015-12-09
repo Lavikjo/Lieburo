@@ -17,6 +17,7 @@ const int MAX_NUMBER_OF_OPTIONS_ITEMS = 17;
 enum entityCategory{ //Used for collision masks
 	PLAYER = 1<<1,
 	BOUNDARY = 1<<2,
+	BLOOD = 1<<3,
 };
  
 enum fixtureTypes{ //Used for checking fixture contacts

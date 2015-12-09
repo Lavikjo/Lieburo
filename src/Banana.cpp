@@ -36,7 +36,7 @@ void Banana::update(sf::Time deltaTime) {
 			explosionClock += deltaTime.asSeconds();
 
 			if(!hasFragmented) {
-				fragment("texture/minibanana.png", 2.0f, 0.25f, 20.0f, 10, 4.0);
+				fragment("texture/minibanana.png", 2.0f, 0.25f, 30.0f, 10, 4.0);
 				
 			}
 		}
