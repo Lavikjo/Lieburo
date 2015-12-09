@@ -1,6 +1,6 @@
 #pragma once
 
-const int SCREEN_WIDTH = 1024;
+const int SCREEN_WIDTH = 1366;
 const int SCREEN_HEIGHT = 768;
 const int GAMEFIELD_WIDTH = 1800;//Gamefield size in pixels
 const int GAMEFIELD_HEIGHT = 1200;
