@@ -69,7 +69,7 @@ void Game::run() {
 	//fixed fps game loop, http://gafferongames.com/game-physics/fix-your-timestep/
 
 	//create views for players
-	viewMenu.reset(sf::FloatRect(0, 0, 1024, 768));
+	viewMenu.reset(sf::FloatRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT));
 	view1.setViewport(sf::FloatRect(0, 0, 0.5f, 0.925f));
 	view1.setSize(SCREEN_WIDTH / 2, SCREEN_HEIGHT*0.925f);
 	view2.setViewport(sf::FloatRect(0.5f, 0, 0.5f, 0.925f));

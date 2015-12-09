@@ -1,4 +1,4 @@
-#include "Menu.hpp"
+	#include "Menu.hpp"
 
 Menu::Menu() {
 	if (!font.loadFromFile("orbitron-black.ttf")) {
