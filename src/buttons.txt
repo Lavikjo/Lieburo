@@ -3,12 +3,12 @@ F
 H
 W
 S
-A
+Q
 G
 Up
 Left
 Right
-S
-X
-A
+RShift
+RControl
+Dash
 Down

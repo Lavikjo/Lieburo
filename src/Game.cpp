@@ -56,9 +56,9 @@ void Game::run() {
 
 	//create views for players
 	viewMenu.reset(sf::FloatRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT));
-	view1.setViewport(sf::FloatRect(0, 0, 0.5f, 0.925f));
+	view1.setViewport(sf::FloatRect(0, 0, 0.495f, 0.925f));
 	view1.setSize(SCREEN_WIDTH / 2, SCREEN_HEIGHT*0.925f);
-	view2.setViewport(sf::FloatRect(0.5f, 0, 0.5f, 0.925f));
+	view2.setViewport(sf::FloatRect(0.505f, 0, 0.495f, 0.925f));
 	view2.setSize(SCREEN_WIDTH / 2, SCREEN_HEIGHT*0.925f);
 
 	//third smaller viewport for displaying healthbar and other vital info about the game
@@ -98,8 +98,7 @@ void Game::run() {
 		else if (options->isScreenShown()) {
 			options->draw(rWindow, player1->getKeyNames(), player2->getKeyNames());
 		}
-		else {			
-			view1.setCenter(player1->getSpritePosition());
+		else {
 			rWindow.setView(view1);
 			render();
 			rWindow.setView(view2);
