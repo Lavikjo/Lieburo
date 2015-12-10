@@ -6,7 +6,7 @@
 
 #include "Game.hpp"
 
-#define MAX_NUMBER_OF_ITEMS 3
+#define MAX_NUMBER_OF_ITEMS 4
 
 class Menu {
 public:

@@ -56,9 +56,9 @@ void Game::run() {
 
 	//create views for players
 	viewMenu.reset(sf::FloatRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT));
-	view1.setViewport(sf::FloatRect(0, 0, 0.5f, 0.925f));
+	view1.setViewport(sf::FloatRect(0, 0, 0.495f, 0.925f));
 	view1.setSize(SCREEN_WIDTH / 2, SCREEN_HEIGHT*0.925f);
-	view2.setViewport(sf::FloatRect(0.5f, 0, 0.5f, 0.925f));
+	view2.setViewport(sf::FloatRect(0.505f, 0, 0.495f, 0.925f));
 	view2.setSize(SCREEN_WIDTH / 2, SCREEN_HEIGHT*0.925f);
 
 	//third smaller viewport for displaying healthbar and other vital info about the game
@@ -97,20 +97,6 @@ void Game::run() {
 		}
 		else if (options->isScreenShown()) {
 			options->draw(rWindow, player1->getKeyNames(), player2->getKeyNames());
-		}
-		else {			
-			sf::Vector2f pos = player1->getSpritePosition();
-			sf::Vector2f viewSize = view1.getSize();
-			if(pos.x<viewSize.x/2.f){
-				pos.x = viewSize.x/2.f;
-			}else if(pos.x>GAMEFIELD_WIDTH-viewSize.x/2.f)
-				pos.x = GAMEFIELD_WIDTH-viewSize.x/2.f;
-
-			if(pos.y<viewSize.y/2.f){
-				pos.y = viewSize.y/2.f;
-			}else if(pos.y>GAMEFIELD_HEIGHT-viewSize.y/2.f)
-				pos.y = GAMEFIELD_HEIGHT-viewSize.y/2.f;
-
 			view1.setCenter(limitPlayerCamera(player1, view1));
 			rWindow.setView(view1);
 			render();
@@ -233,15 +219,17 @@ void Game::setRunning(bool run){
 sf::Vector2f Game::limitPlayerCamera(std::shared_ptr<Player> player, sf::View view){
 	sf::Vector2f pos = player->getSpritePosition();
 	sf::Vector2f viewSize = view.getSize();
+
+	float h = player->getSprite().getLocalBounds().height/4;
 	if(pos.x<viewSize.x/2.f){
 		pos.x = viewSize.x/2.f;
 	}else if(pos.x>GAMEFIELD_WIDTH-viewSize.x/2.f)
 		pos.x = GAMEFIELD_WIDTH-viewSize.x/2.f;
 
-	if(pos.y<viewSize.y/2.f){
-		pos.y = viewSize.y/2.f+20;
-	}else if(pos.y>GAMEFIELD_HEIGHT-viewSize.y/2.f)
-		pos.y = GAMEFIELD_HEIGHT-viewSize.y/2.f+20;
+	if(pos.y<viewSize.y/2.f+h){
+		pos.y = viewSize.y/2.f+h;
+	}else if(pos.y>GAMEFIELD_HEIGHT-viewSize.y/2.f+h)
+		pos.y = GAMEFIELD_HEIGHT-viewSize.y/2.f+h;
 
 	return pos;
 }

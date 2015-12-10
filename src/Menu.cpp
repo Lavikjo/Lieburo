@@ -8,15 +8,19 @@ Menu::Menu(Game* game) {
 
 	menu[0].setFont(font);
 	menu[0].setColor(sf::Color::Red);
-	menu[0].setString("Play");
+	menu[0].setString("New Game");
 
 	menu[1].setFont(font);
 	menu[1].setColor(sf::Color::White);
-	menu[1].setString("Options");
+	menu[1].setString("Resume Game");
 
 	menu[2].setFont(font);
 	menu[2].setColor(sf::Color::White);
-	menu[2].setString("Exit");
+	menu[2].setString("Options");
+
+	menu[3].setFont(font);
+	menu[3].setColor(sf::Color::White);
+	menu[3].setString("Exit");
 
 	setPositions();
 
@@ -71,15 +75,19 @@ void Menu::navigateMenu(sf::Event &event) {
 				case sf::Keyboard::Return:
 					switch (getPressedItem()) {
 						case 0:
-							std::cout << "User pressed Play button." << std::endl;
-							screenShown = false;
+							std::cout << "User pressed New Game button." << std::endl;
+							//TODO: Implement game reset here
 							break;
 						case 1:
+							std::cout << "User pressed Resume Game button." << std::endl;
+							screenShown = false;
+							break;
+						case 2:
 							std::cout << "User pressed Options button." << std::endl;
 							screenShown = false;
 							mGame->getOptions()->setScreenShown(true);
 							break;
-						case 2:
+						case 3:
 							mGame->setRunning(false);
 							break;
 					}
