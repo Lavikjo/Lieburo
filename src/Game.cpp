@@ -99,11 +99,23 @@ void Game::run() {
 			options->draw(rWindow, player1->getKeyNames(), player2->getKeyNames());
 		}
 		else {			
-			view1.setCenter(player1->getSpritePosition());
+			sf::Vector2f pos = player1->getSpritePosition();
+			sf::Vector2f viewSize = view1.getSize();
+			if(pos.x<viewSize.x/2.f){
+				pos.x = viewSize.x/2.f;
+			}else if(pos.x>GAMEFIELD_WIDTH-viewSize.x/2.f)
+				pos.x = GAMEFIELD_WIDTH-viewSize.x/2.f;
+
+			if(pos.y<viewSize.y/2.f){
+				pos.y = viewSize.y/2.f;
+			}else if(pos.y>GAMEFIELD_HEIGHT-viewSize.y/2.f)
+				pos.y = GAMEFIELD_HEIGHT-viewSize.y/2.f;
+
+			view1.setCenter(limitPlayerCamera(player1, view1));
 			rWindow.setView(view1);
 			render();
 			rWindow.setView(view2);
-			view2.setCenter(player2->getSpritePosition());
+			view2.setCenter(limitPlayerCamera(player2, view2));
 			render();
 			rWindow.setView(statusView);
 			gui->update(this);
@@ -216,4 +228,20 @@ std::shared_ptr<Options> Game::getOptions() {
 
 void Game::setRunning(bool run){
 	running = run;
+}
+
+sf::Vector2f Game::limitPlayerCamera(std::shared_ptr<Player> player, sf::View view){
+	sf::Vector2f pos = player->getSpritePosition();
+	sf::Vector2f viewSize = view.getSize();
+	if(pos.x<viewSize.x/2.f){
+		pos.x = viewSize.x/2.f;
+	}else if(pos.x>GAMEFIELD_WIDTH-viewSize.x/2.f)
+		pos.x = GAMEFIELD_WIDTH-viewSize.x/2.f;
+
+	if(pos.y<viewSize.y/2.f){
+		pos.y = viewSize.y/2.f+20;
+	}else if(pos.y>GAMEFIELD_HEIGHT-viewSize.y/2.f)
+		pos.y = GAMEFIELD_HEIGHT-viewSize.y/2.f+20;
+
+	return pos;
 }

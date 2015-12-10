@@ -47,10 +47,10 @@ public:
 	std::shared_ptr<Player> getPlayer(int id); //used by guided projectiles
 	std::shared_ptr<Menu> getMenu();
 	std::shared_ptr<Options> getOptions();
-	void whichKeyPressed(sf::Keyboard::Key &key, std::string &s, unsigned int a);
 	void gameOver(int);
 	void setRunning(bool);
 	sf::RenderWindow& getRenderWindow();
+	sf::Vector2f limitPlayerCamera(std::shared_ptr<Player>, sf::View);
 
 private:
 	bool running;

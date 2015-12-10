@@ -395,10 +395,10 @@ void Player::handleUserInput(){
 		    movePlayerX(0.1f);
 		}
 		if (sf::Keyboard::isKeyPressed(keys[3])) {
-		    aim(3);
+		    aim(5);
 		}
 		if (sf::Keyboard::isKeyPressed(keys[4])) {
-		    aim(-3);
+		    aim(-5);
 		}
 		if (sf::Keyboard::isKeyPressed(keys[5])) {
 		    fire();
