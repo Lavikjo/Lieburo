@@ -78,8 +78,6 @@
 	footSensorFixture->SetUserData((void*)PLAYER_FOOT_SENSOR_FIXTURE); //user data contains an identification number for the foot sensor, can be any number.
 
 	alive = true;	
-
-	setButtons();
 	setCommands();	
 }
 
@@ -203,7 +201,6 @@ void Player::update(sf::Time deltaTime) {
 		if(!waitingForRespawn){
 			lives--;
 			bloodToSpill = 70;
-
 			//setting the body fixture to collide with nothing.
 			b2Fixture* f = mBody->GetFixtureList()->GetNext();
 			b2Filter filter;
@@ -235,7 +232,7 @@ void Player::startContact(Entity* contact) {
 	(void) contact;	
 }
 
-sf::Vector2f Player::getAimDotPosition() const {
+sf::Vector2f Player::getAimDotPosition(){
 	return aimDotSprite.getPosition();
 }
 
@@ -243,7 +240,7 @@ void Player::updateGroundContacts(int val) {
 	numGroundContacts += val;
 }
 
-sf::Vector2f Player::returnPosition() {
+sf::Vector2f Player::getSpritePosition() {
 	return mSprite.getPosition();
 }
 
@@ -305,165 +302,71 @@ void Player::scrollWeapons() {
 }
 
 void Player::setCommands() {
-	std::ifstream buttons("buttons.txt");
+	std::ifstream buttonsFile("buttons.txt");
 	std::string line;	
+	unsigned int numKeys = mGame->getOptions()->getNumberPlayerKeys();
+
 	if (mOpponent == 2) {
-		for (unsigned int i = 0; i < PLAYER_KEYS; i++) {
-			std::getline(buttons, line);
+		for (unsigned int i = 0; i < numKeys; i++) {
+			std::getline(buttonsFile, line);
 			std::stringstream iss(line);
 			std::string s = iss.str();
 
-			keys.push_back(button[s]);
+			keys.push_back(mGame->getOptions()->getButtons()[s]);
 			keyNames.push_back(s);
 		}
-		buttons.close();
+		buttonsFile.close();
 	}
 
 	else if (mOpponent == 1) {
-		for (unsigned int i = 0; i < (PLAYER_KEYS * 2); i++) {
-			std::getline(buttons, line);
+		for (unsigned int i = 0; i < (numKeys * 2); i++) {
+			std::getline(buttonsFile, line);
 			if (i < 7) {
 				continue;
 			}
 			std::stringstream iss(line);
 			std::string s = iss.str();
 
-			keys.push_back(button[s]);
+			keys.push_back(mGame->getOptions()->getButtons()[s]);
 			keyNames.push_back(s);
 		}
+		buttonsFile.close();
 	}
 }
 
 void Player::resetCommands() {
-	std::ifstream buttonsReset("buttonsReset.txt");
+	std::ifstream buttonsResetFile("buttonsReset.txt");
 	std::string line;
-	std::ofstream newButtons("newButtons.txt");
+	std::ofstream newButtonsFile("newButtons.txt");
+	unsigned int numKeys = mGame->getOptions()->getNumberPlayerKeys();
+
 	if (mOpponent == 2) {
-		for (unsigned int i = 0; i < PLAYER_KEYS * 2; i++) {
-			std::getline(buttonsReset, line);
-			newButtons << line << std::endl;
-			if (i < PLAYER_KEYS) {
-				keys[i] = button[line];
+		for (unsigned int i = 0; i < numKeys * 2; i++) {
+			std::getline(buttonsResetFile, line);
+			newButtonsFile << line << std::endl;
+			if (i < numKeys) {
+				keys[i] = mGame->getOptions()->getButtons()[line];
 				keyNames[i] = line;
 			}
 		}
 	}
 	else if (mOpponent == 1) {
-		for (unsigned int i = 0; i < PLAYER_KEYS * 2; i++) {
-			std::getline(buttonsReset, line);
-			newButtons << line << std::endl;
-			if (i >= PLAYER_KEYS) {
-				keys[i - PLAYER_KEYS] = button[line];
-				keyNames[i - PLAYER_KEYS] = line;
+		for (unsigned int i = 0; i < numKeys * 2; i++) {
+			std::getline(buttonsResetFile, line);
+			newButtonsFile << line << std::endl;
+			if (i >= numKeys) {
+				keys[i - numKeys] = mGame->getOptions()->getButtons()[line];
+				keyNames[i - numKeys] = line;
 			}
 		}
 	}
 	if (rename("newButtons.txt", "buttons.txt")) {
 		std::cout << "Error renaming file." << std::endl;
 	}
-	buttonsReset.close();
+	buttonsResetFile.close();
 }
 
-void Player::setButtons() {
-	button.insert(std::make_pair("A", sf::Keyboard::A));
-	button.insert(std::make_pair("B", sf::Keyboard::B));
-	button.insert(std::make_pair("C", sf::Keyboard::C));
-	button.insert(std::make_pair("D", sf::Keyboard::D));
-	button.insert(std::make_pair("E", sf::Keyboard::E));
-	button.insert(std::make_pair("F", sf::Keyboard::F));
-	button.insert(std::make_pair("G", sf::Keyboard::G));
-	button.insert(std::make_pair("H", sf::Keyboard::H));
-	button.insert(std::make_pair("I", sf::Keyboard::I));
-	button.insert(std::make_pair("J", sf::Keyboard::J));
-	button.insert(std::make_pair("K", sf::Keyboard::K));
-	button.insert(std::make_pair("L", sf::Keyboard::L));
-	button.insert(std::make_pair("M", sf::Keyboard::M));
-	button.insert(std::make_pair("N", sf::Keyboard::N));
-	button.insert(std::make_pair("O", sf::Keyboard::O));
-	button.insert(std::make_pair("Q", sf::Keyboard::Q));
-	button.insert(std::make_pair("R", sf::Keyboard::R));
-	button.insert(std::make_pair("S", sf::Keyboard::S));
-	button.insert(std::make_pair("T", sf::Keyboard::T));
-	button.insert(std::make_pair("U", sf::Keyboard::U));
-	button.insert(std::make_pair("W", sf::Keyboard::W));
-	button.insert(std::make_pair("X", sf::Keyboard::X));
-	button.insert(std::make_pair("Y", sf::Keyboard::Y));
-	button.insert(std::make_pair("Z", sf::Keyboard::Z));
-	button.insert(std::make_pair("Num0", sf::Keyboard::Num0));
-	button.insert(std::make_pair("Num1", sf::Keyboard::Num1));
-	button.insert(std::make_pair("Num2", sf::Keyboard::Num2));
-	button.insert(std::make_pair("Num3", sf::Keyboard::Num3));
-	button.insert(std::make_pair("Num4", sf::Keyboard::Num4));
-	button.insert(std::make_pair("Num5", sf::Keyboard::Num5));
-	button.insert(std::make_pair("Num6", sf::Keyboard::Num6));
-	button.insert(std::make_pair("Num7", sf::Keyboard::Num7));
-	button.insert(std::make_pair("Num8", sf::Keyboard::Num8));
-	button.insert(std::make_pair("Num9", sf::Keyboard::Num9));
-	button.insert(std::make_pair("Escape", sf::Keyboard::Escape));
-	button.insert(std::make_pair("LControl", sf::Keyboard::LControl));
-	button.insert(std::make_pair("LShift", sf::Keyboard::LShift));
-	button.insert(std::make_pair("LAlt", sf::Keyboard::LAlt));
-	button.insert(std::make_pair("LSystem", sf::Keyboard::LSystem));
-	button.insert(std::make_pair("RControl", sf::Keyboard::RControl));
-	button.insert(std::make_pair("RShift", sf::Keyboard::RShift));
-	button.insert(std::make_pair("RAlt", sf::Keyboard::RAlt));
-	button.insert(std::make_pair("RSystem", sf::Keyboard::RSystem));
-	button.insert(std::make_pair("Menu", sf::Keyboard::Menu));
-	button.insert(std::make_pair("LBracket", sf::Keyboard::LBracket));
-	button.insert(std::make_pair("RBracket", sf::Keyboard::RBracket));
-	button.insert(std::make_pair("SemiColon", sf::Keyboard::SemiColon));
-	button.insert(std::make_pair("Comma", sf::Keyboard::Comma));
-	button.insert(std::make_pair("Period", sf::Keyboard::Period));
-	button.insert(std::make_pair("Quote", sf::Keyboard::Quote));
-	button.insert(std::make_pair("Slash", sf::Keyboard::Slash));
-	button.insert(std::make_pair("BackSlash", sf::Keyboard::BackSlash));
-	button.insert(std::make_pair("Tilde", sf::Keyboard::Tilde));
-	button.insert(std::make_pair("Equal", sf::Keyboard::Equal));
-	button.insert(std::make_pair("Dash", sf::Keyboard::Dash));
-	button.insert(std::make_pair("Space", sf::Keyboard::Space));
-	button.insert(std::make_pair("BackSpace", sf::Keyboard::BackSpace));
-	button.insert(std::make_pair("Tab", sf::Keyboard::Tab));
-	button.insert(std::make_pair("PageDown", sf::Keyboard::PageUp));
-	button.insert(std::make_pair("End", sf::Keyboard::End));
-	button.insert(std::make_pair("Home", sf::Keyboard::Home));
-	button.insert(std::make_pair("Insert", sf::Keyboard::Insert));
-	button.insert(std::make_pair("Delete", sf::Keyboard::Delete));
-	button.insert(std::make_pair("Add", sf::Keyboard::Add));
-	button.insert(std::make_pair("Subtract", sf::Keyboard::Subtract));
-	button.insert(std::make_pair("Multiply", sf::Keyboard::Multiply));
-	button.insert(std::make_pair("Divide", sf::Keyboard::Divide));
-	button.insert(std::make_pair("Left", sf::Keyboard::Left));
-	button.insert(std::make_pair("Right", sf::Keyboard::Right));
-	button.insert(std::make_pair("Up", sf::Keyboard::Up));
-	button.insert(std::make_pair("Down", sf::Keyboard::Down));
-	button.insert(std::make_pair("Numpad0", sf::Keyboard::Numpad0));
-	button.insert(std::make_pair("Numpad1", sf::Keyboard::Numpad1));
-	button.insert(std::make_pair("Numpad2", sf::Keyboard::Numpad2));
-	button.insert(std::make_pair("Numpad3", sf::Keyboard::Numpad3));
-	button.insert(std::make_pair("Numpad4", sf::Keyboard::Numpad4));
-	button.insert(std::make_pair("Numpad5", sf::Keyboard::Numpad5));
-	button.insert(std::make_pair("Numpad6", sf::Keyboard::Numpad6));
-	button.insert(std::make_pair("Numpad7", sf::Keyboard::Numpad7));
-	button.insert(std::make_pair("Numpad8", sf::Keyboard::Numpad8));
-	button.insert(std::make_pair("Numpad9", sf::Keyboard::Numpad9));
-	button.insert(std::make_pair("F1", sf::Keyboard::F1));
-	button.insert(std::make_pair("F2", sf::Keyboard::F2));
-	button.insert(std::make_pair("F3", sf::Keyboard::F3));
-	button.insert(std::make_pair("F4", sf::Keyboard::F4));
-	button.insert(std::make_pair("F5", sf::Keyboard::F5));
-	button.insert(std::make_pair("F6", sf::Keyboard::F6));
-	button.insert(std::make_pair("F7", sf::Keyboard::F7));
-	button.insert(std::make_pair("F8", sf::Keyboard::F8));
-	button.insert(std::make_pair("F9", sf::Keyboard::F9));
-	button.insert(std::make_pair("F10", sf::Keyboard::F10));
-	button.insert(std::make_pair("F11", sf::Keyboard::F11));
-	button.insert(std::make_pair("F12", sf::Keyboard::F12));
-	button.insert(std::make_pair("F13", sf::Keyboard::F13));
-	button.insert(std::make_pair("F14", sf::Keyboard::F14));
-	button.insert(std::make_pair("F15", sf::Keyboard::F15));
-	button.insert(std::make_pair("Pause", sf::Keyboard::Pause));
 
-}
 
 void Player::respawn(){
 
@@ -508,8 +411,12 @@ void Player::spillBlood(int amount){
 		//Create blood shrapnel
 		std::shared_ptr<Shrapnel> s = std::make_shared<Shrapnel>(mGame, "texture/blood.png", 2.0f, 0, 0);		
   		
+  		//Setting the blood not to spin
+  		b2Body* body = s->getBody();
+  		body->SetFixedRotation(true);
+
   		//setting the body fixture to collide with nothing.
-		b2Fixture* f = s->getBody()->GetFixtureList();
+		b2Fixture* f = body->GetFixtureList();
 		b2Filter filter;
 		filter.maskBits = BOUNDARY; //I collide with boundary only 
 		filter.categoryBits = BLOOD;
@@ -524,7 +431,6 @@ void Player::spillBlood(int amount){
 
 		float angle = a*i; //The direction is random enough as i is radians.
 
-		b2Body* body = s->getBody();
 		float x = mBody->GetPosition().x+direction*sin(angle+a)*0.5f*a*GUN_BARREL_LENGTH; 
 		float y = mBody->GetPosition().y+cos(angle+a)*0.5f*a*GUN_BARREL_LENGTH;
 		body->SetTransform(b2Vec2(x,y), 0);
@@ -539,4 +445,12 @@ void Player::spillBlood(int amount){
 
 bool Player::isWaitingForRespawn() const{
 	return waitingForRespawn;
+}
+
+std::vector<sf::Keyboard::Key>& Player::getKeys(){
+	return keys;
+}
+
+std::vector<std::string>& Player::getKeyNames(){
+	return keyNames;
 }

@@ -3,12 +3,16 @@
 
 #include "SFML/Graphics.hpp"
 #include "Constants.h"
+#include "Game.hpp"
 #include <vector>
 #include <string>
 
+const unsigned int NUMBER_PLAYER_KEYS = 7;
+const unsigned int MAX_NUMBER_OF_OPTIONS_ITEMS = 17;
+
 class Options {
 public:
-	Options();
+	Options(Game*);
 	~Options();
 
 	void draw(sf::RenderWindow &window, std::vector<std::string> keyNames1, std::vector<std::string> keyNames2);
@@ -17,15 +21,25 @@ public:
 	void moveLeft();
 	void moveRight();
 	int getPressedItem();
-	bool showScreen;
+	bool isScreenShown();
+	void setScreenShown(bool);
 	void setText();
-	sf::Text keys[PLAYER_KEYS];
-	sf::Text keys2[PLAYER_KEYS];
+	void navigateOptions(sf::Event &event);
+	void setButtons();
+	void whichKeyPressed(sf::Keyboard::Key &key, std::string &s, unsigned int a);
+	int getNumberPlayerKeys();
+	std::map<std::string, sf::Keyboard::Key> getButtons();
+	
 
 private:
-	int selectedItemIndex;
+	sf::Text player1Keys[NUMBER_PLAYER_KEYS];
+	sf::Text player2Keys[NUMBER_PLAYER_KEYS];
+	bool screenShown;
+	std::map<std::string, sf::Keyboard::Key> buttons;
+	unsigned int selectedItemIndex;
 	sf::Font font;
 	sf::Text options[MAX_NUMBER_OF_OPTIONS_ITEMS];
+	Game* mGame;
 };
 
 #endif

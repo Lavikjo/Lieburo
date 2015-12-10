@@ -4,6 +4,8 @@ Banana::Banana(Game* game){
 
 	baseConstructor(game, "texture/banana.png");
 
+	mBody->SetLinearDamping(0.8f);
+
 	//The explosion texture and clock
 	mExplosionTexture.loadFromFile("texture/banana_explosion.png");
 	explosionTime = BANANA_EXPLOSION_TIME;

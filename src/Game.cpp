@@ -16,9 +16,13 @@ Game::Game() {
 	mGameWorld->SetContactListener(&myContactListenerInstance);
 
 	//instantiate the main window
+
 	rWindow.create(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, BITS_PER_PIXEL), "Lieburo");
 
 	running = true;
+
+	menu = std::make_shared<Menu>(this);
+	options = std::make_shared<Options>(this);
 
 	sceneNode = std::make_shared<SceneNode>();
 	player1 = std::make_shared<Player>(this, 2);
@@ -30,29 +34,11 @@ Game::Game() {
 	sceneNode->attachChild(std::static_pointer_cast<SceneNode>(powerup));
 
 
-/*
-	healthBar1.setOutlineColor(sf::Color::Green);
-	healthBar1.setFillColor(sf::Color(0,220, 0, 255));
-	healthBar1.setOutlineThickness(15);
-	healthBar1.setSize(sf::Vector2f(100,15));
-	healthBar1.setPosition(99600,100000);
-
-	healthBar2.setOutlineColor(sf::Color::Green);
-	healthBar2.setFillColor(sf::Color(0,220, 0, 255));
-	healthBar2.setOutlineThickness(15);
-	healthBar2.setSize(sf::Vector2f(100,15));
-	healthBar2.setPosition(100300,100000);
-
-*/
-
 	gamefield = std::make_shared<Gamefield>(mGameWorld);
 
 	//construct gui
 	gui = std::make_shared<GUI>();
-
 	//construct menu and options screens
-	menu = std::make_shared<Menu>();
-	options = std::make_shared<Options>();
 
 	run();
 
@@ -99,28 +85,25 @@ void Game::run() {
 		
 		//logic update loop, everything that affects physics need to be here
 		while(clock.getElapsedTime() < TIMESTEP) {
+			//Delay for not to check the time every nanosecond or so.
 			for(int i = 0; i<10000; i++);
-			//Process system events
-			//processEvents();
-
-			//update game entities
 		}
 		update(clock.getElapsedTime());
 		// render entities
 		rWindow.clear();
-		if (menu->showScreen) {
+		if (menu->isScreenShown()) {
 			rWindow.setView(viewMenu);
 			menu->draw(rWindow);
 		}
-		else if (options->showScreen) {
-			options->draw(rWindow, player1->keyNames, player2->keyNames);
+		else if (options->isScreenShown()) {
+			options->draw(rWindow, player1->getKeyNames(), player2->getKeyNames());
 		}
-		else {
-			view1.setCenter(player1->returnPosition());
+		else {			
+			view1.setCenter(player1->getSpritePosition());
 			rWindow.setView(view1);
 			render();
 			rWindow.setView(view2);
-			view2.setCenter(player2->returnPosition());
+			view2.setCenter(player2->getSpritePosition());
 			render();
 			rWindow.setView(statusView);
 			gui->update(this);
@@ -130,27 +113,22 @@ void Game::run() {
 
 		// check wheter user wants to enter menu screen (using button P)
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
-	    	menu->showScreen = true;
+	    	menu->setScreenShown(true);
 		}
-	}
-	//sceneNode->removeAll();
-	//delete mGameWorld;
-	
+	}	
 }
 
 void Game::update(sf::Time deltaTime) {
-	//foreach entity call update
-
 	sf::Event event;
 
     while (rWindow.pollEvent(event)) {
 
     	//navigate in menu screen
-	  	if (menu->showScreen) {
-	  		navigateMenu(event);
+	  	if (menu->isScreenShown()) {
+	  		menu->navigateMenu(event);
     	}
-    	else if (options->showScreen) {
-    		navigateOptions(event);
+    	else if (options->isScreenShown()) {
+    		options->navigateOptions(event);
     	}
     	else {
 	    	switch (event.type) {
@@ -164,10 +142,10 @@ void Game::update(sf::Time deltaTime) {
 
 
 	            	//tässä voisi olla tyyliin player1->getKey("scrollweapon")
-				    if (sf::Keyboard::isKeyPressed(player1->keys[6])) { 
+				    if (sf::Keyboard::isKeyPressed(player1->getKeys()[6])) { 
 					    player1->scrollWeapons();
 					}
-				    if (sf::Keyboard::isKeyPressed(player2->keys[6])) {
+				    if (sf::Keyboard::isKeyPressed(player2->getKeys()[6])) {
 				   		player2->scrollWeapons();
 					}
 	            	break;
@@ -175,9 +153,9 @@ void Game::update(sf::Time deltaTime) {
 		        	break;
 		    }
 		}
-	}
 
-    if(!menu->showScreen) {
+	}
+	if(!menu->isScreenShown()) {
 
     	player1->handleUserInput();
     	player2->handleUserInput();
@@ -189,21 +167,9 @@ void Game::update(sf::Time deltaTime) {
 }
 
 void Game::render() {
-	//foreach entity call render
 	gamefield->draw(rWindow);
 	sceneNode->drawAll(rWindow);
 	gui->draw(rWindow);
-
-/*	
-	//TODO: Move this to better place
-	
-	
-	rWindow.draw(healthBar1);
-
-	
-	
-	rWindow.draw(healthBar2);
-*/
 }
 
 b2World* Game::getWorld(){
@@ -214,123 +180,11 @@ std::shared_ptr<SceneNode> Game::getSceneNode(){
 	return sceneNode;
 }
 
-void Game::navigateMenu(sf::Event &event) {
-	switch (event.type) {
-		case sf::Event::KeyPressed:
-			switch (event.key.code) {
-				case sf::Keyboard::Up:
-					menu->moveUp();
-					break;
-				case sf::Keyboard::Down:
-					menu->moveDown();
-					break;
-				case sf::Keyboard::Return:
-					switch (menu->getPressedItem()) {
-						case 0:
-							std::cout << "User pressed Play button." << std::endl;
-							menu->showScreen = false;
-							break;
-						case 1:
-							std::cout << "User pressed Options button." << std::endl;
-							menu->showScreen = false;
-							options->showScreen = true;
-							break;
-						case 2:
-							running = false;
-							break;
-					}
-				default:
-					break;
-			}
-			default:
-				break;
-	}
-}
 
-void Game::navigateOptions(sf::Event &event) {
-	switch (event.type) {
-		case sf::Event::KeyPressed:
-			switch (event.key.code) {
-				case sf::Keyboard::Up:
-					options->moveUp();
-					break;
-				case sf::Keyboard::Down:
-					options->moveDown();
-					break;
-				case sf::Keyboard::Left:
-					options->moveLeft();
-					break;
-				case sf::Keyboard::Right:
-					options->moveRight();
-					break;
-				case sf::Keyboard::F12:
-					player1->resetCommands();
-					player2->resetCommands();
-					options->draw(rWindow, player1->keyNames, player2->keyNames);
-					break;
-
-				case sf::Keyboard::Return:
-					switch (options->getPressedItem()) {
-						case 1:
-							whichKeyPressed(player1->keys[0], player1->keyNames[0], 0);
-							break;
-						case 2:
-							whichKeyPressed(player1->keys[1], player1->keyNames[1], 1);
-							break;
-						case 3:
-							whichKeyPressed(player1->keys[2], player1->keyNames[2], 2);
-							break;
-						case 4:
-							whichKeyPressed(player1->keys[3], player1->keyNames[3], 3);
-							break;
-						case 5:
-							whichKeyPressed(player1->keys[4], player1->keyNames[4], 4);
-							break;
-						case 6:
-							whichKeyPressed(player1->keys[5], player1->keyNames[5], 5);
-							break;
-						case 7:
-							whichKeyPressed(player1->keys[6], player1->keyNames[6], 6);
-							break;
-						case 9:
-							whichKeyPressed(player2->keys[0], player2->keyNames[0], 7);
-							break;
-						case 10:
-							whichKeyPressed(player2->keys[1], player2->keyNames[1], 8);
-							break;
-						case 11:
-							whichKeyPressed(player2->keys[2], player2->keyNames[2], 9);
-							break;
-						case 12:
-							whichKeyPressed(player2->keys[3], player2->keyNames[3], 10);
-							break;
-						case 13:
-							whichKeyPressed(player2->keys[4], player2->keyNames[4], 11);
-							break;
-						case 14:
-							whichKeyPressed(player2->keys[5], player2->keyNames[5], 12);
-							break;
-						case 15:
-							whichKeyPressed(player2->keys[6], player2->keyNames[6], 13);
-							break;
-						case 16:
-							std::cout << "User pressed Return to main menu." << std::endl;
-							options->showScreen = false;
-							menu->showScreen = true;
-					}
-				default:
-					break;
-			}
-			default:
-
-				break;
-	}
-}
-/*
-sf::RenderWindow Game::getRenderWindow() {
+sf::RenderWindow& Game::getRenderWindow() {
 	return rWindow;
 }
-*/
+
 
 std::shared_ptr<Player> Game::getPlayer(int id){
 	if(id == 1){
@@ -343,44 +197,6 @@ std::shared_ptr<Player> Game::getPlayer(int id){
 	return nullptr;
 }
 
-void Game::whichKeyPressed(sf::Keyboard::Key &key, std::string &s, unsigned int a) {
-	bool selected = 1;
-	while (selected) {
-		for (auto it = player1->button.begin(); it != player1->button.end(); it++) {
-			if (sf::Keyboard::isKeyPressed(it->second)) {
-				std::ifstream buttons;
-				buttons.open("buttons.txt");
-				std::ofstream newButtons;
-				newButtons.open("newButtons.txt");
-				std::string line;
-				for (unsigned int i = 0; i < (PLAYER_KEYS * 2); i++) {
-					std::getline(buttons, line);
-					if (i == a) {
-						newButtons << it->first << std::endl;
-					}
-					else if (i < (PLAYER_KEYS * 2 - 1)) {
-						newButtons << line << std::endl;
-					}
-					else {
-						newButtons << line;
-					}
-				}
-				buttons.close();
-				newButtons.close();
-				if (remove("buttons.txt")) {
-					std::cout << "Error removing file." << std::endl;
-				}
-				if (rename("newButtons.txt", "buttons.txt")) {
-					std::cout << "Error renaming file." << std::endl;
-				}
-				key = it->second;
-				s = it->first;
-				selected = 0;
-			}
-		}
-	}
-}
-
 void Game::gameOver(int winner){
 	std::cout << "Player"<<winner<<" Wins!"<< std::endl;
 }
@@ -388,4 +204,16 @@ void Game::gameOver(int winner){
 Game::~Game(){
 	sceneNode->removeAll();
 	delete mGameWorld;
+}
+
+std::shared_ptr<Menu> Game::getMenu() {
+	return menu;
+}
+
+std::shared_ptr<Options> Game::getOptions() {
+	return options;
+}
+
+void Game::setRunning(bool run){
+	running = run;
 }

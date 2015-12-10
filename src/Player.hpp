@@ -24,7 +24,7 @@ public:
 	void aim(float angleChange);
 	void updateGroundContacts(int val);
 
-	sf::Vector2f getAimDotPosition() const;
+	sf::Vector2f getAimDotPosition();
 
 	void update(sf::Time deltaTime);
 	void startContact(Entity* contact);
@@ -37,22 +37,21 @@ public:
 	unsigned int getCurrentClipSize() const;
 	virtual void updateHp(int val);
 
-	sf::Vector2f returnPosition();
+	sf::Vector2f getSpritePosition();
 	void scrollWeapons();
 
-	sf::Keyboard::Key Switch;
-	std::vector<sf::Keyboard::Key> keys;
-	std::vector<std::string> keyNames;
 	void setCommands();
 	void resetCommands();
 	void setButtons();
-	std::map<std::string, sf::Keyboard::Key> button;
 
 	void respawn();
 	void handleUserInput();
 
 	void spillBlood(int);
 	bool isWaitingForRespawn() const;
+
+	std::vector<sf::Keyboard::Key>& getKeys();
+	std::vector<std::string>& getKeyNames();
 
 private:
 	int mOpponent;
@@ -93,6 +92,9 @@ private:
 	const float JETPACK_FUEL_FILL = 0.4f;
 	const float MAX_JETPACK_SPEED = 10;
 	const int PLAYER_MAX_HP = 100;
+
+	std::vector<sf::Keyboard::Key> keys;
+	std::vector<std::string> keyNames;
 };
 
 #endif

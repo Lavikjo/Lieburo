@@ -1,6 +1,7 @@
 	#include "Menu.hpp"
 
-Menu::Menu() {
+Menu::Menu(Game* game) {
+	mGame = game;
 	if (!font.loadFromFile("orbitron-black.ttf")) {
 		//TODO handle error
 	}
@@ -20,12 +21,7 @@ Menu::Menu() {
 	setPositions();
 
 	selectedItemIndex = 0;
-	showScreen = true;
-}
-
-Menu::~Menu() {
-
-
+	screenShown = true;
 }
 
 void Menu::draw(sf::RenderWindow &window) {
@@ -60,4 +56,45 @@ void Menu::setPositions() {
 		menu[i].setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
 		menu[i].setPosition(sf::Vector2f(SCREEN_WIDTH / 2.0f, (SCREEN_HEIGHT / (MAX_NUMBER_OF_ITEMS + 1) * (i + 1))));
 	}
+}
+
+void Menu::navigateMenu(sf::Event &event) {
+	switch (event.type) {
+		case sf::Event::KeyPressed:
+			switch (event.key.code) {
+				case sf::Keyboard::Up:
+					moveUp();
+					break;
+				case sf::Keyboard::Down:
+					moveDown();
+					break;
+				case sf::Keyboard::Return:
+					switch (getPressedItem()) {
+						case 0:
+							std::cout << "User pressed Play button." << std::endl;
+							screenShown = false;
+							break;
+						case 1:
+							std::cout << "User pressed Options button." << std::endl;
+							screenShown = false;
+							mGame->getOptions()->setScreenShown(true);
+							break;
+						case 2:
+							mGame->setRunning(false);
+							break;
+					}
+				default:
+					break;
+			}
+			default:
+				break;
+	}
+}
+
+bool Menu::isScreenShown(){
+	return screenShown;
+}
+
+void Menu::setScreenShown(bool is){
+	screenShown = is;
 }

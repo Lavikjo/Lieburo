@@ -25,6 +25,8 @@
 #include "Powerup.hpp"
 
 class GUI;
+class Menu;
+class Options;
 class Gamefield;
 class Player;
 
@@ -43,12 +45,15 @@ public:
 	b2World* getWorld();
 	std::shared_ptr<SceneNode> getSceneNode();
 	std::shared_ptr<Player> getPlayer(int id); //used by guided projectiles
+	std::shared_ptr<Menu> getMenu();
+	std::shared_ptr<Options> getOptions();
 	void whichKeyPressed(sf::Keyboard::Key &key, std::string &s, unsigned int a);
 	void gameOver(int);
+	void setRunning(bool);
+	sf::RenderWindow& getRenderWindow();
 
 private:
 	bool running;
-	bool menu_screen;
 	sf::RenderWindow rWindow;
 	MyContactListener myContactListenerInstance;
 	std::shared_ptr<SceneNode> sceneNode;
