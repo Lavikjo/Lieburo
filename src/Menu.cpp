@@ -77,6 +77,7 @@ void Menu::navigateMenu(sf::Event &event) {
 						case 0:
 							std::cout << "User pressed New Game button." << std::endl;
 							//TODO: Implement game reset here
+							screenShown = false;
 							break;
 						case 1:
 							std::cout << "User pressed Resume Game button." << std::endl;
@@ -88,6 +89,7 @@ void Menu::navigateMenu(sf::Event &event) {
 							mGame->getOptions()->setScreenShown(true);
 							break;
 						case 3:
+							std::cout << "User pressed Exit button." << std::endl;
 							mGame->setRunning(false);
 							break;
 					}

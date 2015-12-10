@@ -54,7 +54,7 @@ void Options::draw(sf::RenderWindow &window, std::vector<std::string> keyNames1,
 	//for reset text
 	sf::Text reset[1];
 	reset[0].setFont(font);
-	reset[0].setString("Press F12 to reset\nPress Enter to change");
+	reset[0].setString("Press F12 to reset\nPress Enter to change key");
 	reset[0].setColor(sf::Color::White);
 	reset[0].setPosition(sf::Vector2f(SCREEN_WIDTH / 20.0f, (SCREEN_HEIGHT / (MAX_NUMBER_OF_OPTIONS_ITEMS - NUMBER_PLAYER_KEYS) * (MAX_NUMBER_OF_OPTIONS_ITEMS - NUMBER_PLAYER_KEYS - 1))));
 	reset[0].setCharacterSize(15);

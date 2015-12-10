@@ -11,7 +11,7 @@ namespace Textures {
 Game::Game() {
 
 	//create the Box2D world
-	b2Vec2 gravity(0.0f, 9.8f);
+	b2Vec2 gravity(0.0f, 15.0f);
 	mGameWorld = new b2World(gravity, true);
 	mGameWorld->SetContactListener(&myContactListenerInstance);
 
@@ -97,6 +97,8 @@ void Game::run() {
 		}
 		else if (options->isScreenShown()) {
 			options->draw(rWindow, player1->getKeyNames(), player2->getKeyNames());
+		}
+		else{
 			view1.setCenter(limitPlayerCamera(player1, view1));
 			rWindow.setView(view1);
 			render();
@@ -153,7 +155,7 @@ void Game::update(sf::Time deltaTime) {
 		}
 
 	}
-	if(!menu->isScreenShown()) {
+	if(!menu->isScreenShown() && !options->isScreenShown()) {
 
     	player1->handleUserInput();
     	player2->handleUserInput();
