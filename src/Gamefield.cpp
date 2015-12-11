@@ -10,7 +10,6 @@ Gamefield::Gamefield(b2World* world) {
     loadTexture("texture/sky.png");
     sf::Sprite backgroundSprite;
     backgroundSprite.setTexture(mGroundTextures["texture/sky.png"]);
-	sf::FloatRect bounds = backgroundSprite.getLocalBounds();
 	backgroundSprite.setOrigin(0,-20);
 	mGroundSprites.push_back(backgroundSprite);
 

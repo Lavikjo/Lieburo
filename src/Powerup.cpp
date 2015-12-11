@@ -1,16 +1,21 @@
 #include "Powerup.hpp"
+#include "Game.hpp"
 
-Powerup::Powerup(Game* game, std::string textureName){
+Powerup::Powerup(Game* game, std::string textureName, bool bodyTypeDynamic){
 	alive = true;
 	mEntityWorld = game->getWorld(); 
 	mGame = game;
 	//Create the dynamic body
-	mBodyDef.type = b2_staticBody;
-	mBodyDef.position.Set(500 / PIXELS_PER_METER,50 / PIXELS_PER_METER);
+	if(bodyTypeDynamic)
+		mBodyDef.type = b2_dynamicBody;
+	else
+		mBodyDef.type = b2_staticBody;
+	mBodyDef.position.Set((rand()/(int)PIXELS_PER_METER)%(GAMEFIELD_WIDTH/(int)PIXELS_PER_METER),
+	(rand()/(int)PIXELS_PER_METER)%(GAMEFIELD_HEIGHT/(int)PIXELS_PER_METER));
 	mBodyDef.angle = 0;
 	mBody = mEntityWorld->CreateBody(&mBodyDef);
 	mBody->SetUserData(this);
-
+	
 	// Declare and load a texture
 	mTexture.loadFromFile(textureName);
 	
@@ -30,31 +35,13 @@ Powerup::Powerup(Game* game, std::string textureName){
 
 Powerup::~Powerup(){}
 
-void Powerup::changeGravity(Game* game,float gravityValue){
-
-	mEntityWorld->SetGravity(b2Vec2(0, gravityValue));
+bool Powerup::isActive(){
+	return active;
 }
 
-void Powerup::update(sf::Time deltaTime) {
-	if(alive){
-		lifeTime += deltaTime.asSeconds();	
-		if(lifeTime > LIFETIME){
-			changeGravity(mGame,9.8f);
-			alive = false;
-			mEntityWorld->DestroyBody(mBody);
-
-		}
-	}
-	else
-		lifeTime = 0;
-
+void Powerup::setActive(bool status){
+	active = status;
 }
 
-void Powerup::startContact(Entity* contact){
-	if(typeid(*contact) == typeid(Player)){
-		if(alive)
-			changeGravity(mGame,2.0f);
 
-	}
-}
 

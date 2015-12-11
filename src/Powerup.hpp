@@ -1,17 +1,15 @@
 #pragma once
 
 #include "Entity.hpp"
-#include "Game.hpp"
 
 class Powerup : public Entity{
 
 public:
-	Powerup(Game* game, std::string textureName);
+	Powerup(Game* game, std::string textureName,bool bodyTypeDynamic);
 	~Powerup();
 
-	void changeGravity(Game* game,float gravityValue);
-	void startContact(Entity* contact);
-	void update(sf::Time deltaTime);
+	bool isActive();
+	void setActive(bool status);
 private:
-	float LIFETIME = 15;
+	bool active = false;
 };

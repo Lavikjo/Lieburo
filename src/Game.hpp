@@ -23,6 +23,8 @@
 #include "Gamefield.hpp"
 #include "GUI.hpp"
 #include "Powerup.hpp"
+#include "GravityPU.hpp"
+
 
 class GUI;
 class Menu;
