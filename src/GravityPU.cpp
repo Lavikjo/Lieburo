@@ -1,10 +1,9 @@
 #include "GravityPU.hpp"
 
-
 void GravityPU::startContact(Entity* contact){
 	if(typeid(*contact) == typeid(Player)){
 		if(alive){
-			changeGravity(2.0f);
+			changeGravity();
 			mSprite.setColor(sf::Color(255,255,255,0));
 			setActive(true);
 		}
@@ -24,7 +23,11 @@ void GravityPU::update(sf::Time deltaTime) {
 			lifeTime = 0;
 }
 
-void GravityPU::changeGravity(float gravityValue){
+void GravityPU::changeGravity(){
+	float randomGravity = (rand()/(int)PIXELS_PER_METER) % 11	;
+	mEntityWorld->SetGravity(b2Vec2(0, randomGravity));
+}
 
+void GravityPU::changeGravity(float gravityValue){
 	mEntityWorld->SetGravity(b2Vec2(0, gravityValue));
 }

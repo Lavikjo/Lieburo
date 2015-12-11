@@ -24,6 +24,7 @@
 #include "GUI.hpp"
 #include "Powerup.hpp"
 #include "GravityPU.hpp"
+#include "GravityInverter.hpp"
 
 
 class GUI;

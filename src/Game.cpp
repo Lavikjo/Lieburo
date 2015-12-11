@@ -32,6 +32,9 @@ Game::Game() {
 
 	std::shared_ptr<Powerup> gravityPowerup = std::make_shared<GravityPU>(this,"texture/ak47.png",true);
 	sceneNode->attachChild(std::static_pointer_cast<SceneNode>(gravityPowerup));
+	std::shared_ptr<Powerup> gravityInverter = std::make_shared<GravityInverter>(this,"texture/ak47.png",true);
+	sceneNode->attachChild(std::static_pointer_cast<SceneNode>(gravityInverter));
+
 
 
 	gamefield = std::make_shared<Gamefield>(mGameWorld);

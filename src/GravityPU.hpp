@@ -8,6 +8,7 @@ public:
 	using Powerup::Powerup;	
 	void startContact(Entity* contact);
 	void update(sf::Time deltaTime);
+	void changeGravity();
 	void changeGravity(float gravityValue);
 	
 private:
