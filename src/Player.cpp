@@ -12,7 +12,6 @@
 
  	mOpponent = opponent;
 
- 	hp = PLAYER_MAX_HP;
 
  	mEntityWorld = game->getWorld();
  	mGame = game;

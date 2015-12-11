@@ -90,7 +90,7 @@ void Menu::navigateMenu(sf::Event &event) {
 							break;
 						case 3:
 							std::cout << "User pressed Exit button." << std::endl;
-							mGame->setRunning(false);
+							mGame->exit();
 							break;
 					}
 				default:

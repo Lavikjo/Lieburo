@@ -76,7 +76,7 @@ private:
 
 	int bloodToSpill = 0; //A separate variable must be used as blood cant't be created within startContact (box2d cause) 
 
-	int hp;
+	int hp = 0;
 	float jetpackFuel = 100;
 	bool jetpackReady = true;
 	int jetpackTimer = 0;//a timer-like counter used to extinquish the jetpack flame 

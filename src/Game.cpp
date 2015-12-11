@@ -10,41 +10,44 @@ namespace Textures {
 
 Game::Game() {
 
-	//create the Box2D world
-	b2Vec2 gravity(0.0f, 15.0f);
-	mGameWorld = new b2World(gravity, true);
-	mGameWorld->SetContactListener(&myContactListenerInstance);
-
-	//instantiate the main window
-
-	rWindow.create(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, BITS_PER_PIXEL), "Lieburo");
-
-	running = true;
-
 	menu = std::make_shared<Menu>(this);
 	options = std::make_shared<Options>(this);
+	rWindow.create(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, BITS_PER_PIXEL), "Lieburo");
 
-	sceneNode = std::make_shared<SceneNode>();
-	player1 = std::make_shared<Player>(this, 2);
-	sceneNode->attachChild(std::static_pointer_cast<SceneNode>(player1));
-	player2 = std::make_shared<Player>(this, 1);
-	sceneNode->attachChild(std::static_pointer_cast<SceneNode>(player2));
+	while(playing){
 
-	std::shared_ptr<Powerup> gravityPowerup = std::make_shared<GravityPU>(this,"texture/ak47.png",true);
-	sceneNode->attachChild(std::static_pointer_cast<SceneNode>(gravityPowerup));
-	std::shared_ptr<Powerup> gravityInverter = std::make_shared<GravityInverter>(this,"texture/ak47.png",true);
-	sceneNode->attachChild(std::static_pointer_cast<SceneNode>(gravityInverter));
-	std::shared_ptr<Powerup> healthRecovery = std::make_shared<HealthRecovery>(this,"texture/heart.png",true);
-	sceneNode->attachChild(std::static_pointer_cast<SceneNode>(healthRecovery));
+		//create the Box2D world
+		b2Vec2 gravity(0.0f, 15.0f);
+		mGameWorld = new b2World(gravity, true);
+		mGameWorld->SetContactListener(&myContactListenerInstance);
+
+		//instantiate the main window
+
+		running = true;
+
+		sceneNode = std::make_shared<SceneNode>();
+		player1 = std::make_shared<Player>(this, 2);
+		sceneNode->attachChild(std::static_pointer_cast<SceneNode>(player1));
+		player2 = std::make_shared<Player>(this, 1);
+		sceneNode->attachChild(std::static_pointer_cast<SceneNode>(player2));
+
+		std::shared_ptr<Powerup> gravityPowerup = std::make_shared<GravityPU>(this,"texture/ak47.png",true);
+		sceneNode->attachChild(std::static_pointer_cast<SceneNode>(gravityPowerup));
+		std::shared_ptr<Powerup> gravityInverter = std::make_shared<GravityInverter>(this,"texture/ak47.png",true);
+		sceneNode->attachChild(std::static_pointer_cast<SceneNode>(gravityInverter));
+		std::shared_ptr<Powerup> healthRecovery = std::make_shared<HealthRecovery>(this,"texture/heart.png",true);
+		sceneNode->attachChild(std::static_pointer_cast<SceneNode>(healthRecovery));
 
 
-	gamefield = std::make_shared<Gamefield>(mGameWorld);
+		gamefield = std::make_shared<Gamefield>(mGameWorld);
 
-	//construct gui
-	gui = std::make_shared<GUI>();
-	//construct menu and options screens
+		//construct gui
+		gui = std::make_shared<GUI>();
+		//construct menu and options screens
 
-	run();
+		run();
+		
+	}
 
 	rWindow.close();
 }
@@ -138,7 +141,7 @@ void Game::update(sf::Time deltaTime) {
 	    	switch (event.type) {
 		        // "close requested" event: we close the window
 		        case sf::Event::Closed:
-		            running = false;
+		            exit();
 		            break;
 	            case sf::Event::KeyPressed:
 	            	//Keyboard inputs with delay between presses
@@ -240,12 +243,11 @@ sf::Vector2f Game::limitPlayerCamera(std::shared_ptr<Player> player, sf::View vi
 }
 
 void Game::newGame(){
-	player1->setLives(player1->getMaxLives());
-	player1->respawn();
-	player1->updateHp(-1*player1->getHp());
-	player1->setBloodToSpill(0);//The updateHp spills blood-> we don't want that at new game.
-	player2->setLives(player2->getMaxLives());
-	player2->respawn();
-	player2->updateHp(-1*player2->getHp());
-	player2->setBloodToSpill(0);
+	running = false;
+	rWindow.clear();
+}
+
+void Game::exit(){
+	playing = false;
+	running = false;
 }

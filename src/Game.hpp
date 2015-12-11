@@ -55,8 +55,10 @@ public:
 	void setRunning(bool);
 	sf::RenderWindow& getRenderWindow();
 	sf::Vector2f limitPlayerCamera(std::shared_ptr<Player>, sf::View);
+	void exit();
 
 private:
+	bool playing = true;
 	bool running;
 	sf::RenderWindow rWindow;
 	MyContactListener myContactListenerInstance;
