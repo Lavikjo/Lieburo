@@ -76,8 +76,8 @@ void Menu::navigateMenu(sf::Event &event) {
 					switch (getPressedItem()) {
 						case 0:
 							std::cout << "User pressed New Game button." << std::endl;
-							//TODO: Implement game reset here
 							screenShown = false;
+							mGame->newGame();
 							break;
 						case 1:
 							std::cout << "User pressed Resume Game button." << std::endl;

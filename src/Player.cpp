@@ -12,6 +12,8 @@
 
  	mOpponent = opponent;
 
+ 	hp = PLAYER_MAX_HP;
+
  	mEntityWorld = game->getWorld();
  	mGame = game;
 	//Create the dynamic body
@@ -185,8 +187,8 @@ void Player::update(sf::Time deltaTime) {
 	//Update hp back up after player has pressed fire
 	if(respawning){
 		hp += 1;
-		if(hp>0.3f*PLAYER_MAX_HP){
-			waitingForRespawn = false;//Taking this flag off now to prevent a gunshot from the fire button press.
+		if(hp>0.3f*PLAYER_MAX_HP){//Taking this flag off with a delay to prevent a gunshot from the fire button press.
+			waitingForRespawn = false;
 		}
 		if(hp >= PLAYER_MAX_HP){
 			hp = PLAYER_MAX_HP;
@@ -219,7 +221,6 @@ void Player::update(sf::Time deltaTime) {
 
 		//waiting for user input to load hp and reposition.
 		if(sf::Keyboard::isKeyPressed(keys[5])){
-			respawning = true;
 			respawn();
 		}
 	}
@@ -369,7 +370,8 @@ void Player::resetCommands() {
 
 
 void Player::respawn(){
-
+	respawning = true; //setting the flag for the update function
+	
 	//setting the body fixture to collide with nothing.
 	b2Fixture* f = mBody->GetFixtureList()->GetNext();
 	b2Filter filter;
@@ -404,6 +406,10 @@ void Player::handleUserInput(){
 		    fire();
 		}
 	}
+}
+
+void Player::setBloodToSpill(int amount){
+	bloodToSpill = amount;
 }
 
 void Player::spillBlood(int amount){
@@ -453,4 +459,19 @@ std::vector<sf::Keyboard::Key>& Player::getKeys(){
 
 std::vector<std::string>& Player::getKeyNames(){
 	return keyNames;
+}
+
+void Player::setLives(int l){
+	lives = l;
+}
+
+int Player::getLives()const{
+	return lives;
+}
+void Player::setMaxLives(int ml){
+	maxLives= ml;
+}
+
+int Player::getMaxLives()const{
+	return maxLives;
 }

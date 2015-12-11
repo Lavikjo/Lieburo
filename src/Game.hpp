@@ -51,6 +51,7 @@ public:
 	std::shared_ptr<Menu> getMenu();
 	std::shared_ptr<Options> getOptions();
 	void gameOver(int);
+	void newGame();
 	void setRunning(bool);
 	sf::RenderWindow& getRenderWindow();
 	sf::Vector2f limitPlayerCamera(std::shared_ptr<Player>, sf::View);

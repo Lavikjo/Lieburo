@@ -47,11 +47,17 @@ public:
 	void respawn();
 	void handleUserInput();
 
+	void setBloodToSpill(int);
 	void spillBlood(int);
 	bool isWaitingForRespawn() const;
 
 	std::vector<sf::Keyboard::Key>& getKeys();
 	std::vector<std::string>& getKeyNames();
+
+	void setLives(int);
+	int getLives()const;
+	void setMaxLives(int);
+	int getMaxLives()const;
 
 private:
 	int mOpponent;
@@ -63,13 +69,14 @@ private:
 	sf::Texture weaponTexture;
 	sf::Sprite weaponSprite;
 
-	int lives = 4; 
+	int lives = 0; 
+	int maxLives = 4;
 	bool respawning = true; //Respawn at start
 	bool waitingForRespawn = false;
 
 	int bloodToSpill = 0; //A separate variable must be used as blood cant't be created within startContact (box2d cause) 
 
-	int hp = 0;
+	int hp;
 	float jetpackFuel = 100;
 	bool jetpackReady = true;
 	int jetpackTimer = 0;//a timer-like counter used to extinquish the jetpack flame 

@@ -159,13 +159,12 @@ void Game::update(sf::Time deltaTime) {
 
 	}
 	if(!menu->isScreenShown() && !options->isScreenShown()) {
-
     	player1->handleUserInput();
     	player2->handleUserInput();
 
 		sceneNode->updateAll(deltaTime);
 
- 	   mGameWorld->Step(deltaTime.asSeconds(), velocityIterations, positionIterations);
+ 	   	mGameWorld->Step(deltaTime.asSeconds(), velocityIterations, positionIterations);
  	}
 }
 
@@ -237,4 +236,15 @@ sf::Vector2f Game::limitPlayerCamera(std::shared_ptr<Player> player, sf::View vi
 		pos.y = GAMEFIELD_HEIGHT-viewSize.y/2.f+h;
 
 	return pos;
+}
+
+void Game::newGame(){
+	player1->setLives(player1->getMaxLives());
+	player1->respawn();
+	player1->updateHp(-1*player1->getHp());
+	player1->setBloodToSpill(0);//The updateHp spills blood-> we don't want that at new game.
+	player2->setLives(player2->getMaxLives());
+	player2->respawn();
+	player2->updateHp(-1*player2->getHp());
+	player2->setBloodToSpill(0);
 }
