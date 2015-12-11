@@ -24,7 +24,7 @@ void GravityPU::update(sf::Time deltaTime) {
 }
 
 void GravityPU::changeGravity(){
-	float randomGravity = (rand()/(int)PIXELS_PER_METER) % 11	;
+	float randomGravity = (rand()/(int)PIXELS_PER_METER) % 15;
 	mEntityWorld->SetGravity(b2Vec2(0, randomGravity));
 }
 
