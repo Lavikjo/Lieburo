@@ -241,7 +241,7 @@ sf::Vector2f Game::limitPlayerCamera(std::shared_ptr<Player> player, sf::View vi
 	sf::Vector2f pos = player->getSpritePosition();
 	sf::Vector2f viewSize = view.getSize();
 
-	float h = player->getSprite().getLocalBounds().height/4;
+	float h = player->getAnimatedSprite().getLocalBounds().height/4;
 	if(pos.x<viewSize.x/2.f){
 		pos.x = viewSize.x/2.f;
 	}else if(pos.x>GAMEFIELD_WIDTH-viewSize.x/2.f)

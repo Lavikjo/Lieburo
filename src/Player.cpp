@@ -56,11 +56,17 @@
 	b2PolygonShape polygonShape;
 	polygonShape.SetAsBox(0.42f*bounds.width / PIXELS_PER_METER, 0.42f*bounds.height/PIXELS_PER_METER);
 	mFixtureDef.shape = &polygonShape;
-	mFixtureDef.density = 1;
+	mFixtureDef.density = 0.2f;
 	mFixtureDef.friction = 0.1f;
 	mFixtureDef.filter.categoryBits = PLAYER; //I am a PLAYER
     mFixtureDef.filter.maskBits = ~PLAYER; // I collide with everyhing else but another player. 
 	mBody->CreateFixture(&mFixtureDef);
+
+	//Add foot sensor fixture: Used for determining on ground condition.
+	polygonShape.SetAsBox(bounds.width/PIXELS_PER_METER/5.0f, bounds.width/PIXELS_PER_METER/5.0f, b2Vec2(0,bounds.height/2.0f/PIXELS_PER_METER), 0);
+	mFixtureDef.isSensor = true;
+	b2Fixture* footSensorFixture = mBody->CreateFixture(&mFixtureDef);
+	footSensorFixture->SetUserData((void*)PLAYER_FOOT_SENSOR_FIXTURE); //user data contains an identification number for the foot sensor, can be any number.
 
 	//Initialize weapons: without players there can't be weapons.
 	mWeapons.push_back(std::make_shared<BananaGun>(mGame));
@@ -86,11 +92,6 @@
 	weaponSprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
 	weaponSprite.scale({-1,1});
 
-	//Add foot sensor fixture: Used for determining on ground condition.
-	polygonShape.SetAsBox(bounds.width/PIXELS_PER_METER/5.0f, bounds.width/PIXELS_PER_METER/5.0f, b2Vec2(0,bounds.height/PIXELS_PER_METER), 0);
-	mFixtureDef.isSensor = true;
-	b2Fixture* footSensorFixture = mBody->CreateFixture(&mFixtureDef);
-	footSensorFixture->SetUserData((void*)PLAYER_FOOT_SENSOR_FIXTURE); //user data contains an identification number for the foot sensor, can be any number.
 
 	alive = true;	
 	setCommands();	
