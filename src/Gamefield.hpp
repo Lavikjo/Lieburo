@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Game.hpp"
+#include "Entity.hpp"
+#include "Constants.h"
 
 
 

@@ -50,7 +50,7 @@ void Missile::update(sf::Time deltaTime) {
 void Missile::startContact(Entity* contact){ 
 	if(lifeTime > 0.2) {//Preventing barrel explosion
 		if(typeid(*contact) == typeid(Player)) {
-			contact->updateHp(-5);
+			contact->updateHp(-4);
 			lifeTime = MISSILE_LIFETIME +1;
 			hasFragmented = true;
 		}

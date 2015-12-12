@@ -12,6 +12,8 @@
 
  	mOpponent = opponent;
 
+ 	lives = maxLives;
+
 
  	mEntityWorld = game->getWorld();
  	mGame = game;
@@ -287,11 +289,6 @@ void Player::drawPlayer(sf::RenderTarget& target) {
 		spritePosition.y = pos.y * PIXELS_PER_METER;
 
 		//Draw Sprite
-		/*
-		mSprite.setPosition(spritePosition);
-		mSprite.setRotation(spriteAngle);
-		target.draw(mSprite);
-		*/
 		animatedSprite.setPosition(spritePosition);
 		animatedSprite.setRotation(spriteAngle);
 		target.draw(animatedSprite);

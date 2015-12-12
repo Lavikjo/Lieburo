@@ -1,10 +1,6 @@
 #pragma once
 
 //library includes
-#include <SFML/Window.hpp>
-#include <SFML/System.hpp>
-#include <SFML/Graphics.hpp>
-#include <Box2D/Box2D.h>
 #include <iostream>
 #include <map>
 #include <string>

@@ -2,7 +2,7 @@
 #include "Banana.hpp"
 #include <iostream>
 
-BananaGun::BananaGun(Game* game): Weapon(10, 0.5f, 3, 25.0f, "texture/bananagun.png", game){
+BananaGun::BananaGun(Game* game): Weapon(4, 0.5f, 5, 25.0f, "texture/bananagun.png", game){
 	
 	ammo = clipSize;
 	(void) game;

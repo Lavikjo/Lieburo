@@ -10,9 +10,13 @@ namespace Textures {
 
 Game::Game() {
 
+	//construct menu and options screens
 	menu = std::make_shared<Menu>(this);
 	options = std::make_shared<Options>(this);
 	rWindow.create(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, BITS_PER_PIXEL), "Lieburo");
+
+	//construct gui
+	gui = std::make_shared<GUI>();
 
 	while(playing){
 
@@ -51,10 +55,6 @@ Game::Game() {
 
 
 		gamefield = std::make_shared<Gamefield>(mGameWorld);
-
-		//construct gui
-		gui = std::make_shared<GUI>();
-		//construct menu and options screens
 
 		run();
 		
@@ -125,7 +125,6 @@ void Game::run() {
 			view2.setCenter(limitPlayerCamera(player2, view2));
 			render();
 			rWindow.setView(statusView);
-			gui->update(this);
 			render();
 		}
 		rWindow.display();
@@ -175,6 +174,8 @@ void Game::update(sf::Time deltaTime) {
 
 	}
 	if(!menu->isScreenShown() && !options->isScreenShown()) {
+		gui->update(this);
+		
     	player1->handleUserInput();
     	player2->handleUserInput();
 

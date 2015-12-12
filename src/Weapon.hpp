@@ -1,12 +1,10 @@
 #ifndef WEAPON_HH
 #define WEAPON_HH
 
-#include <Box2D/Box2D.h>
-#include <SFML/System.hpp>
 #include <iostream>
 
 #include "Game.hpp"
-#include "SceneNode.hpp"
+//#include "SceneNode.hpp"
 
 
 class Weapon {

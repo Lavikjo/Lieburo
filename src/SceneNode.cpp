@@ -51,7 +51,6 @@ void SceneNode::removeAll(){
 	while(mChildren.size() != 0){
 		for(auto& child : mChildren) {
 			detachChild(*child);
-			std::cout << "removed entity" << std::endl;
 			break; //after removal the iterator invalidates -> loop must be broken
 		}
 	}

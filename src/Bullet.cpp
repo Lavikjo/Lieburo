@@ -22,7 +22,7 @@ void Bullet::update(sf::Time deltaTime) {
 void Bullet::startContact(Entity* contact){
 	if(typeid(*contact) == typeid(Player)) {
 		if(lifeTime > 0.05) {
-			contact->updateHp(-3);
+			contact->updateHp(-10);
 		}
 	}
 	lifeTime = MAX_LIFETIME +1; //dies next
