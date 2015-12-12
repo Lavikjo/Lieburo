@@ -9,6 +9,8 @@ namespace Textures {
 }
 
 Game::Game() {
+	mGame = this;
+	
 	menu = std::make_shared<Menu>(this);
 	options = std::make_shared<Options>(this);
 	rWindow.create(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, BITS_PER_PIXEL), "Lieburo");
