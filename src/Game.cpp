@@ -37,6 +37,8 @@ Game::Game() {
 		sceneNode->attachChild(std::static_pointer_cast<SceneNode>(gravityInverter));
 		std::shared_ptr<Powerup> healthRecovery = std::make_shared<HealthRecovery>(this,"texture/heart.png",true);
 		sceneNode->attachChild(std::static_pointer_cast<SceneNode>(healthRecovery));
+		std::shared_ptr<Powerup> bomb = std::make_shared<Bomb>(this,"texture/bomb.png",true);
+		sceneNode->attachChild(std::static_pointer_cast<SceneNode>(bomb));
 
 
 		gamefield = std::make_shared<Gamefield>(mGameWorld);

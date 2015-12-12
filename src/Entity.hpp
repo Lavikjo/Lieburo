@@ -28,7 +28,7 @@ public:
 
 	virtual void update(sf::Time) = 0;
 	virtual void startContact(Entity*){}
-
+	virtual void disableUserInput(bool status);
 	virtual void drawPlayer(sf::RenderTarget&){}
 	virtual void updateHp(int){}
 
@@ -61,6 +61,4 @@ protected:
 	float lifeTime = 0; 
 
 	int type = 0;
-
-
 };

@@ -42,6 +42,10 @@ sf::Sprite Entity::getSprite() const {
 	return mSprite;
 }
 
+void Entity::disableUserInput(bool status){
+	(void)status;
+}
+
 void Entity::baseConstructor(Game* game, std::string textureName) {
 	mEntityWorld = game->getWorld(); 
 	mGame = game;

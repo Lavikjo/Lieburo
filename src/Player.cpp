@@ -104,6 +104,7 @@ void Player::movePlayerX(float x) {
 	previousXVelocity = x;
     float velChange =10*x - vel.x;
     float impulseX = mBody->GetMass() * velChange; //disregard time factor
+
     mBody->ApplyLinearImpulse( b2Vec2(impulseX, 0), mBody->GetWorldCenter() );
 
     //Also change the position.
@@ -229,7 +230,7 @@ void Player::update(sf::Time deltaTime) {
 }
 
 void Player::startContact(Entity* contact) {
-	(void) contact;	
+	(void) contact;
 }
 
 sf::Vector2f Player::getAimDotPosition(){
@@ -385,7 +386,7 @@ void Player::respawn(){
 } 
 
 void Player::handleUserInput(){
-	if(!waitingForRespawn){
+	if(!waitingForRespawn && !userInputDisabled){
 		if (sf::Keyboard::isKeyPressed(keys[0])) {
 		    jump();
 		}
@@ -406,6 +407,10 @@ void Player::handleUserInput(){
 		}
 	}
 }
+void Player::disableUserInput(bool status){
+	userInputDisabled = status;
+}
+
 
 void Player::setBloodToSpill(int amount){
 	bloodToSpill = amount;
