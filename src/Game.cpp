@@ -33,17 +33,10 @@ Game::Game() {
 
 		std::shared_ptr<Powerup> gravityPowerup = std::make_shared<GravityPU>(this,"texture/weight.png",true);
 		sceneNode->attachChild(std::static_pointer_cast<SceneNode>(gravityPowerup));
-		std::shared_ptr<Powerup> gravityPowerup = std::make_shared<GravityPU>(this,"texture/weight.png",true);
-		sceneNode->attachChild(std::static_pointer_cast<SceneNode>(gravityPowerup));
-
 		std::shared_ptr<Powerup> gravityInverter = std::make_shared<GravityInverter>(this,"texture/arrow.png",true);
 		sceneNode->attachChild(std::static_pointer_cast<SceneNode>(gravityInverter));
-
-		for(int i = 0; i < 3;i++){
-			std::shared_ptr<Powerup> healthRecovery = std::make_shared<HealthRecovery>(this,"texture/heart.png",true);
-			sceneNode->attachChild(std::static_pointer_cast<SceneNode>(healthRecovery));
-		}
-		
+		std::shared_ptr<Powerup> healthRecovery = std::make_shared<HealthRecovery>(this,"texture/heart.png",true);
+		sceneNode->attachChild(std::static_pointer_cast<SceneNode>(healthRecovery));
 		std::shared_ptr<Powerup> bomb = std::make_shared<Bomb>(this,"texture/bomb.png",true);
 		sceneNode->attachChild(std::static_pointer_cast<SceneNode>(bomb));
 
