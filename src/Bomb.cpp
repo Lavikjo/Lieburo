@@ -8,6 +8,7 @@ void Bomb::startContact(Entity* contact){
 			mSprite.setColor(sf::Color(255,255,255,0));
 			setActive(true);
 			contact->updateHp(-20);
+			mBody->GetFixtureList()->SetSensor(true);
 		}
 	}
 }
@@ -49,6 +50,7 @@ void Bomb::bombExplosion(){
 		b2Vec2 bodyCenter = queryCallback.foundBodies[i]->GetWorldCenter();
 		queryCallback.foundBodies[i]->ApplyLinearImpulse(bodyPos,bodyCenter);
 		player->disableUserInput(false);
+		player->updateHp(-5);
 
 
 	}

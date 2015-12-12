@@ -13,5 +13,5 @@ public:
 	void bombExplosion();
 
 private:
-	float LIFETIME = 0.05f;
+	float LIFETIME = 0.5f;
 };
