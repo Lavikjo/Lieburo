@@ -9,8 +9,6 @@ namespace Textures {
 }
 
 Game::Game() {
-
-	//construct menu and options screens
 	menu = std::make_shared<Menu>(this);
 	options = std::make_shared<Options>(this);
 	rWindow.create(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, BITS_PER_PIXEL), "Lieburo");
@@ -50,7 +48,7 @@ Game::Game() {
 		std::shared_ptr<Powerup> healthRecovery3 = std::make_shared<HealthRecovery>(this,"texture/heart.png",true);
 		sceneNode->attachChild(std::static_pointer_cast<SceneNode>(healthRecovery3));
 
-		std::shared_ptr<Powerup> bomb = std::make_shared<Bomb>(this,"texture/bomb.png",true);
+		std::shared_ptr<Powerup> bomb = std::make_shared<Bomb>(this,"texture/heart.png",true);
 		sceneNode->attachChild(std::static_pointer_cast<SceneNode>(bomb));
 
 
@@ -61,6 +59,26 @@ Game::Game() {
 	}
 
 	rWindow.close();
+}
+void Game::createRandomPowerup(){
+	int randomNumber = rand() % 4;
+
+	if(randomNumber == 0){
+		std::shared_ptr<Powerup> gravityPowerupR = std::make_shared<GravityPU>(mGame,"texture/weight.png",true);
+		sceneNode->attachChild(std::static_pointer_cast<SceneNode>(gravityPowerupR));
+	}
+	if(randomNumber == 1){
+		std::shared_ptr<Powerup> gravityInverterR = std::make_shared<GravityInverter>(mGame,"texture/arrow.png",true);
+		sceneNode->attachChild(std::static_pointer_cast<SceneNode>(gravityInverterR));
+	}
+	if(randomNumber == 2){
+		std::shared_ptr<Powerup> healthRecoveryR = std::make_shared<HealthRecovery>(mGame,"texture/heart.png",true);
+		sceneNode->attachChild(std::static_pointer_cast<SceneNode>(healthRecoveryR));
+	}
+	if(randomNumber == 3){
+		std::shared_ptr<Powerup> bombR = std::make_shared<Bomb>(mGame,"texture/heart.png",true);
+		sceneNode->attachChild(std::static_pointer_cast<SceneNode>(bombR));
+	}
 }
 
 //main game loop
@@ -138,7 +156,6 @@ void Game::run() {
 
 void Game::update(sf::Time deltaTime) {
 	sf::Event event;
-
     while (rWindow.pollEvent(event)) {
 
     	//navigate in menu screen
@@ -179,11 +196,18 @@ void Game::update(sf::Time deltaTime) {
     	player1->handleUserInput();
     	player2->handleUserInput();
 
-  	
+	 	powerupTimer++;
+	 	if(powerupTimer == 3600){
+	 		createRandomPowerup();
+	 		powerupTimer=0;
+	 	}
+
 		sceneNode->updateAll(deltaTime);
 
  	   	mGameWorld->Step(deltaTime.asSeconds(), velocityIterations, positionIterations);
  	}
+	
+
 }
 
 void Game::render() {

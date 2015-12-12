@@ -37,6 +37,7 @@ public:
 
 	Game();
 	~Game();
+	void createRandomPowerup();
 	void run();
 	void update(sf::Time deltaTime);
 	void render();
@@ -68,4 +69,5 @@ private:
 	std::shared_ptr<Player> player2;
 	std::shared_ptr<Menu> menu;
 	std::shared_ptr<Options> options;
+	int powerupTimer = 0;
 };

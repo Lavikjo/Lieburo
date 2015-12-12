@@ -6,6 +6,7 @@ void HealthRecovery::startContact(Entity* contact){
 			contact->updateHp(20);
 			setActive(true);
 			mSprite.setColor(sf::Color(255,255,255,0));
+			mBody->GetFixtureList()->SetSensor(true);
 		}
 	}
 }

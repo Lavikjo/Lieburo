@@ -6,6 +6,7 @@ void GravityPU::startContact(Entity* contact){
 			changeGravity();
 			mSprite.setColor(sf::Color(255,255,255,0));
 			setActive(true);
+			mBody->GetFixtureList()->SetSensor(true);
 		}
 	}
 }
