@@ -74,15 +74,15 @@ void Game::run() {
 
 	//create views for players
 	viewMenu.reset(sf::FloatRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT));
-	view1.setViewport(sf::FloatRect(0, 0, 0.495f, 0.925f));
-	view1.setSize(SCREEN_WIDTH / 2, SCREEN_HEIGHT*0.925f);
-	view2.setViewport(sf::FloatRect(0.505f, 0, 0.495f, 0.925f));
-	view2.setSize(SCREEN_WIDTH / 2, SCREEN_HEIGHT*0.925f);
+	view1.setViewport(sf::FloatRect(0, 0, 0.495f, 0.875f));
+	view1.setSize(SCREEN_WIDTH / 2, SCREEN_HEIGHT*0.875f);
+	view2.setViewport(sf::FloatRect(0.505f, 0, 0.495f, 0.875f));
+	view2.setSize(SCREEN_WIDTH / 2, SCREEN_HEIGHT*0.875f);
 
 	//third smaller viewport for displaying healthbar and other vital info about the game
 	//all the statusbars are located far away from playing field
-	statusView.setViewport(sf::FloatRect(0, 0.925f, 1.0f, 0.075f));
-	statusView.setSize(SCREEN_WIDTH, SCREEN_HEIGHT*0.075f);
+	statusView.setViewport(sf::FloatRect(0, 0.875f, 1.0f, 0.125f));
+	statusView.setSize(SCREEN_WIDTH, SCREEN_HEIGHT*0.125f);
 	statusView.setCenter(100000, 100000);
 
 

@@ -43,7 +43,7 @@
 	animatedSprite.pause();
 	animatedSprite.setLooped(false);
 	animatedSprite.play(*currentAnimation);
-	animatedSprite.scale({0.9f, 0.9f});
+	animatedSprite.scale({0.7f, 0.7f});
 	sf::FloatRect bounds = animatedSprite.getLocalBounds();
 	animatedSprite.setOrigin(bounds.width / 2.0f, bounds.height / 2.0f);
 
@@ -54,7 +54,7 @@
 
 	//Add a fixture to the body
 	b2PolygonShape polygonShape;
-	polygonShape.SetAsBox(0.42f*bounds.width / PIXELS_PER_METER, 0.42f*bounds.height/PIXELS_PER_METER);
+	polygonShape.SetAsBox(0.42f*bounds.width / PIXELS_PER_METER, 0.32f*bounds.height/PIXELS_PER_METER);
 	mFixtureDef.shape = &polygonShape;
 	mFixtureDef.density = 0.2f;
 	mFixtureDef.friction = 0.1f;
@@ -127,6 +127,9 @@ void Player::movePlayerX(float x) {
     float currentX = mBody->GetPosition().x;
     float currentY = mBody->GetPosition().y;
     mBody->SetTransform(b2Vec2(currentX+x, currentY), 0);
+
+    currentAnimation = &walkingAnimation;
+	noKeyWasPressed = false;
   
 }
 
@@ -176,7 +179,7 @@ void Player::update(sf::Time deltaTime) {
 
 	//position the bazooka
 	x = (mBody->GetPosition().x+direction*sin(shootAngle)*0.2f*GUN_BARREL_LENGTH)*PIXELS_PER_METER; 
-	y = (mBody->GetPosition().y+cos(shootAngle)*0.2f*GUN_BARREL_LENGTH)*PIXELS_PER_METER;
+	y = (mBody->GetPosition().y+cos(shootAngle)*0.2f*GUN_BARREL_LENGTH+0.3f)*PIXELS_PER_METER;
 
 	weaponSprite.setPosition(x,y);
 	weaponSprite.setRotation(-direction*shootAngle*RAD_TO_DEG);
@@ -421,30 +424,28 @@ void Player::handleUserInput(){
 	if(!waitingForRespawn && !userInputDisabled){
 		if (sf::Keyboard::isKeyPressed(keys[0])) {
 		    jump();
-		    noKeyWasPressed = false;
+		    //noKeyWasPressed = false;
 		}
 	    if (sf::Keyboard::isKeyPressed(keys[1])) {
 		    movePlayerX(-0.1f);
-		    currentAnimation = &walkingAnimation;
-		    noKeyWasPressed = false;
+		    
 
 		}
 		if (sf::Keyboard::isKeyPressed(keys[2])) {
 		    movePlayerX(0.1f);
-		    currentAnimation = &walkingAnimation;
-		    noKeyWasPressed = false;
+		
 		}
 		if (sf::Keyboard::isKeyPressed(keys[3])) {
 		    aim(5);
-		    noKeyWasPressed = false;
+		    
 		}
 		if (sf::Keyboard::isKeyPressed(keys[4])) {
 		    aim(-5);
-		    noKeyWasPressed = false;
+		    
 		}
 		if (sf::Keyboard::isKeyPressed(keys[5])) {
 		    fire();
-		    noKeyWasPressed = false;
+		 
 		}
 	}
 }
