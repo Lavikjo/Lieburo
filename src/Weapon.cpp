@@ -40,3 +40,11 @@ unsigned int Weapon::getClipSize() const {
 sf::Texture Weapon::getTexture() const{
 	return mWeaponTexture;
 }
+
+float Weapon::getReloadTime() const {
+	return reloadTime;
+}
+
+sf::Clock Weapon::getFireClock() const {
+	return fireClock;
+}
