@@ -21,15 +21,18 @@ Gamefield::Gamefield(b2World* world) {
 
 	2. Load the gamefield data from a file by going it through line by line
 		File data structure: (location unit is pixels)
-		Texture1name,x1,y1\n
-		Texture2name,x2,y2\n
+		Type/Shape, texture path, and then variuos parameters
 
-		ATM the only choices are a box of 60*30 pixels. Maybe in the future there will be other kinds of shapes (= non-box fixtures)
-		as well as other textures, too.
+		Depending on the texture type the lines parameters are different.
+		1,Texture1name,x,y        this is a rectangle size is calaculated based on the texture. x and y determine the position
+		2,Texture2name,x,y,x2,y2,x3,y3 this is a triangle and x's and y's are the triangles three corner positions (not working properly)
+		3,Texture3name,x,y,r      this is a circle, x and y are the position and r is the radius
+		4,Texture4name,x,y,sx,sy  this is a rectangle but the size is sx*sy and x and y determine the position
+		5,Texture5name,x,y,sx,sy  the same as type 4 but this rectangle doesn't have friction at all.
 
 	3. Per one line: Create a texture and create a sprite from it. Push the texture and sprite to a vector.
 
-	4. Create a fixture based on the data (= pos + upcoming dimensios/shape information) in the file.
+	4. Create a fixture based on the data
 
 	5. Attach the fixture to the body.
 

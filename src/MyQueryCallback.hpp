@@ -11,3 +11,5 @@ public:
 		return true;
 	}
 };	
+
+//MyQueryCallback is from http://www.iforce2d.net/b2dtut/world-querying
