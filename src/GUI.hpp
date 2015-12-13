@@ -21,7 +21,7 @@ private:
 	std::shared_ptr<Player> player1;
 	std::shared_ptr<Player> player2;
 	Game* mGame;
-	void createBar(sf::RectangleShape &bar, sf::Vector2f pos, sf::Vector2f size, size_t outlineThickness, sf::Color color = sf::Color(105,105, 105, 255));
+	void createBar(sf::RectangleShape &bar, sf::Vector2f pos, sf::Vector2f size, size_t outlineThickness, sf::Color color = sf::Color(0, 191, 255, 255));
 	void createText(sf::Text &text, sf::Vector2f pos, size_t outlineThickness);
 	int clamp(int n, int lower, int upper);
 	sf::Font statusFont;
