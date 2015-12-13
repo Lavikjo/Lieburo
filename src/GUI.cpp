@@ -73,14 +73,14 @@ void GUI::update() {
 	
 	healthBar2.setScale(-currentHp2/player2->getMaxHp(), 1);
 
-	amount << "Lives: " << player1->getMaxLives() + player1->getLives();
+	amount << "Lives: " << player1->getLives();
 	livesText1.setString(amount.str());
 	amount.str("");
 	amount.clear();
 
 	
 
-	amount << "Lives: " << player2->getMaxLives() + player2->getLives();
+	amount << "Lives: " << player2->getLives();
 	livesText2.setString(amount.str());
 
 	amount.str("");
