@@ -13,15 +13,13 @@ GUI::GUI(Game* game) {
 	//if the font cannot be loaded, program fails instantly
 	assert(success);
 
-	sf::Texture backgroundTexture;
+	
 	success = backgroundTexture.loadFromFile("texture/metalbackground1.png");
 	assert(success);
-
-	createBar(background, sf::Vector2f(100000 - SCREEN_WIDTH/2, 100000 - SCREEN_HEIGHT*STATUS_PROCENT), sf::Vector2f(SCREEN_WIDTH, SCREEN_HEIGHT*STATUS_PROCENT), static_cast<size_t>(SCREEN_HEIGHT*STATUS_PROCENT));
 	
-	background.setTexture(&backgroundTexture, true);
-	//background.setFillColor(sf::Color(255,255,255,255));
-	//background.setOutlineColor(sf::Color(255, 255, 255, 255));
+	background.setTexture(backgroundTexture);
+	background.setPosition(sf::Vector2f(100000 - SCREEN_WIDTH/2, 100000 - SCREEN_HEIGHT*STATUS_PROCENT));
+	background.setScale(sf::Vector2f(1.5f, 1.0f));
 
 	//GUI for player1
 	createBar(healthBar1, sf::Vector2f(100000 - SCREEN_WIDTH/2, 100000 - SCREEN_HEIGHT*STATUS_PROCENT/2.5f), sf::Vector2f(200, 5), 5, sf::Color(0, 255, 0, 255));
