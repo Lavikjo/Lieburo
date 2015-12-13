@@ -13,6 +13,7 @@ Game::Game() {
 	
 	menu = std::make_shared<Menu>(this);
 	options = std::make_shared<Options>(this);
+	sounds = std::make_shared<Sounds>(this);
 	rWindow.create(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, BITS_PER_PIXEL), "Lieburo");
 
 
@@ -115,7 +116,7 @@ void Game::run() {
 		sf::Time dt = clock.restart();
 
 		//For avoiding spiral of death
-		if(dt > sf::seconds(0.25f)) {
+		if (dt > sf::seconds(0.25f)) {
 			dt =  sf::seconds(0.25f);
 		}
 
@@ -123,7 +124,7 @@ void Game::run() {
 		timeSinceLastUpdate += dt;		
 		
 		//logic update loop, everything that affects physics need to be here
-		while(clock.getElapsedTime() < TIMESTEP) {
+		while (clock.getElapsedTime() < TIMESTEP) {
 			//Delay for not to check the time every nanosecond or so.
 			for(int i = 0; i<10000; i++);
 		}
@@ -138,7 +139,7 @@ void Game::run() {
 		else if (options->isScreenShown()) {
 			options->draw(rWindow, player1->getKeyNames(), player2->getKeyNames());
 		}
-		else{
+		else {
 			view1.setCenter(limitPlayerCamera(player1, view1));
 			rWindow.setView(view1);
 			render();
@@ -164,12 +165,14 @@ void Game::update(sf::Time deltaTime) {
 
     	//navigate in menu screen
 	  	if (menu->isScreenShown()) {
+	  		sounds->play();
 	  		menu->navigateMenu(event);
     	}
     	else if (options->isScreenShown()) {
     		options->navigateOptions(event);
     	}
     	else {
+    		sounds->pause();
 	    	switch (event.type) {
 		        // "close requested" event: we close the window
 		        case sf::Event::Closed:
@@ -177,7 +180,6 @@ void Game::update(sf::Time deltaTime) {
 		            break;
 	            case sf::Event::KeyPressed:
 	            	//Keyboard inputs with delay between presses
-
 
 
 	            	//tässä voisi olla tyyliin player1->getKey("scrollweapon")
@@ -235,10 +237,10 @@ sf::RenderWindow& Game::getRenderWindow() {
 
 
 std::shared_ptr<Player> Game::getPlayer(int id){
-	if(id == 1){
+	if (id == 1){
 		return player1;
 	}
-	else if(id == 2) {
+	else if (id == 2) {
 		return player2;
 	}
 
@@ -262,6 +264,10 @@ std::shared_ptr<Options> Game::getOptions() {
 	return options;
 }
 
+std::shared_ptr<Sounds> Game::getSounds() {
+	return sounds;
+}
+
 void Game::setRunning(bool run){
 	running = run;
 }
@@ -270,26 +276,26 @@ sf::Vector2f Game::limitPlayerCamera(std::shared_ptr<Player> player, sf::View vi
 	sf::Vector2f pos = player->getSpritePosition();
 	sf::Vector2f viewSize = view.getSize();
 
-	float h = player->getAnimatedSprite().getLocalBounds().height/4;
-	if(pos.x<viewSize.x/2.f){
-		pos.x = viewSize.x/2.f;
-	}else if(pos.x>GAMEFIELD_WIDTH-viewSize.x/2.f)
-		pos.x = GAMEFIELD_WIDTH-viewSize.x/2.f;
+	float h = player->getAnimatedSprite().getLocalBounds().height / 4;
+	if (pos.x<viewSize.x / 2.f){
+		pos.x = viewSize.x / 2.f;
+	} else if (pos.x>GAMEFIELD_WIDTH - viewSize.x / 2.f)
+		pos.x = GAMEFIELD_WIDTH  -viewSize.x / 2.f;
 
-	if(pos.y<viewSize.y/2.f+h){
-		pos.y = viewSize.y/2.f+h;
-	}else if(pos.y>GAMEFIELD_HEIGHT-viewSize.y/2.f+h - 7)
-		pos.y = GAMEFIELD_HEIGHT-viewSize.y/2.f+h - 7;
+	if (pos.y<viewSize.y / 2.f + h){
+		pos.y = viewSize.y / 2.f + h;
+	} else if(pos.y>GAMEFIELD_HEIGHT - viewSize.y / 2.f + h - 7)
+		pos.y = GAMEFIELD_HEIGHT - viewSize.y / 2.f + h - 7;
 
 	return pos;
 }
 
-void Game::newGame(){
+void Game::newGame() {
 	running = false;
 	rWindow.clear();
 }
 
-void Game::exit(){
+void Game::exit() {
 	playing = false;
 	running = false;
 }

@@ -11,7 +11,7 @@
 class Menu {
 public:
 	Menu(Game*);
-	~Menu(){}
+	~Menu() {}
 
 	void draw(sf::RenderWindow &window);
 	void moveUp();

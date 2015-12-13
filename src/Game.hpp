@@ -23,12 +23,14 @@
 #include "GravityInverter.hpp"
 #include "HealthRecovery.hpp"
 #include "Bomb.hpp"
+#include "Sounds.hpp"
 
 class GUI;
 class Menu;
 class Options;
 class Gamefield;
 class Player;
+class Sounds;
 
 class Game {
 public:
@@ -48,6 +50,7 @@ public:
 	std::shared_ptr<Player> getPlayer(int id); //used by guided projectiles
 	std::shared_ptr<Menu> getMenu();
 	std::shared_ptr<Options> getOptions();
+	std::shared_ptr<Sounds> getSounds();
 	void gameOver(int);
 	void newGame();
 	void setRunning(bool);
@@ -71,4 +74,5 @@ private:
 	std::shared_ptr<Menu> menu;
 	std::shared_ptr<Options> options;
 	int powerupTimer = 0;
+	std::shared_ptr<Sounds> sounds;
 };
