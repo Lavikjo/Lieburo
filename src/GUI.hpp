@@ -4,33 +4,28 @@
 #include <SFML/Window.hpp>
 
 #include "Game.hpp"
+#include "Player.hpp"
 #include <sstream>
 #include <cassert>
+class Player;
 
 class GUI {
 public:
-	GUI();
+	GUI(Game* game);
 	~GUI();
-	void update(Game* game);
+	void update();
 	void draw(sf::RenderTarget &target);
 
 private:
 
-	void createBar(sf::RectangleShape &bar, sf::Vector2f pos, sf::Vector2f size, size_t outlineThickness);
+	std::shared_ptr<Player> player1;
+	std::shared_ptr<Player> player2;
+	Game* mGame;
+	void createBar(sf::RectangleShape &bar, sf::Vector2f pos, sf::Vector2f size, size_t outlineThickness, sf::Color color = sf::Color(105,105, 105, 255));
 	void createText(sf::Text &text, sf::Vector2f pos, size_t outlineThickness);
 	int clamp(int n, int lower, int upper);
 	sf::Font statusFont;
-	sf::Text hpText1, ammoText1, jetText1, hpText2, ammoText2, jetText2;
-	sf::RectangleShape healthBar1, healthBar2;
-
-	static const int HP1_TEXT_OFFSET = 99640;
-	static const int AMMO1_TEXT_OFFSET = 99750;
-	static const int JET1_TEXT_OFFSET = 99900;
-	static const int HP1_BAR_OFFSET = 99500;
-
-	static const int HP2_TEXT_OFFSET = 100320;
-	static const int AMMO2_TEXT_OFFSET = 100150;
-	static const int JET2_TEXT_OFFSET = 100010;
-	static const int HP2_BAR_OFFSET = 100400;
+	sf::Text livesText1, jetText1, livesText2, jetText2, respawn1, respawn2;
+	sf::RectangleShape healthBar1, healthBar2, ammoBar1, ammoBar2, background;
 
 };

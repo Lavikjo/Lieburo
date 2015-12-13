@@ -17,8 +17,10 @@ public:
 
 	unsigned int getAmmo();
 	unsigned int getClipSize() const;
+	float getReloadTime() const;
 
-	sf::Texture getTexture()const;
+	sf::Texture getTexture() const;
+	sf::Clock getFireClock() const;
 protected:
 	unsigned int clipSize;
 	unsigned int ammo;

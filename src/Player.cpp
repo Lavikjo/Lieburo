@@ -308,6 +308,9 @@ int Player::getHp() const{
 float Player::getFuel() const{
 	return jetpackFuel;
 }
+float Player::getReloadTime() const {
+	return mWeapons[currentWeapon]->getReloadTime();
+}
 
 unsigned int Player::getCurrentAmmo() const {
 	return mWeapons[currentWeapon]->getAmmo();
@@ -317,8 +320,17 @@ unsigned int Player::getCurrentClipSize() const {
 	return mWeapons[currentWeapon]->getClipSize();
 }
 
+sf::Clock Player::getFireClock() const {
+	return mWeapons[currentWeapon]->getFireClock();
+}
+
+
 void Player::updateHp(int val) {
-	hp += val;
+	if(hp + val < PLAYER_MAX_HP) {
+		hp += val;
+	} else {
+		hp = PLAYER_MAX_HP;
+	}
 	bloodToSpill = -val*2;
 }
 
@@ -517,6 +529,9 @@ void Player::setMaxLives(int ml){
 
 int Player::getMaxLives()const{
 	return maxLives;
+}
+int Player::getMaxHp() const {
+	return PLAYER_MAX_HP;	
 }
 
 Animation* Player::getCurrentAnimation() {

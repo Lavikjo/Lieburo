@@ -2,6 +2,7 @@
 
 const int SCREEN_WIDTH = 1366;
 const int SCREEN_HEIGHT = 768;
+const float STATUS_PROCENT = 0.15f;
 const int GAMEFIELD_WIDTH = 1800;//Gamefield size in pixels
 const int GAMEFIELD_HEIGHT = 1200;
 const int BITS_PER_PIXEL = 32;

@@ -15,8 +15,6 @@ Game::Game() {
 	options = std::make_shared<Options>(this);
 	rWindow.create(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, BITS_PER_PIXEL), "Lieburo");
 
-	//construct gui
-	gui = std::make_shared<GUI>();
 
 	while(playing){
 
@@ -56,6 +54,9 @@ Game::Game() {
 
 		gamefield = std::make_shared<Gamefield>(mGameWorld);
 
+		//construct gui
+		gui = std::make_shared<GUI>(this);
+
 		run();
 		
 	}
@@ -94,15 +95,15 @@ void Game::run() {
 
 	//create views for players
 	viewMenu.reset(sf::FloatRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT));
-	view1.setViewport(sf::FloatRect(0, 0, 0.495f, 0.875f));
-	view1.setSize(SCREEN_WIDTH / 2, SCREEN_HEIGHT*0.875f);
-	view2.setViewport(sf::FloatRect(0.505f, 0, 0.495f, 0.875f));
-	view2.setSize(SCREEN_WIDTH / 2, SCREEN_HEIGHT*0.875f);
+	view1.setViewport(sf::FloatRect(0, 0, 0.495f, 1.0f-STATUS_PROCENT));
+	view1.setSize(SCREEN_WIDTH / 2, SCREEN_HEIGHT*(1.0f-STATUS_PROCENT));
+	view2.setViewport(sf::FloatRect(0.505f, 0, 0.495f, 1.0f-STATUS_PROCENT));
+	view2.setSize(SCREEN_WIDTH / 2, SCREEN_HEIGHT*(1.0f-STATUS_PROCENT));
 
 	//third smaller viewport for displaying healthbar and other vital info about the game
 	//all the statusbars are located far away from playing field
-	statusView.setViewport(sf::FloatRect(0, 0.875f, 1.0f, 0.125f));
-	statusView.setSize(SCREEN_WIDTH, SCREEN_HEIGHT*0.125f);
+	statusView.setViewport(sf::FloatRect(0, 1.0f - STATUS_PROCENT, 1.0f, STATUS_PROCENT));
+	statusView.setSize(SCREEN_WIDTH, SCREEN_HEIGHT*STATUS_PROCENT);
 	statusView.setCenter(100000, 100000);
 
 
@@ -145,6 +146,7 @@ void Game::run() {
 			view2.setCenter(limitPlayerCamera(player2, view2));
 			render();
 			rWindow.setView(statusView);
+
 			render();
 		}
 		rWindow.display();
@@ -193,7 +195,7 @@ void Game::update(sf::Time deltaTime) {
 
 	}
 	if(!menu->isScreenShown() && !options->isScreenShown()) {
-		gui->update(this);
+		gui->update();
 		
     	player1->handleUserInput();
     	player2->handleUserInput();

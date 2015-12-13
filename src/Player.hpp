@@ -31,10 +31,13 @@ public:
 
 	virtual void drawPlayer(sf::RenderTarget& target);
 	int getHp() const;
+	int getMaxHp() const;
 	float getFuel() const;
 
 	unsigned int getCurrentAmmo() const;
 	unsigned int getCurrentClipSize() const;
+	float getReloadTime() const;
+	sf::Clock getFireClock() const;
 	virtual void updateHp(int val);
 
 	sf::Vector2f getSpritePosition();

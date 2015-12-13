@@ -56,6 +56,7 @@ public:
 	void exit();
 
 private:
+	Game* mGame;
 	bool playing = true;
 	bool running;
 	sf::RenderWindow rWindow;
