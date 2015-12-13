@@ -26,6 +26,8 @@ private:
 	int clamp(int n, int lower, int upper);
 	sf::Font statusFont;
 	sf::Text livesText1, jetText1, livesText2, jetText2, respawn1, respawn2;
-	sf::RectangleShape healthBar1, healthBar2, ammoBar1, ammoBar2, background;
+	sf::RectangleShape healthBar1, healthBar2, ammoBar1, ammoBar2;
+	sf::Sprite background;
+	sf::Texture backgroundTexture;
 
 };
