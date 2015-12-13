@@ -49,17 +49,14 @@
 	sf::FloatRect bounds = animatedSprite.getLocalBounds();
 	animatedSprite.setOrigin(bounds.width / 2.0f, bounds.height / 2.0f);
 
-	// Create a sprite
-	//mSprite.setTexture(mTexture);
-	//sf::FloatRect bounds = mSprite.getLocalBounds();
-	//mSprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
-
 	//Add a fixture to the body
 	b2PolygonShape polygonShape;
 	polygonShape.SetAsBox(0.42f*bounds.width / PIXELS_PER_METER, 0.32f*bounds.height/PIXELS_PER_METER);
 	mFixtureDef.shape = &polygonShape;
 	mFixtureDef.density = 0.2f;
 	mFixtureDef.friction = 0.1f;
+
+	//We decided that players can't collide with each other.
 	mFixtureDef.filter.categoryBits = PLAYER; //I am a PLAYER
     mFixtureDef.filter.maskBits = ~PLAYER; // I collide with everyhing else but another player. 
 	mBody->CreateFixture(&mFixtureDef);
@@ -87,7 +84,7 @@
 	bounds = jetpackSprite.getLocalBounds();
 	jetpackSprite.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
 
-	//create the weapon
+	//create the weapon sprite
 	weaponTexture = mWeapons[currentWeapon]->getTexture();
 	weaponSprite.setTexture(weaponTexture);
 	bounds = weaponSprite.getLocalBounds();

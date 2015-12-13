@@ -5,7 +5,7 @@
 class Projectile : public Entity {
 public:
 	Projectile() = default;
-	~Projectile(){mEntityWorld->DestroyBody(mBody);}
+	~Projectile();
 
 	virtual void update(sf::Time) = 0;
 	void fragment(std::string, float, float, float, int, float);

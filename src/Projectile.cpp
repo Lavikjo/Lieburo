@@ -2,7 +2,7 @@
 #include "Shrapnel.hpp"
 
 void Projectile::fragment(std::string texture, float maxLifeTime, float maxExplosionTime, float velocity, int numberOfFragments, float damage) {
-	hasFragmented = true;
+	hasFragmented = true; //To not fragment multible times
 	for(auto i = 0; i < numberOfFragments; i++) {
 		//Create shrapnel
 		std::shared_ptr<Shrapnel> s = std::make_shared<Shrapnel>(mGame, texture, maxLifeTime, maxExplosionTime, damage);
@@ -25,4 +25,8 @@ void Projectile::fragment(std::string texture, float maxLifeTime, float maxExplo
 
 		body->SetLinearVelocity(b2Vec2(velX, velY));
 	}
+}
+
+Projectile::~Projectile(){
+	mEntityWorld->DestroyBody(mBody);
 }

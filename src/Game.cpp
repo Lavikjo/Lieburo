@@ -132,15 +132,18 @@ void Game::run() {
 
 		// render entities
 		rWindow.clear();
+		//if menu is shown draw menu
 		if (menu->isScreenShown()) {
 			sounds->pause(sounds->getGameMusic());
 			sounds->play(sounds->getMenuMusic());
 			rWindow.setView(viewMenu);
 			menu->draw(rWindow);
 		}
+		//if options is shown draw options
 		else if (options->isScreenShown()) {
 			options->draw(rWindow, player1->getKeyNames(), player2->getKeyNames());
 		}
+		//else draw the normal gamefield.
 		else {
 			sounds->pause(sounds->getMenuMusic());
 			sounds->play(sounds->getGameMusic());
@@ -198,6 +201,7 @@ void Game::update(sf::Time deltaTime) {
 		}
 
 	}
+	//if no menu or options is shown, update the game.
 	if(!menu->isScreenShown() && !options->isScreenShown()) {
 		gui->update();
 		
