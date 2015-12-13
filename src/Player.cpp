@@ -176,7 +176,7 @@ void Player::update(sf::Time deltaTime) {
 	y = (mBody->GetPosition().y+1.2)*PIXELS_PER_METER;
 	jetpackSprite.setPosition(x,y);
 
-	//position the bazooka
+	//position the weapon
 	x = (mBody->GetPosition().x+direction*sin(shootAngle)*0.2f*GUN_BARREL_LENGTH)*PIXELS_PER_METER; 
 	y = (mBody->GetPosition().y+cos(shootAngle)*0.2f*GUN_BARREL_LENGTH+0.3f)*PIXELS_PER_METER;
 
