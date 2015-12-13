@@ -275,8 +275,8 @@ sf::Vector2f Game::limitPlayerCamera(std::shared_ptr<Player> player, sf::View vi
 
 	if(pos.y<viewSize.y/2.f+h){
 		pos.y = viewSize.y/2.f+h;
-	}else if(pos.y>GAMEFIELD_HEIGHT-viewSize.y/2.f+h)
-		pos.y = GAMEFIELD_HEIGHT-viewSize.y/2.f+h;
+	}else if(pos.y>GAMEFIELD_HEIGHT-viewSize.y/2.f+h - 7)
+		pos.y = GAMEFIELD_HEIGHT-viewSize.y/2.f+h - 7;
 
 	return pos;
 }
