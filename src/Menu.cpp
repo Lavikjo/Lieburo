@@ -101,10 +101,10 @@ void Menu::navigateMenu(sf::Event &event) {
 	}
 }
 
-bool Menu::isScreenShown(){
+bool Menu::isScreenShown() {
 	return screenShown;
 }
 
-void Menu::setScreenShown(bool is){
+void Menu::setScreenShown(bool is) {
 	screenShown = is;
 }

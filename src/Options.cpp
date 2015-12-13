@@ -86,7 +86,7 @@ void Options::moveLeft() {
 void Options::moveRight() {
 	if (selectedItemIndex < (MAX_NUMBER_OF_OPTIONS_ITEMS - 9) && selectedItemIndex != 0) {
 		options[selectedItemIndex].setColor(sf::Color::White);
-		selectedItemIndex += 8;
+		selectedItemIndex += (MAX_NUMBER_OF_OPTIONS_ITEMS - 1) / 2;
 		options[selectedItemIndex].setColor(sf::Color::Red);
 	}
 }

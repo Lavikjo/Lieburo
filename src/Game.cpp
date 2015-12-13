@@ -133,6 +133,8 @@ void Game::run() {
 		// render entities
 		rWindow.clear();
 		if (menu->isScreenShown()) {
+			sounds->pause(sounds->getGameMusic());
+			sounds->play(sounds->getMenuMusic());
 			rWindow.setView(viewMenu);
 			menu->draw(rWindow);
 		}
@@ -140,6 +142,8 @@ void Game::run() {
 			options->draw(rWindow, player1->getKeyNames(), player2->getKeyNames());
 		}
 		else {
+			sounds->pause(sounds->getMenuMusic());
+			sounds->play(sounds->getGameMusic());
 			view1.setCenter(limitPlayerCamera(player1, view1));
 			rWindow.setView(view1);
 			render();
@@ -165,14 +169,12 @@ void Game::update(sf::Time deltaTime) {
 
     	//navigate in menu screen
 	  	if (menu->isScreenShown()) {
-	  		sounds->play();
 	  		menu->navigateMenu(event);
     	}
     	else if (options->isScreenShown()) {
     		options->navigateOptions(event);
     	}
     	else {
-    		sounds->pause();
 	    	switch (event.type) {
 		        // "close requested" event: we close the window
 		        case sf::Event::Closed:
@@ -237,7 +239,7 @@ sf::RenderWindow& Game::getRenderWindow() {
 
 
 std::shared_ptr<Player> Game::getPlayer(int id) {
-	if (id == 1){
+	if (id == 1) {
 		return player1;
 	}
 	else if (id == 2) {
@@ -291,6 +293,7 @@ sf::Vector2f Game::limitPlayerCamera(std::shared_ptr<Player> player, sf::View vi
 }
 
 void Game::newGame() {
+	sounds->getGameMusic().setPlayingOffset(sf::Time::Zero);
 	running = false;
 	rWindow.clear();
 }

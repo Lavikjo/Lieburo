@@ -9,15 +9,16 @@ class Sounds {
 public:
 	Sounds(Game*);
 	~Sounds() {}
-	void play();
-	void pause();
-	void stop();
-	bool isPlaying();
+	void play(sf::Music &music);
+	void pause(sf::Music &music);
+	void stop(sf::Music &music);
+	sf::Music& getMenuMusic();
+	sf::Music& getGameMusic();
 
 private:
 	Game* mGame;
-	sf::Music music;
-	bool playing;
+	sf::Music menuBackground;
+	sf::Music gameBackground;
 };
 
 #endif

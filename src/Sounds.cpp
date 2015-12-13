@@ -2,35 +2,38 @@
 
 Sounds::Sounds(Game* game) {
 	mGame = game;
-	playing = false;
 
-	if (!music.openFromFile("backgroundmusic.wav")) {
-		std::cout << "Couldn't load background music." << std::endl;
+	if (!menuBackground.openFromFile("menu_background.wav")) {
+		std::cout << "Couldn't load background music for menu." << std::endl;
+	}
+	if (!gameBackground.openFromFile("game_background.wav")) {
+		std::cout << "Couldn't load background music for game." << std::endl;
 	}
 	
 }
 
-void Sounds::play() {
-	if (!playing) {
+void Sounds::play(sf::Music &music) {
+	if (music.getStatus() != sf::SoundSource::Playing) {
 		music.play();
-		playing = true;
 	}
 }
 
-void Sounds::pause() {
-	if (playing) {
+void Sounds::pause(sf::Music &music) {
+	if (music.getStatus() != sf::SoundSource::Paused) {
 		music.pause();
-		playing = false;
 	}
 }
 
-void Sounds::stop() {
-	if (playing) {
+void Sounds::stop(sf::Music &music) {
+	if (music.getStatus() != sf::SoundSource::Stopped) {
 		music.stop();
-		playing = false;
 	}
 }
 
-bool Sounds::isPlaying() {
-	return playing;
+sf::Music& Sounds::getMenuMusic() {
+	return menuBackground;
+}
+
+sf::Music& Sounds::getGameMusic() {
+	return gameBackground;
 }
