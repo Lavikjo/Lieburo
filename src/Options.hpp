@@ -34,6 +34,7 @@ public:
 private:
 	sf::Text player1Keys[NUMBER_PLAYER_KEYS];
 	sf::Text player2Keys[NUMBER_PLAYER_KEYS];
+	sf::Text reset[10];
 	bool screenShown;
 	std::map<std::string, sf::Keyboard::Key> buttons;
 	unsigned int selectedItemIndex;

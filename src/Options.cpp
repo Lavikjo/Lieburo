@@ -51,13 +51,6 @@ void Options::draw(sf::RenderWindow &window, std::vector<std::string> keyNames1,
 		window.draw(player2Keys[j]);
 	}
 
-	//for reset text
-	sf::Text reset[1];
-	reset[0].setFont(font);
-	reset[0].setString("Press F12 to reset\nPress Enter to change key");
-	reset[0].setColor(sf::Color::White);
-	reset[0].setPosition(sf::Vector2f(SCREEN_WIDTH / 20.0f, (SCREEN_HEIGHT / (MAX_NUMBER_OF_OPTIONS_ITEMS - NUMBER_PLAYER_KEYS) * (MAX_NUMBER_OF_OPTIONS_ITEMS - NUMBER_PLAYER_KEYS - 1))));
-	reset[0].setCharacterSize(15);
 	window.draw(reset[0]);
 }
 
@@ -144,6 +137,11 @@ void Options::setText() {
 		player2Keys[j].setPosition(sf::Vector2f(SCREEN_WIDTH / 20.0f * 16.0f, (SCREEN_HEIGHT / 10 * (j + 2))));
 		player2Keys[j].setCharacterSize(28);
 	}
+	reset[0].setFont(font);
+	reset[0].setString("Press F12 to reset\nPress Enter to change key");
+	reset[0].setColor(sf::Color::White);
+	reset[0].setPosition(sf::Vector2f(SCREEN_WIDTH / 20.0f, (SCREEN_HEIGHT / (MAX_NUMBER_OF_OPTIONS_ITEMS - NUMBER_PLAYER_KEYS) * (MAX_NUMBER_OF_OPTIONS_ITEMS - NUMBER_PLAYER_KEYS - 1))));
+	reset[0].setCharacterSize(15);
 }
 
 void Options::navigateOptions(sf::Event &event) {
@@ -171,22 +169,22 @@ void Options::navigateOptions(sf::Event &event) {
 				case sf::Keyboard::Return:
 					switch (getPressedItem()) {
 						case 1:
-							whichKeyPressed(mGame->getPlayer(1)->getKeys()[0],  mGame->getPlayer(1)->getKeyNames()[0], 0);
+							whichKeyPressed(mGame->getPlayer(1)->getKeys()[0], mGame->getPlayer(1)->getKeyNames()[0], 0);
 							break;
 						case 2:
-							whichKeyPressed(mGame->getPlayer(1)->getKeys()[1],  mGame->getPlayer(1)->getKeyNames()[1], 1);
+							whichKeyPressed(mGame->getPlayer(1)->getKeys()[1], mGame->getPlayer(1)->getKeyNames()[1], 1);
 							break;
 						case 3:
-							whichKeyPressed(mGame->getPlayer(1)->getKeys()[2],  mGame->getPlayer(1)->getKeyNames()[2], 2);
+							whichKeyPressed(mGame->getPlayer(1)->getKeys()[2], mGame->getPlayer(1)->getKeyNames()[2], 2);
 							break;
 						case 4:
-							whichKeyPressed(mGame->getPlayer(1)->getKeys()[3],  mGame->getPlayer(1)->getKeyNames()[3], 3);
+							whichKeyPressed(mGame->getPlayer(1)->getKeys()[3], mGame->getPlayer(1)->getKeyNames()[3], 3);
 							break;
 						case 5:
-							whichKeyPressed(mGame->getPlayer(1)->getKeys()[4],  mGame->getPlayer(1)->getKeyNames()[4], 4);
+							whichKeyPressed(mGame->getPlayer(1)->getKeys()[4], mGame->getPlayer(1)->getKeyNames()[4], 4);
 							break;
 						case 6:
-							whichKeyPressed(mGame->getPlayer(1)->getKeys()[5],  mGame->getPlayer(1)->getKeyNames()[5], 5);
+							whichKeyPressed(mGame->getPlayer(1)->getKeys()[5], mGame->getPlayer(1)->getKeyNames()[5], 5);
 							break;
 						case 7:
 							whichKeyPressed(mGame->getPlayer(1)->getKeys()[6], mGame->getPlayer(1)->getKeyNames()[6], 6);
@@ -228,6 +226,18 @@ void Options::navigateOptions(sf::Event &event) {
 
 void Options::whichKeyPressed(sf::Keyboard::Key &key, std::string &s, unsigned int a) {
 	bool selected = 1;
+
+	//draw selected key red
+	if (a < NUMBER_PLAYER_KEYS) {
+		player1Keys[a].setColor(sf::Color::Red);
+		mGame->getRenderWindow().draw(player1Keys[a]);
+	}
+	else {
+		player2Keys[a - NUMBER_PLAYER_KEYS].setColor(sf::Color::Red);
+		mGame->getRenderWindow().draw(player2Keys[a - NUMBER_PLAYER_KEYS]);
+	}
+	mGame->getRenderWindow().display();
+
 	while (selected) {
 		for (auto it = buttons.begin(); it != buttons.end(); it++) {
 			if (sf::Keyboard::isKeyPressed(it->second)) {
@@ -262,21 +272,27 @@ void Options::whichKeyPressed(sf::Keyboard::Key &key, std::string &s, unsigned i
 			}
 		}
 	}
+	if (a < NUMBER_PLAYER_KEYS) {
+		player1Keys[a].setColor(sf::Color::White);
+	}
+	else {
+		player2Keys[a - NUMBER_PLAYER_KEYS].setColor(sf::Color::White);
+	}
 }
 
-bool Options::isScreenShown(){
+bool Options::isScreenShown() {
 	return screenShown;
 }
 
-void Options::setScreenShown(bool is){
+void Options::setScreenShown(bool is) {
 	screenShown = is;
 }
 
-int Options::getNumberPlayerKeys(){
+int Options::getNumberPlayerKeys() {
 	return NUMBER_PLAYER_KEYS;
 }
 
-std::map<std::string, sf::Keyboard::Key> Options::getButtons(){
+std::map<std::string, sf::Keyboard::Key> Options::getButtons() {
 	return buttons;
 }
 
@@ -373,7 +389,6 @@ void Options::setButtons() {
 	buttons.insert(std::make_pair("F9", sf::Keyboard::F9));
 	buttons.insert(std::make_pair("F10", sf::Keyboard::F10));
 	buttons.insert(std::make_pair("F11", sf::Keyboard::F11));
-	buttons.insert(std::make_pair("F12", sf::Keyboard::F12));
 	buttons.insert(std::make_pair("F13", sf::Keyboard::F13));
 	buttons.insert(std::make_pair("F14", sf::Keyboard::F14));
 	buttons.insert(std::make_pair("F15", sf::Keyboard::F15));

@@ -67,19 +67,19 @@ Game::Game() {
 void Game::createRandomPowerup(){
 	int randomNumber = rand() % 4;
 
-	if(randomNumber == 0){
+	if (randomNumber == 0) {
 		std::shared_ptr<Powerup> gravityPowerupR = std::make_shared<GravityPU>(mGame,"texture/weight.png",true);
 		sceneNode->attachChild(std::static_pointer_cast<SceneNode>(gravityPowerupR));
 	}
-	if(randomNumber == 1){
+	if (randomNumber == 1) {
 		std::shared_ptr<Powerup> gravityInverterR = std::make_shared<GravityInverter>(mGame,"texture/arrow.png",true);
 		sceneNode->attachChild(std::static_pointer_cast<SceneNode>(gravityInverterR));
 	}
-	if(randomNumber == 2){
+	if (randomNumber == 2) {
 		std::shared_ptr<Powerup> healthRecoveryR = std::make_shared<HealthRecovery>(mGame,"texture/heart.png",true);
 		sceneNode->attachChild(std::static_pointer_cast<SceneNode>(healthRecoveryR));
 	}
-	if(randomNumber == 3){
+	if (randomNumber == 3) {
 		std::shared_ptr<Powerup> bombR = std::make_shared<Bomb>(mGame,"texture/heart.png",true);
 		sceneNode->attachChild(std::static_pointer_cast<SceneNode>(bombR));
 	}
@@ -96,10 +96,10 @@ void Game::run() {
 
 	//create views for players
 	viewMenu.reset(sf::FloatRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT));
-	view1.setViewport(sf::FloatRect(0, 0, 0.495f, 1.0f-STATUS_PROCENT));
-	view1.setSize(SCREEN_WIDTH / 2, SCREEN_HEIGHT*(1.0f-STATUS_PROCENT));
-	view2.setViewport(sf::FloatRect(0.505f, 0, 0.495f, 1.0f-STATUS_PROCENT));
-	view2.setSize(SCREEN_WIDTH / 2, SCREEN_HEIGHT*(1.0f-STATUS_PROCENT));
+	view1.setViewport(sf::FloatRect(0, 0, 0.495f, 1.0f - STATUS_PROCENT));
+	view1.setSize(SCREEN_WIDTH / 2, SCREEN_HEIGHT*(1.0f - STATUS_PROCENT));
+	view2.setViewport(sf::FloatRect(0.505f, 0, 0.495f, 1.0f - STATUS_PROCENT));
+	view2.setSize(SCREEN_WIDTH / 2, SCREEN_HEIGHT*(1.0f - STATUS_PROCENT));
 
 	//third smaller viewport for displaying healthbar and other vital info about the game
 	//all the statusbars are located far away from playing field
@@ -117,7 +117,7 @@ void Game::run() {
 
 		//For avoiding spiral of death
 		if (dt > sf::seconds(0.25f)) {
-			dt =  sf::seconds(0.25f);
+			dt = sf::seconds(0.25f);
 		}
 
 		//currentTime = newTime;
@@ -126,7 +126,7 @@ void Game::run() {
 		//logic update loop, everything that affects physics need to be here
 		while (clock.getElapsedTime() < TIMESTEP) {
 			//Delay for not to check the time every nanosecond or so.
-			for(int i = 0; i<10000; i++);
+			for(int i = 0; i < 10000; i++);
 		}
 		update(clock.getElapsedTime());
 
@@ -152,7 +152,7 @@ void Game::run() {
 		}
 		rWindow.display();
 
-		// check wheter user wants to enter menu screen (using button P)
+		// check whether user wants to enter menu screen (using button P)
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
 	    	menu->setScreenShown(true);
 		}
@@ -203,7 +203,7 @@ void Game::update(sf::Time deltaTime) {
     	player2->handleUserInput();
 
 	 	powerupTimer++;
-	 	if(powerupTimer == 3600){
+	 	if (powerupTimer == 3600) {
 	 		createRandomPowerup();
 	 		powerupTimer=0;
 	 	}
@@ -226,7 +226,7 @@ b2World* Game::getWorld(){
 	return mGameWorld;
 }
 
-std::shared_ptr<SceneNode> Game::getSceneNode(){
+std::shared_ptr<SceneNode> Game::getSceneNode() {
 	return sceneNode;
 }
 
@@ -236,7 +236,7 @@ sf::RenderWindow& Game::getRenderWindow() {
 }
 
 
-std::shared_ptr<Player> Game::getPlayer(int id){
+std::shared_ptr<Player> Game::getPlayer(int id) {
 	if (id == 1){
 		return player1;
 	}
@@ -247,11 +247,11 @@ std::shared_ptr<Player> Game::getPlayer(int id){
 	return nullptr;
 }
 
-void Game::gameOver(int winner){
-	std::cout << "Player"<<winner<<" Wins!"<< std::endl;
+void Game::gameOver(int winner) {
+	std::cout << "Player" << winner << " Wins!"<< std::endl;
 }
 
-Game::~Game(){
+Game::~Game() {
 	sceneNode->removeAll();
 	delete mGameWorld;
 }
@@ -268,23 +268,23 @@ std::shared_ptr<Sounds> Game::getSounds() {
 	return sounds;
 }
 
-void Game::setRunning(bool run){
+void Game::setRunning(bool run) {
 	running = run;
 }
 
-sf::Vector2f Game::limitPlayerCamera(std::shared_ptr<Player> player, sf::View view){
+sf::Vector2f Game::limitPlayerCamera(std::shared_ptr<Player> player, sf::View view) {
 	sf::Vector2f pos = player->getSpritePosition();
 	sf::Vector2f viewSize = view.getSize();
 
 	float h = player->getAnimatedSprite().getLocalBounds().height / 4;
-	if (pos.x<viewSize.x / 2.f){
+	if (pos.x < viewSize.x / 2.f){
 		pos.x = viewSize.x / 2.f;
 	} else if (pos.x>GAMEFIELD_WIDTH - viewSize.x / 2.f)
 		pos.x = GAMEFIELD_WIDTH  -viewSize.x / 2.f;
 
-	if (pos.y<viewSize.y / 2.f + h){
+	if (pos.y < viewSize.y / 2.f + h) {
 		pos.y = viewSize.y / 2.f + h;
-	} else if(pos.y>GAMEFIELD_HEIGHT - viewSize.y / 2.f + h - 7)
+	} else if (pos.y>GAMEFIELD_HEIGHT - viewSize.y / 2.f + h - 7)
 		pos.y = GAMEFIELD_HEIGHT - viewSize.y / 2.f + h - 7;
 
 	return pos;
